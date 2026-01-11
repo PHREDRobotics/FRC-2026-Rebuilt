@@ -2,6 +2,7 @@ package frc.robot.subsystems.swerve;
 
 import com.studica.frc.AHRS;
 
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -182,6 +183,14 @@ public class SwerveSubsystem extends SubsystemBase {
         pose.getRotation().getRadians());
 
     // drive(xOutput, yOutput, rotOutput, false);
+  }
+
+  public void followTrajectory(SwerveSample sample) {
+    Pose2d pose = getPose();
+
+    ChassisSpeeds speeds = new ChassisSpeeds(
+      samp
+    )
   }
 
   /**

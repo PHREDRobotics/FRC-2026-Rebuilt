@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import choreo.auto.AutoFactory;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -17,39 +19,46 @@ import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
 public class RobotContainer {
-  SwerveSubsystem m_swerveSubsystem;
-  VisionSubsystem m_visionSubsystem;
+  private final SwerveSubsystem swerveSubsystem;
+  private final VisionSubsystem visionSubsystem;
 
-  LogitechPro m_joystick;
-  // CommandJoystick m_buttonBox;
+  private final AutoFactory autoFactory;
+
+  LogitechPro joystick;
+  // CommandJoystick buttonBox;
 
   public RobotContainer() {
-    m_swerveSubsystem = new SwerveSubsystem();
-    m_visionSubsystem = new VisionSubsystem();
+    swerveSubsystem = new SwerveSubsystem();
+    visionSubsystem = new VisionSubsystem();
 
-    LogitechPro m_joystick = new LogitechPro(0);
-    // CommandJoystick m_buttonBox = new CommandJoystick(1);
+    autoFactory = new AutoFactory(
+      swerveSubsystem::getPose,
+      swerveSubsystem::resetOdometry,
+      swerveSubsystem::followTrajectory, true, swerveSubsystem);
+
+    joystick = new LogitechPro(0);
+    // CommandJoystick buttonBox = new CommandJoystick(1);
 
     configureBindings(); 
   }
 
   private void configureBindings() {
-    m_swerveSubsystem.setDefaultCommand(new DriveCommand(m_swerveSubsystem,
-      () -> m_joystick.getY(),
-      () -> m_joystick.getX(), 
-      () -> m_joystick.getZ(),
-      () -> m_joystick.getThrottle(),
-      () -> m_joystick.getFieldOriented()));
+    swerveSubsystem.setDefaultCommand(new DriveCommand(swerveSubsystem,
+      joystick::getY,
+      joystick::getX, 
+      joystick::getZ,
+      joystick::getThrottle,
+      joystick::getFieldOriented));
 
    new Trigger(() -> true) // always active, sends vision estimates to swerve
         .onTrue(new InstantCommand(() -> {
-          m_visionSubsystem.getEstimatedRelativePose().ifPresent(pose -> {
-            m_swerveSubsystem.addVisionMeasurement(pose, Timer.getFPGATimestamp());
+          visionSubsystem.getEstimatedRelativePose().ifPresent(pose -> {
+            swerveSubsystem.addVisionMeasurement(pose, Timer.getFPGATimestamp());
           });
         })); 
 
-    m_joystick.getAlignTag().onTrue(new AlignTagCommand(m_swerveSubsystem, m_visionSubsystem));
-    m_joystick.getFollowTag().onTrue(new FollowTagCommand(m_swerveSubsystem, m_visionSubsystem));
+    joystick.getAlignTag().onTrue(new AlignTagCommand(swerveSubsystem, visionSubsystem));
+    joystick.getFollowTag().onTrue(new FollowTagCommand(swerveSubsystem, visionSubsystem));
   }
 
   public Command getAutonomousCommand() {
