@@ -212,4 +212,8 @@ public class Constants {
     public static final double kStrafeMult = 0.5;
     public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
   }
+    public static final class ClimbConstants {
+        public static int kClimbControllerPort=1;
+    }
+
 }
