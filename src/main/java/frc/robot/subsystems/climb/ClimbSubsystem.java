@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.studica.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -26,14 +27,15 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         climbMotor = new SparkMax(Constants.ClimbConstants.kClimbControllerPort, MotorType.kBrushless);
         climbEncoder = climbMotor.getEncoder();
-        try {
-            navXMicro = new AHRS(SPI.Port.kMXP);
-        } catch (RuntimeException ex) {
-            DriverStation.reportError(ex.getMessage(), true);
-        }
-        Timer.delay(1.0);
+        // try {
+        //     navXMicro = new AHRS(SPI.Port.kMXP);
+        // }
+        //  catch (RuntimeException ex) {
+        //     DriverStation.reportError(ex.getMessage(), true);
+        // }
+        // Timer.delay(1.0);
 
-        addChild("NavX Micro", navXMicro);
+        // addChild("NavX Micro", navXMicro);
     }
 
     /**
@@ -50,28 +52,28 @@ public class ClimbSubsystem extends SubsystemBase {
      * 
      * @param speed Value between 0 and 1
      */
-    public void AutoClimb(double speed) {
-        double roll = navXMicro.getRoll();
-        boolean checkLevel = false;
-        climbMotor.setIdleMode(IdleMode.kBrake);
-        if (roll > 1) {
-            climbMotor.set(0);
-            checkLevel = true;
-        } 
-        // else if (roll < -1) {
-            // rightLiftMotor.set(0);
-            // checkLevel = true;
-        // } 
-        else if (checkLevel && roll < 1 && roll > -1) {
-            climbMotor.set(0);
-        }
-    }
+    // public void AutoClimb(double speed) {
+    //     double roll = navXMicro.getRoll();
+    //     boolean checkLevel = false;
+    //     climbMotor.setIdleMode(IdleMode.kBrake);
+    //     if (roll > 1) {
+    //         climbMotor.set(0);
+    //         checkLevel = true;
+    //     } 
+    //     // else if (roll < -1) {
+    //         // rightLiftMotor.set(0);
+    //         // checkLevel = true;
+    //     // } 
+    //     else if (checkLevel && roll < 1 && roll > -1) {
+    //         climbMotor.set(0);
+    //     }
+    // }
 
-    public double getLeftEncoder() {
+    public double getClimbEncoder() {
         return climbEncoder.getPosition();
     }
 
-    public void extendLeftLift() {
+    public void extendClimb() {
         if (climbEncoder.getPosition() == 0) {
 
             climbMotor.set(0);
@@ -88,22 +90,22 @@ public class ClimbSubsystem extends SubsystemBase {
     /**
      * Set the power of the climb motor
      * 
-     * @param left_power Value between 0 and 1
+     * @param climb_power Value between 0 and 1
      */
-    public void setRawLeftPower(DoubleSupplier left_power) {
-        climbMotor.set(left_power.getAsDouble());
+    public void setRawClimbPower(DoubleSupplier climb_power) {
+        climbMotor.set(climb_power.getAsDouble());
     }
 
 
 
-    public void changeClimbMode(IdleMode mode) {
-        climbMotor.setIdleMode(mode);
-    }
+    // public void changeClimbMode(IdleMode mode) {
+    //     climbMotor.setIdleMode(mode);
+    // }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Power", climbMotor.get());
-        SmartDashboard.putNumber("Left Encoder", climbEncoder.getPosition());
+        SmartDashboard.putNumber("climb Power", climbMotor.get());
+        SmartDashboard.putNumber("climb Encoder", climbEncoder.getPosition());
         SmartDashboard.putNumber("NavX y", navXMicro.getPitch());
         SmartDashboard.putNumber("NavX x", navXMicro.getRoll());
         SmartDashboard.putNumber("NavX z", navXMicro.getYaw());
