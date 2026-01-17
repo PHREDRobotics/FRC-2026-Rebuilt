@@ -3,7 +3,7 @@ package frc.robot.subsystems.Fuel;
 import frc.robot.Configs;
 import frc.robot.Configs.FeederMotorSparkMax;
 import frc.robot.Constants;
-import frc.robot.Constants.FuelConstants;
+import frc.robot.Constants.FeederConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.spark.SparkMax;
@@ -14,7 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class FeederSubsystem {
 
 
-  public SparkMax feederMotorSparkMax = new SparkMax(FuelConstants.kFeederMotorCANId, MotorType.kBrushless);
+  public SparkMax feederMotorSparkMax = new SparkMax(FeederConstants.kFeederMotorCANId, MotorType.kBrushless);
 
 
 public FeederSubsystem() {
@@ -28,7 +28,7 @@ public FeederSubsystem() {
 
 
   public void feed() {
-    feederMotorSparkMax.set(FuelConstants.kFeederSpeed);
+    feederMotorSparkMax.set(FeederConstants.kFeederSpeed);
   }
 
 }

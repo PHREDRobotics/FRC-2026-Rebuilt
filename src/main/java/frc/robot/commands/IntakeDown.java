@@ -2,10 +2,8 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Fuel.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.Constants.FuelConstants;
 
-public class MoveIntake extends Command {
+public class IntakeDown extends Command {
     
   private IntakeSubsystem IntakeSubsystem;
 
@@ -14,13 +12,13 @@ public class MoveIntake extends Command {
    * 
    * @param subsystem Intake subsystem
    */
-  public MoveIntake(IntakeSubsystem subsystem) {
+  public IntakeDown(IntakeSubsystem subsystem) {
     IntakeSubsystem = subsystem;
   }
 
   @Override
   public void initialize() {
-    IntakeSubsystem.moveIntake();
+    IntakeSubsystem.moveIntakeDown();
   }
   
 }

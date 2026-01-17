@@ -3,7 +3,7 @@ package frc.robot.subsystems.Fuel;
 import frc.robot.Configs;
 import frc.robot.Configs.HopperSparkMax;
 import frc.robot.Constants;
-import frc.robot.Constants.FuelConstants;
+import frc.robot.Constants.HopperConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.spark.SparkMax;
@@ -14,7 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class HopperSubsystem {
 
 
-  public SparkMax hopperSparkMax = new SparkMax(FuelConstants.kHopperMotorCANId, MotorType.kBrushless);
+  public SparkMax hopperSparkMax = new SparkMax(HopperConstants.kHopperMotorCANId, MotorType.kBrushless);
 
 
 public HopperSubsystem() {
@@ -28,7 +28,7 @@ public HopperSubsystem() {
 
 
   public void extendHopper() {
-    hopperSparkMax.set(FuelConstants.kHopperSpeed);
+    hopperSparkMax.set(HopperConstants.kHopperSpeed);
   }
 
 }

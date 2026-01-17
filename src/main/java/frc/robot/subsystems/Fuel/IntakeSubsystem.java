@@ -2,7 +2,7 @@ package frc.robot.subsystems.Fuel;
 
 import frc.robot.Configs;
 import frc.robot.Constants;
-import frc.robot.Constants.FuelConstants;
+import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.spark.SparkMax;
@@ -13,8 +13,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class IntakeSubsystem {
 
 
-  public SparkMax intakeMotorSparkMax = new SparkMax(FuelConstants.kIntakeMotorCANId, MotorType.kBrushless);
-  public SparkMax intakeMovementSparkMax = new SparkMax(FuelConstants.kIntakeMovementCANId, MotorType.kBrushless);
+  public SparkMax intakeMotorSparkMax = new SparkMax(IntakeConstants.kIntakeMotorCANId, MotorType.kBrushless);
+  public SparkMax intakeMovementSparkMax = new SparkMax(IntakeConstants.kIntakeMovementCANId, MotorType.kBrushless);
 
 
 public IntakeSubsystem() {
@@ -25,17 +25,23 @@ public IntakeSubsystem() {
         PersistMode.kPersistParameters);
   }
 
-    public void stop() {
+  public void startIntake() {
+    intakeMotorSparkMax.set(IntakeConstants.kIntakeSpeed);
+  }
+
+    public void stopIntake() {
     intakeMotorSparkMax.set(0);
   }
 
-
-  public void startIntake() {
-    intakeMotorSparkMax.set(FuelConstants.kIntakeSpeed);
+  public void moveIntakeUp() {
+    intakeMovementSparkMax.set(IntakeConstants.kIntakeMovementSpeed);
   }
 
-  public void moveIntake() {
-    intakeMovementSparkMax.set(FuelConstants.kIntakeMovementSpeed);
+  public void moveIntakeDown() {
+    intakeMovementSparkMax.set(-IntakeConstants.kIntakeMovementSpeed);
   }
 
+  public void stopIntakeMovement() {
+    intakeMovementSparkMax.set(0);
+  }
 }
