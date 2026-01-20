@@ -197,6 +197,8 @@ public class SwerveSubsystem extends SubsystemBase {
             sample.vx + m_xPID.calculate(pose.getX(), sample.x),
             sample.vy + m_yPID.calculate(pose.getY(), sample.y),
             sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
+
+            drive(speeds, true);
   }
 
   /**

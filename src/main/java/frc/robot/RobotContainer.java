@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import static frc.robot.choreo.ChoreoTraj.*;
+
 import choreo.auto.AutoFactory;
-import choreo.auto.AutoRoutine;
-import choreo.auto.AutoTrajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,12 +36,15 @@ public class RobotContainer {
     autoFactory = new AutoFactory(
         swerveSubsystem::getPose,
         swerveSubsystem::resetOdometry,
-        swerveSubsystem::followTrajectory, true, swerveSubsystem);
+        swerveSubsystem::followTrajectory,
+        true,
+        swerveSubsystem);
 
     joystick = new LogitechPro(0);
     // CommandJoystick buttonBox = new CommandJoystick(1);
 
     configureBindings();
+    Command testTrajectory = autoFactory.trajectoryCmd("TestPath");
   }
 
   private void configureBindings() {
@@ -65,42 +68,14 @@ public class RobotContainer {
     // visionSubsystem));
   }
 
-  public AutoRoutine test() {
-    // All of this is example for how an auto could look
-    AutoRoutine routine = autoFactory.newRoutine("Drive");
-
-
-    AutoTrajectory driveTraj = routine.trajectory("TestPath");
-    // Example trajectories
-    // AutoTrajectory pickupTraj = routine.trajectory("pickupGamepiece");
-    // AutoTrajectory scoreTraj = routine.trajectory("scoreGamepiece");
-
-    // // When the routine begins, reset odometry and start the first trajectory
-    routine.active().onTrue(
-        Commands.sequence(
-            // new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d(driveTraj.getInitialPose()))),
-            driveTraj.cmd()
-        )
-    );
-
-    // // Starting at the event marker named "intake", run the intake
-    // pickupTraj.atTime("intake").onTrue(intakeSubsystem.intake());
-
-    // // When the trajectory is done, start the next trajectory
-    // pickupTraj.done().onTrue(scoreTraj.cmd());
-
-    // // While the trajectory is active, prepare the scoring subsystem
-    // scoreTraj.active().whileTrue(scoringSubsystem.getReady());
-
-    // // When the trajectory is done, score
-    // scoreTraj.done().onTrue(scoringSubsystem.score());
-
-    return routine;
-
+  public Command testAuto() {
+    return Commands.sequence(
+        autoFactory.resetOdometry("TestPath"),
+        autoFactory.trajectoryCmd("TestPath"));
   }
 
   public Command getAutonomousCommand() {
-    return test().cmd();
+    return testAuto();
     // return Commands.print("No autonomous command configured");
   }
 }
