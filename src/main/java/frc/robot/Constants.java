@@ -64,7 +64,9 @@ public class Constants {
 
     public static final int kHopperMotorCANId = 32;
     public static final double kHopperSpeedSetting = 0.5;
-
+    
+    public static final int kVectorMotorCANId = 33;
+    public static final double kVectorSpeedSetting = 0.5;
   }
 
   /* -------------------- Intake Constants ----------------------- */
@@ -107,8 +109,8 @@ public class Constants {
 
     public static final double kFeederSpeed = 0.5;
 
-    public static final int kFeederLeftMotorCANId = 33;
-    public static final int kFeederRightMotorCANId = 34;
+    public static final int kFeederLeftMotorCANId = 36;
+    public static final int kFeederRightMotorCANId = 37;
     public static final int kShooterFrontLeftMotorCANId = 41;
     public static final int kShooterBackLeftMotorCANId = 42;
     public static final int kShooterFrontRightMotorCANId = 46;
