@@ -45,4 +45,49 @@ public final class Configs {
           .positionWrappingInputRange(0, turningFactor);
     }
   }
+
+  public static final class FeederMotorSparkMax {
+    public static final SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    static {
+      motorConfig
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50)
+          .inverted(false);
+    }
+  }
+
+  public static final class IntakeSparkMax {
+    public static final SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    static {
+      motorConfig
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50)
+          .inverted(false);
+    }
+  }
+
+  public static final class IntakeMovementSparkMax {
+    public static final SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    static {
+      motorConfig
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50)
+          .inverted(false);
+    }
+  }
+
+  public static final class HopperSparkMax {
+    public static final SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    static {
+      motorConfig
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(50)
+          .inverted(false);
+    }
+  }
+
 }
