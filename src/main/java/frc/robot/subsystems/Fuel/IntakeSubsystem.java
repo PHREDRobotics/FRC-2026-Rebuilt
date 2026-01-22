@@ -29,6 +29,10 @@ public IntakeSubsystem() {
     intakeMotorSparkMax.set(IntakeConstants.kIntakeSpeed);
   }
 
+  public void outtake() {
+    intakeMotorSparkMax.set(-IntakeConstants.kOuttakeSpeed);
+  }
+
     public void stopIntake() {
     intakeMotorSparkMax.set(0);
   }

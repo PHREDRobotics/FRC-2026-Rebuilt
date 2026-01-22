@@ -230,6 +230,7 @@ public class Constants {
         public static final class IntakeConstants {
                 public static final int kIntakeMotorCANId = 32;
                 public static final double kIntakeSpeed = 0.5;
+                public static final double kOuttakeSpeed = 0.5;
 
                 public static final int kIntakeMovementCANId = 33;
                 public static final double kIntakeMovementSpeed = 0.5;
