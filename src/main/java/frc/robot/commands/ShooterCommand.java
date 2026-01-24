@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.subsystems.fuel.ShooterSubsytem.ShooterSubsystem;
 
-
 public class ShooterCommand extends Command {
    private ShooterSubsystem shooterSubsystem;
    public ShooterCommand (ShooterSubsystem subsystem) {
