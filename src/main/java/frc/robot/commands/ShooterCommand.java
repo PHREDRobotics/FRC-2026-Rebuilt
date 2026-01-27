@@ -27,7 +27,6 @@ public class ShooterCommand extends Command {
 
   @Override
   public void execute() {
-
   }
 
   @Override
