@@ -6,7 +6,7 @@ public class IntakeArmCommand extends Command {
 
     private IntakeArmSubsystem m_IntakeArmSubsystem;
     
-    public IntakeArmCommand(IntakeArmSubsystem IntakeArmSubsystem ) {
+    public IntakeArmCommand(IntakeArmSubsystem IntakeArmSubsystem) {
       m_IntakeArmSubsystem = IntakeArmSubsystem;
 
       addRequirements(IntakeArmSubsystem);
@@ -14,7 +14,7 @@ public class IntakeArmCommand extends Command {
 
     @Override
     public void initialize() {
-        m_IntakeArmSubsystem.startIntakeArmExtend();
+        m_IntakeArmSubsystem.intakeArmExtend();
     }
 
     @Override
