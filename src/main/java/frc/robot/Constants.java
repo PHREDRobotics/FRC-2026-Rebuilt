@@ -107,9 +107,11 @@ public class Constants {
 
     public static final int kFeederLeftMotorCANId = 36;
     public static final int kFeederRightMotorCANId = 37;
+
+    
     public static final int kShooterFrontLeftMotorCANId = 41;
-    public static final int kShooterBackLeftMotorCANId = 42;
-    public static final int kShooterFrontRightMotorCANId = 46;
+    public static final int kShooterFrontRightMotorCANId = 42;
+    public static final int kShooterBackLeftMotorCANId = 46;
     public static final int kShooterBackRightMotorCANId = 47;
 
     public static final double kAutoShooterDistanceMultiplier = 0.2;
