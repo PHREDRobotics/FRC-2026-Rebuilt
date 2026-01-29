@@ -10,9 +10,9 @@ public class GoToPoseCommand extends Command {
 
   private SwerveSubsystem m_swerveSubsystem;
   private VisionSubsystem m_visionSubsystem;
-  private Pose2d offset;
+  private Pose2d pose;
 
-  public GoToPoseCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem) {
+  public GoToPoseCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, Pose2d pose) {
     this.m_swerveSubsystem = swerveSubsystem;
     this.m_visionSubsystem = visionSubsystem;
     addRequirements(swerveSubsystem);
@@ -21,15 +21,15 @@ public class GoToPoseCommand extends Command {
 
   @Override
   public void initialize() {
-    m_swerveSubsystem.resetPIDs(offset);
+    m_swerveSubsystem.resetPIDs(new Pose2d());
   }
 
   @Override
   public void execute() {
     if (m_visionSubsystem.hasValidTarget()) {
-      //m_swerveSubsystem.driveTo();
+      m_swerveSubsystem.driveTo(pose);
     } else {
-      //m_swerveSubsystem.driveTo();
+      m_swerveSubsystem.driveRelativeTo(new Pose2d(), new Pose2d());
     }
   }
 }

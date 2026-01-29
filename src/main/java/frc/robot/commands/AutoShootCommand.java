@@ -3,6 +3,8 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
@@ -31,7 +33,7 @@ public class AutoShootCommand extends Command {
 
     @Override
     public void initialize() {
-        new AlignTagCommand(m_swerveSubsystem, m_visionSubsystem, x, y);
+        new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(x.getAsDouble(), y.getAsDouble(), new Rotation2d(m_swerveSubsystem.getAutoHubRotation())));
     }
 
     @Override
