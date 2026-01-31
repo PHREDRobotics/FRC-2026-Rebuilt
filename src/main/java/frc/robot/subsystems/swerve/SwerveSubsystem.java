@@ -51,20 +51,20 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveSubsystem() {
     m_frontLeft = new SwerveModule(Constants.SwerveConstants.kFrontLeftDriveMotorCANId,
         Constants.SwerveConstants.kFrontLeftTurnMotorCANId,
-        Configs.SwerveConfig.drivingConfig,
-        Configs.SwerveConfig.turningConfig);
+        Configs.FrontLeftConfig.drivingConfig,
+        Configs.FrontLeftConfig.turningConfig);
     m_frontRight = new SwerveModule(Constants.SwerveConstants.kFrontRightDriveMotorCANId,
         Constants.SwerveConstants.kFrontRightTurnMotorCANId,
-        Configs.SwerveConfig.drivingConfig,
-        Configs.SwerveConfig.turningConfig);
+        Configs.FrontRightConfig.drivingConfig,
+        Configs.FrontRightConfig.turningConfig);
     m_backLeft = new SwerveModule(Constants.SwerveConstants.kBackLeftDriveMotorCANId,
         Constants.SwerveConstants.kBackLeftTurnMotorCANId,
-        Configs.SwerveConfig.drivingConfig,
-        Configs.SwerveConfig.turningConfig);
+        Configs.BackLeftConfig.drivingConfig,
+        Configs.BackLeftConfig.turningConfig);
     m_backRight = new SwerveModule(Constants.SwerveConstants.kBackRightDriveMotorCANId,
         Constants.SwerveConstants.kBackRightTurnMotorCANId,
-        Configs.SwerveConfig.drivingConfig,
-        Configs.SwerveConfig.turningConfig);
+        Configs.BackRightConfig.drivingConfig,
+        Configs.BackRightConfig.turningConfig);
 
     m_gyro = new AHRS(Constants.GyroConstants.kComType);
 

@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants;
 
 public class IntakeArmSubsystem extends SubsystemBase {
@@ -20,24 +21,14 @@ public class IntakeArmSubsystem extends SubsystemBase {
   private RelativeEncoder m_intakeArmEncoder;
   private SparkClosedLoopController m_intakeArmPIDController;
   private double m_encoderValue;
-  private SparkMaxConfig m_motorConfig;
 
   public IntakeArmSubsystem() {
     m_intakeArmMotor = new SparkMax(Constants.IntakeArmConstants.kIntakeArmMotorCANId, MotorType.kBrushless);
     m_intakeArmEncoder = m_intakeArmMotor.getEncoder();
-    m_motorConfig = new SparkMaxConfig();
-    m_motorConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        // Set PID values for position control. We don't need to pass a closed loop
-        // slot, as it will default to slot 0.
-        .p(Constants.IntakeArmConstants.kArmP)
-        .i(Constants.IntakeArmConstants.kArmI)
-        .d(Constants.IntakeArmConstants.kArmD)
-        .outputRange(-1, 1);
 
     // Initialize the closed loop controller
     m_intakeArmPIDController = m_intakeArmMotor.getClosedLoopController();
-    m_intakeArmMotor.configure(m_motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_intakeArmMotor.configure(Configs.IntakeArmConfig.intakeArmMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     // Initialize dashboard values
     SmartDashboard.setDefaultNumber("Target Position", 0);
@@ -89,4 +80,6 @@ public class IntakeArmSubsystem extends SubsystemBase {
       m_intakeArmEncoder.setPosition(0);
     }
   }
+
+  
 }
