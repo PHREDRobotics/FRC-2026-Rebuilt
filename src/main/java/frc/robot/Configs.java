@@ -28,9 +28,8 @@ public final class Configs {
           .velocityConversionFactor(drivingFactor / 60);
       drivingConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.4, 0, 0)
+          .pid(0.7, 0, 0)
           .outputRange(-1, 1);
-      drivingConfig.closedLoop.feedForward.kV(drivingVelocityFeedForward);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -69,9 +68,8 @@ public final class Configs {
           .velocityConversionFactor(drivingFactor / 60);
       drivingConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.4, 0, 0)
+          .pid(0.7, 0, 0)
           .outputRange(-1, 1);
-      drivingConfig.closedLoop.feedForward.kV(drivingVelocityFeedForward);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -110,9 +108,8 @@ public final class Configs {
           .velocityConversionFactor(drivingFactor / 60);
       drivingConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.4, 0, 0)
+          .pid(0.7, 0, 0)
           .outputRange(-1, 1);
-      drivingConfig.closedLoop.feedForward.kV(drivingVelocityFeedForward);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -151,9 +148,8 @@ public final class Configs {
           .velocityConversionFactor(drivingFactor / 60);
       drivingConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.4, 0, 0)
+          .pid(0.7, 0, 0)
           .outputRange(-1, 1);
-      drivingConfig.closedLoop.feedForward.kV(drivingVelocityFeedForward);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -176,7 +172,7 @@ public final class Configs {
     public static final SparkMaxConfig feederMotorConfig = new SparkMaxConfig();
     static {
       feederMotorConfig
-          .idleMode(IdleMode.kBrake)
+          .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(50)
           .inverted(false);
     }
@@ -186,13 +182,14 @@ public final class Configs {
     public static final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
     static {
       shooterMotorConfig
-          .idleMode(IdleMode.kBrake)
+          .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(50)
           .inverted(false);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(1, 0, 0);
+          .pid(0.0005, 0, 0)
+          .feedForward.kV(0.005);
     }
   }
 

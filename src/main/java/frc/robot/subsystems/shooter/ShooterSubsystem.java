@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import frc.robot.Configs;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.PersistMode;
@@ -12,8 +13,8 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private SparkMax m_feederLeftSparkMax = new SparkMax(ShooterConstants.kFeederLeftMotorCANId, MotorType.kBrushless);
-  private SparkMax m_feederRightSparkMax = new SparkMax(ShooterConstants.kFeederRightMotorCANId, MotorType.kBrushless);
+  //private SparkMax m_feederLeftSparkMax = new SparkMax(ShooterConstants.kFeederLeftMotorCANId, MotorType.kBrushless);
+  //private SparkMax m_feederRightSparkMax = new SparkMax(ShooterConstants.kFeederRightMotorCANId, MotorType.kBrushless);
 
   private SparkMax m_shooterLeftSparkMax = new SparkMax(ShooterConstants.kShooterLeftMotorCANId, MotorType.kBrushless);
   private SparkMax m_shooterRightSparkMax = new SparkMax(ShooterConstants.kShooterRightMotorCANId, MotorType.kBrushless);
@@ -27,8 +28,8 @@ public class ShooterSubsystem extends SubsystemBase {
   // SparkMax(ShooterConstants.kShooterFrontRightMotorCANId,MotorType.kBrushless);
 
   public ShooterSubsystem() {
-    m_feederLeftSparkMax.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    m_feederRightSparkMax.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    //m_feederLeftSparkMax.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    //m_feederRightSparkMax.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     m_shooterLeftSparkMax.configure(Configs.ShooterConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     m_shooterRightSparkMax.configure(Configs.ShooterConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -38,18 +39,18 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void feederMotorsStart() {
-    m_feederLeftSparkMax.set(ShooterConstants.kFeederSpeed);
-    m_feederRightSparkMax.set(ShooterConstants.kFeederSpeed);
+    //m_feederLeftSparkMax.set(ShooterConstants.kFeederSpeed);
+    //m_feederRightSparkMax.set(ShooterConstants.kFeederSpeed);
   }
 
   public void shooterMotorsSet(double shootingSpeed) {
-    m_shooterLeftPID.setSetpoint(shootingSpeed, ControlType.kVelocity);
+    m_shooterLeftPID.setSetpoint(-shootingSpeed, ControlType.kVelocity);
     m_shooterRightPID.setSetpoint(shootingSpeed, ControlType.kVelocity);
   }
 
   public void stop() {
-    m_feederLeftSparkMax.stopMotor();
-    m_feederRightSparkMax.stopMotor();
+    //m_feederLeftSparkMax.stopMotor();
+    //m_feederRightSparkMax.stopMotor();
     m_shooterLeftSparkMax.stopMotor();
     m_shooterRightSparkMax.stopMotor();
   }
@@ -57,5 +58,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     super.periodic();
+
+    SmartDashboard.putNumber("sparkmax encoder", m_shooterLeftSparkMax.getEncoder().getPosition());
+    SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
+
   }
 }
