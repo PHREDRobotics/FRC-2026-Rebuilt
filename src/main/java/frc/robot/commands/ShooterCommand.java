@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.Constants;
@@ -18,6 +19,7 @@ public class ShooterCommand extends Command {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Target Speed", Constants.ShooterConstants.kInitialShootingSpeed);
   }
 
   @Override
@@ -29,5 +31,4 @@ public class ShooterCommand extends Command {
   public boolean isFinished() {
     return false;
   }
-
 }

@@ -57,7 +57,7 @@ public class RobotContainer {
           });
         })); 
 
-    Trigger shooterButton = new Trigger(joystick.button(0));
+    Trigger shooterButton = new Trigger(joystick.button(1));
     shooterButton.onTrue(new ShooterCommand(m_shooterSubsystem));
   }
 
