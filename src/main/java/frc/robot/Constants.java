@@ -125,6 +125,11 @@ public class Constants {
 
     public static final double kAutoShooterDistanceMultiplier = 0.2;
     public static final double kAutoShooterDistanceExponent = 1.5;
+
+    public static final double kP = 0.0005;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFFV = 0.001;
   }
 
   /* -------------------- Swerve Constants ----------------------- */
@@ -174,19 +179,15 @@ public class Constants {
     public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.2, 0.2, 0.2);
     public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.8, 0.8, 0.8);
 
-    public static final double kXYPosP = 0.4;
-    public static final double kXYPosI = 0.001;
-    public static final double kXYPosD = 0.005;
-    public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
-        0.5,
-        0.5);
+    public static final double kDriveP = 0.4;
+    public static final double kDriveI = 0.0;
+    public static final double kDriveD = 0.0;
+    public static final double kDriveFF = 0.001;
 
-    public static final double kRotP = 0.4;
-    public static final double kRotI = 0.001;
-    public static final double kRotD = 0.025;
-    public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
-        0.25,
-        0.5);
+    public static final double kTurnP = 1.0;
+    public static final double kTurnI = 0.0;
+    public static final double kTurnD = 0.0;
+    public static final double kTurnFF = 0.001;
 
     public static final double kXDeadband = 0.03;
     public static final double kYDeadband = 0.03;
@@ -207,5 +208,19 @@ public class Constants {
     public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
 
     public static final double kMetersFromAprilTag = 2;
+
+    public static final double kXYPosP = 0.4;
+    public static final double kXYPosI = 0.001;
+    public static final double kXYPosD = 0.005;
+    public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
+        0.5,
+        0.5);
+
+    public static final double kRotP = 0.4;
+    public static final double kRotI = 0.001;
+    public static final double kRotD = 0.025;
+    public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
+        0.25,
+        0.5);
   }
 }

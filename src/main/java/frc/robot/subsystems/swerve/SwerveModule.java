@@ -112,7 +112,7 @@ public class SwerveModule {
     // driving.
     desiredState.cosineScale(encoderRotation);
 
-    m_drivePIDController.setReference(desiredState.speedMetersPerSecond, ControlType.kVelocity);
-    m_turnPIDController.setReference(desiredState.angle.getRadians(), ControlType.kPosition);
+    m_drivePIDController.setSetpoint(desiredState.speedMetersPerSecond, ControlType.kVelocity);
+    m_turnPIDController.setSetpoint(desiredState.angle.getRadians(), ControlType.kPosition);
   }
 }

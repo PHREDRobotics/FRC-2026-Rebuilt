@@ -33,15 +33,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private final StructArrayPublisher<SwerveModuleState> publisher;
 
-  private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.SwerveConstants.kXYPosP,
-      Constants.SwerveConstants.kXYPosI, Constants.SwerveConstants.kXYPosD,
-      Constants.SwerveConstants.kXYControllerConstraints);
-  private final ProfiledPIDController m_yPID = new ProfiledPIDController(Constants.SwerveConstants.kXYPosP,
-      Constants.SwerveConstants.kXYPosI, Constants.SwerveConstants.kXYPosD,
-      Constants.SwerveConstants.kXYControllerConstraints);
-  private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.SwerveConstants.kRotP,
-      Constants.SwerveConstants.kRotI, Constants.SwerveConstants.kRotD,
-      Constants.SwerveConstants.kRotControllerConstraints);
+  private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
+      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
+      Constants.VisionConstants.kXYControllerConstraints);
+  private final ProfiledPIDController m_yPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
+      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
+      Constants.VisionConstants.kXYControllerConstraints);
+  private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.VisionConstants.kRotP,
+      Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD,
+      Constants.VisionConstants.kRotControllerConstraints);
 
   /**
    * Creates a new swerve subsystem

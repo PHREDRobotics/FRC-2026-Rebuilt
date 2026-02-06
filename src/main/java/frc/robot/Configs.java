@@ -11,7 +11,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
  * Configs for the spark maxes
  */
 public final class Configs {
-  public static final class FrontLeftConfig {
+  public static class SwerveConfig {
     public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
     public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
 
@@ -31,7 +31,7 @@ public final class Configs {
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           .pid(SwerveConstants.kDriveP, SwerveConstants.kDriveI, SwerveConstants.kDriveD)
           .outputRange(-1, 1);
-      drivingConfig.closedLoop.feedForward.kV(0.0001);
+      drivingConfig.closedLoop.feedForward.kV(Constants.SwerveConstants.kDriveFF);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -47,126 +47,28 @@ public final class Configs {
           .outputRange(-1, 1)
           .positionWrappingEnabled(true)
           .positionWrappingInputRange(0, turningFactor);
+      turningConfig.closedLoop.feedForward.kV(Constants.SwerveConstants.kTurnFF);
     }
   }
 
-  public static final class FrontRightConfig {
-    public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
-    public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
-
+  public static final class FrontLeftConfig extends SwerveConfig {
     static {
-      double drivingFactor = Constants.SwerveConstants.kWheelRadius * 2 * Math.PI
-          / Constants.SwerveConstants.kDrivingMotorReduction;
-      double turningFactor = 2 * Math.PI;
-
-      double drivingVelocityFeedForward = 1 / 6;
-
-      drivingConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50)
-          .inverted(true);
-      drivingConfig.encoder
-          .positionConversionFactor(drivingFactor)
-          .velocityConversionFactor(drivingFactor / 60);
-      drivingConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(SwerveConstants.kDriveP, SwerveConstants.kDriveI, SwerveConstants.kDriveD)
-          .outputRange(-1, 1);
-
-      turningConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(20)
-          .inverted(true);
-      turningConfig.absoluteEncoder
-          .inverted(true)
-          .positionConversionFactor(turningFactor) // radiansd
-          .velocityConversionFactor(turningFactor / 60);
-      turningConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .pid(SwerveConstants.kTurnP, SwerveConstants.kTurnI, SwerveConstants.kTurnD)
-          .outputRange(-1, 1)
-          .positionWrappingEnabled(true)
-          .positionWrappingInputRange(0, turningFactor);
+      // Configs
     }
   }
-
-  public static final class BackLeftConfig {
-    public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
-    public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
-
+  public static final class FrontRightConfig extends SwerveConfig {
     static {
-      double drivingFactor = Constants.SwerveConstants.kWheelRadius * 2 * Math.PI
-          / Constants.SwerveConstants.kDrivingMotorReduction;
-      double turningFactor = 2 * Math.PI;
-
-      double drivingVelocityFeedForward = 1 / 6;
-
-      drivingConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50)
-          .inverted(true);
-      drivingConfig.encoder
-          .positionConversionFactor(drivingFactor)
-          .velocityConversionFactor(drivingFactor / 60);
-      drivingConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(SwerveConstants.kDriveP, SwerveConstants.kDriveI, SwerveConstants.kDriveD)
-          .outputRange(-1, 1);
-
-      turningConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(20)
-          .inverted(true);
-      turningConfig.absoluteEncoder
-          .inverted(true)
-          .positionConversionFactor(turningFactor) // radiansd
-          .velocityConversionFactor(turningFactor / 60);
-      turningConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .pid(SwerveConstants.kTurnP, SwerveConstants.kTurnI, SwerveConstants.kTurnD)
-          .outputRange(-1, 1)
-          .positionWrappingEnabled(true)
-          .positionWrappingInputRange(0, turningFactor);
+      // Configs
     }
   }
-
-  public static final class BackRightConfig {
-    public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
-    public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
-
+  public static final class BackLeftConfig extends SwerveConfig {
     static {
-      double drivingFactor = Constants.SwerveConstants.kWheelRadius * 2 * Math.PI
-          / Constants.SwerveConstants.kDrivingMotorReduction;
-      double turningFactor = 2 * Math.PI;
-
-      double drivingVelocityFeedForward = 1 / 6;
-
-      drivingConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50)
-          .inverted(true);
-      drivingConfig.encoder
-          .positionConversionFactor(drivingFactor)
-          .velocityConversionFactor(drivingFactor / 60);
-      drivingConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(SwerveConstants.kDriveP, SwerveConstants.kDriveI, SwerveConstants.kDriveD)
-          .outputRange(-1, 1);
-
-      turningConfig
-          .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(20)
-          .inverted(true);
-      turningConfig.absoluteEncoder
-          .inverted(true)
-          .positionConversionFactor(turningFactor) // radiansd
-          .velocityConversionFactor(turningFactor / 60);
-      turningConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .pid(1, 0, 0)
-          .outputRange(-1, 1)
-          .positionWrappingEnabled(true)
-          .positionWrappingInputRange(0, turningFactor);
+      // Configs
+    }
+  }
+  public static final class BackRightConfig extends SwerveConfig {
+    static {
+      // Configs
     }
   }
 
@@ -190,8 +92,8 @@ public final class Configs {
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(0.0005, 0, 0)
-          .feedForward.kV(0.005);
+          .pid(Constants.ShooterConstants.kP, Constants.ShooterConstants.kI, Constants.ShooterConstants.kD).feedForward
+          .kV(Constants.ShooterConstants.kFFV);
     }
   }
 
