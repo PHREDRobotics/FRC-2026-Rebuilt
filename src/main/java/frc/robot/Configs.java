@@ -16,16 +16,22 @@ public final class Configs {
     public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
 
     static {
+      double drivingFactor = Constants.SwerveConstants.kWheelRadius * 2 * Math.PI
+          / Constants.SwerveConstants.kDrivingMotorReduction;
+      double turningFactor = 2 * Math.PI;
+
       drivingConfig
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(50)
           .inverted(true);
       drivingConfig.encoder
-          .velocityConversionFactor(Constants.SwerveConstants.drivingFactor);
+          .positionConversionFactor(drivingFactor)
+          .velocityConversionFactor(drivingFactor / 60);
       drivingConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .pid(Constants.SwerveConstants.kDriveP, Constants.SwerveConstants.kDriveI, Constants.SwerveConstants.kDriveD)
+          .pid(SwerveConstants.kDriveP, SwerveConstants.kDriveI, SwerveConstants.kDriveD)
           .outputRange(-1, 1);
+      drivingConfig.closedLoop.feedForward.kV(Constants.SwerveConstants.kDriveFF);
 
       turningConfig
           .idleMode(IdleMode.kBrake)
@@ -33,32 +39,33 @@ public final class Configs {
           .inverted(true);
       turningConfig.absoluteEncoder
           .inverted(true)
-          .positionConversionFactor(Constants.SwerveConstants.turningFactor);
+          .positionConversionFactor(turningFactor) // radiansd
+          .velocityConversionFactor(turningFactor / 60);
       turningConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-          .pid(Constants.SwerveConstants.kTurnP, Constants.SwerveConstants.kTurnI, Constants.SwerveConstants.kTurnD)
+          .pid(SwerveConstants.kTurnP, SwerveConstants.kTurnI, SwerveConstants.kTurnD)
           .outputRange(-1, 1)
           .positionWrappingEnabled(true)
-          .positionWrappingInputRange(0, Math.PI * 2);
+          .positionWrappingInputRange(0, turningFactor);
+      turningConfig.closedLoop.feedForward.kV(Constants.SwerveConstants.kTurnFF);
     }
   }
 
   public static final class FrontLeftConfig extends SwerveConfig {
     static {
+      // Configs
     }
   }
-
   public static final class FrontRightConfig extends SwerveConfig {
     static {
+      // Configs
     }
   }
-
   public static final class BackLeftConfig extends SwerveConfig {
     static {
       // Configs
     }
   }
-
   public static final class BackRightConfig extends SwerveConfig {
     static {
       // Configs
