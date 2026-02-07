@@ -1,7 +1,5 @@
 package frc.robot.commands.shoot;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
@@ -9,11 +7,9 @@ import frc.robot.Constants;
 
 public class ShooterCommand extends Command {
   private ShooterSubsystem m_shooterSubsystem;
-  private DoubleSupplier speed;
 
-  public ShooterCommand(ShooterSubsystem subsystem, DoubleSupplier speed) {
+  public ShooterCommand(ShooterSubsystem subsystem) {
     m_shooterSubsystem = subsystem;
-    this.speed = speed;
   }
 
   @Override

@@ -1,7 +1,6 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
@@ -15,9 +14,6 @@ public class GoToPoseCommand extends Command {
   public GoToPoseCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, Pose2d pose) {
     this.m_swerveSubsystem = swerveSubsystem;
     this.m_visionSubsystem = visionSubsystem;
-
-    this.pose = pose;
-
     addRequirements(swerveSubsystem);
     addRequirements(visionSubsystem);
   }
@@ -31,12 +27,8 @@ public class GoToPoseCommand extends Command {
   public void execute() {
     if (m_visionSubsystem.hasValidTarget()) {
       m_swerveSubsystem.driveTo(pose);
-
-      // Send vision measurements
-      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
     } else {
       m_swerveSubsystem.driveRelativeTo(new Pose2d(), new Pose2d());
     }
-
   }
 }
