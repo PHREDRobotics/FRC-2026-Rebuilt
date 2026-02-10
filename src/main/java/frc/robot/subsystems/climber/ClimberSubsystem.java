@@ -1,39 +1,41 @@
 package frc.robot.subsystems.climber;
 
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-
   private SparkMax m_climberMotor;
   private RelativeEncoder m_climberEncoder;
-  private double m_encoderValue;
+  private SparkClosedLoopController m_climberPID;
 
   public ClimberSubsystem() {
     m_climberMotor = new SparkMax(Constants.ClimberConstants.kClimberMotorCANId, MotorType.kBrushless);
     m_climberEncoder = m_climberMotor.getEncoder();
-    m_encoderValue = m_climberEncoder.getPosition();
+    m_climberPID = m_climberMotor.getClosedLoopController();
+
+    m_climberMotor.configure(Configs.ClimberConfig.climberConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void resetEncoders() {
     m_climberEncoder.setPosition(0);
   }
 
-  public double getClimberEncoder() {
-    return m_encoderValue;
+  public double getClimberEncoderPosition() {
+    return m_climberEncoder.getPosition();
   }
 
-  public void startClimberExtend() {
-    m_climberMotor.set(Constants.ClimberConstants.kClimberExtendPower);
-  }
-
-  public void startClimberRetract() {
-    m_climberMotor.set(-Constants.ClimberConstants.kClimberRetractPower);
+  public void setClimberPosition(double position) {
+    m_climberPID.setSetpoint(position, ControlType.kPosition);
   }
 
   public void stopClimber() {
@@ -41,21 +43,20 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean isClimberExtended() {
-    return m_encoderValue <= Constants.ClimberConstants.kClimberRaisedEncoderValue;
+    return m_climberEncoder.getPosition() <= Constants.ClimberConstants.kClimberRaisedEncoderValue;
   }
 
   public boolean isRobotClimbed() {
-    return m_encoderValue <= Constants.ClimberConstants.kClimberClimbedEncoderValue;
+    return m_climberEncoder.getPosition() <= Constants.ClimberConstants.kClimberClimbedEncoderValue;
   }
 
   public boolean isClimberRetracted() {
-    return m_encoderValue >= Constants.ClimberConstants.kClimberLoweredEncoderValue;
+    return m_climberEncoder.getPosition() >= Constants.ClimberConstants.kClimberLoweredEncoderValue;
   }
 
   @Override
   public void periodic() {
-    m_encoderValue = m_climberEncoder.getPosition();
     SmartDashboard.putNumber("climb Power", m_climberMotor.get());
-    SmartDashboard.putNumber("climb Encoder", m_encoderValue);
+    SmartDashboard.putNumber("climb Encoder", m_climberEncoder.getPosition());
   }
 }

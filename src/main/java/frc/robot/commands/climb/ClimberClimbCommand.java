@@ -1,6 +1,7 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 
 /**
@@ -22,11 +23,7 @@ public class ClimberClimbCommand extends Command {
 
   @Override
   public void initialize() {
-    m_climberSubsystem.startClimberRetract();
-  }
-
-  @Override
-  public void execute() {
+    m_climberSubsystem.setClimberPosition(Constants.ClimberConstants.kClimberClimbedEncoderValue);
   }
 
   @Override
