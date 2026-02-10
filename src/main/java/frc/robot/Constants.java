@@ -37,7 +37,7 @@ public class Constants {
     public static final double kClimberClimbedEncoderValue = 99;
     public static final double kClimberLoweredEncoderValue = 99;
 
-    public static final double kP = 0.847;
+    public static final double kP = 0.847; /* TODO determine climber pid values */
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
