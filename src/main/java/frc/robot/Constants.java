@@ -72,10 +72,9 @@ public class Constants {
 
     public static final double kFeederSpeed = 0.5;
 
-    public static final double kIntakeSpeedSetting = 99; /* TODO */
-
-    public static final double kHopperSpeedSetting = 0.5;
-    public static final double kVectorSpeedSetting = 0.5;
+    public static final double kIntakeSpeed = 99; /* TODO */
+    public static final double kHopperSpeed = 0.5;
+    public static final double kVectorSpeed = 0.5;
 
     public static final double kIntakeP = 1.0; /* TODO nate */
     public static final double kIntakeI = 0.0;
