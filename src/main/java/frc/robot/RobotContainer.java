@@ -47,7 +47,6 @@ public class RobotContainer {
     // CommandJoystick buttonBox = new CommandJoystick(1);
 
     configureBindings();
-    Command testTrajectory = autoFactory.trajectoryCmd("TestPath");
     gamepad = new XboxController(1);
   
     configureBindings(); 

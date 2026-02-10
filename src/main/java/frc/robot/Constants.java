@@ -33,9 +33,9 @@ public class Constants {
     public static final double kClimberExtendPower = -0.1; // this lowers the robot
     public static final double kClimberRetractPower = 1.0; // This raises the robot
 
-    public static final double kClimberRaisedEncoderValue = 99; /* TODO */
-    public static final double kClimberClimbedEncoderValue = 99; /* TODO */
-    public static final double kClimberLoweredEncoderValue = 99; /* TODO */
+    public static final double kClimberRaisedEncoderValue = 99; /* TODO determine climber encoder values */
+    public static final double kClimberClimbedEncoderValue = 99;
+    public static final double kClimberLoweredEncoderValue = 99;
 
     public static final double kP = 0.847;
     public static final double kI = 0.0;
@@ -78,11 +78,11 @@ public class Constants {
 
     public static final double kFeederSpeed = 0.5;
 
-    public static final double kIntakeSpeed = 99; /* TODO */
+    public static final double kIntakeSpeed = 99; /* TODO determine speeds of fuel movers*/
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
-    public static final double kIntakeP = 1.0; /* TODO nate */
+    public static final double kIntakeP = 1.0; /* TODO determine fuel movers pid values */
     public static final double kIntakeI = 0.0;
     public static final double kIntakeD = 0.0;
 
@@ -103,15 +103,15 @@ public class Constants {
     public static final double kIntakeArmExtendPower = 0.5;
     public static final double kIntakeArmRetractPower = 0.5;
 
-    public static final double kArmUpEncoderValue = 99; /* TODO */
-    public static final double kArmDownEncoderValue = 99; /* TODO */
-    public static final double kArmDrivingEncoderValue = 99; /* TODO */
+    public static final double kArmUpEncoderValue = 99; /* TODO determine arm encoder values */
+    public static final double kArmDownEncoderValue = 99; 
+    public static final double kArmDrivingEncoderValue = 99;
 
-    public static final double kArmP = 0.0; // PID Tuning Values /* TODO */
+    public static final double kArmP = 0.0; /* TODO determine arm pid values */
     public static final double kArmI = 0.0; 
-    public static final double kArmD = 0.0; /* TODO */
+    public static final double kArmD = 0.0;
 
-    public static final double kArmCos = 0.1; // Feedforward value to counteract gravity. /* TODO */
+    public static final double kArmCos = 0.1; /* TODO determine arm feedforward */
   }
 
   /* -------------------- Physical Constants --------------------- */
@@ -173,7 +173,7 @@ public class Constants {
     public static final double kDrivingMotorReduction = 8;
     public static final double kTurningMotorReduction = 21;
 
-    public static final Translation2d kFrontLeftLocationInches = new Translation2d(12.25, 12.25);
+    public static final Translation2d kFrontLeftLocationInches = new Translation2d(12.25, 12.25); /* TODO Measure wheel distance */
     public static final Translation2d kFrontRightLocationInches = new Translation2d(12.25, -12.25);
     public static final Translation2d kBackLeftLocationInches = new Translation2d(-12.25, 12.25);
     public static final Translation2d kBackRightLocationInches = new Translation2d(-12.25, -12.25);
@@ -247,7 +247,7 @@ public class Constants {
 
     public static final double kMetersFromAprilTag = 2;
 
-    public static final double kXYPosP = 0.4; /* TODO */
+    public static final double kXYPosP = 0.4; /* TODO determine swerve pid values*/
     public static final double kXYPosI = 0;
     public static final double kXYPosD = 0.005;
     public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
