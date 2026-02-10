@@ -155,4 +155,18 @@ public final class Configs {
         .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
     }
   }
+
+  public static final class ClimberConfig {
+    public static final SparkMaxConfig climberConfig = new SparkMaxConfig();
+    static {
+      climberConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50)
+        .inverted(false);
+      climberConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(Constants.ClimberConstants.kP, Constants.ClimberConstants.kI, Constants.ClimberConstants.kD)
+        .feedForward.kG(Constants.ClimberConstants.kG);
+    }
+  }
 }

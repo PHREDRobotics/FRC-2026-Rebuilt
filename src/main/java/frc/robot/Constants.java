@@ -30,12 +30,18 @@ public class Constants {
   public static final class ClimberConstants {
     public static final int kClimberMotorCANId = 6;
 
-    public static final double kClimberExtendPower = 0.3; // this lowers the robot
+    public static final double kClimberExtendPower = -0.1; // this lowers the robot
     public static final double kClimberRetractPower = 1.0; // This raises the robot
 
     public static final double kClimberRaisedEncoderValue = 99; /* TODO */
     public static final double kClimberClimbedEncoderValue = 99; /* TODO */
     public static final double kClimberLoweredEncoderValue = 99; /* TODO */
+
+    public static final double kP = 0.847;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    public static final double kG = 0.0;
   }
 
   /* -------------------- Controller Constants ------------------- */
