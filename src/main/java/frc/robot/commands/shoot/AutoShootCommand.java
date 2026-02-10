@@ -45,6 +45,7 @@ public class AutoShootCommand extends Command {
   public void execute() {
     if (canShoot()) {
       m_fuelSubsystem.feed();
+      m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
     }
 
     m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
