@@ -8,6 +8,7 @@ import choreo.auto.AutoFactory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.shoot.AutoShootCommand;
@@ -75,6 +76,10 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("TestPath"),
         autoFactory.trajectoryCmd("TestPath"));
+  }
+
+  public Command shootHub() {
+    return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, () -> 0, () -> 0));
   }
 
 
