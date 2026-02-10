@@ -2,6 +2,7 @@ package frc.robot.subsystems.swerve;
 
 import com.studica.frc.AHRS;
 
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -52,6 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param photonVision used for pose estimation
    */
   public SwerveSubsystem() {
+    
     m_frontLeft = new SwerveModule(Constants.SwerveConstants.kFrontLeftDriveMotorCANId,
         Constants.SwerveConstants.kFrontLeftTurnMotorCANId,
         Configs.FrontLeftConfig.drivingConfig,
@@ -240,6 +242,18 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public boolean isAlignedWithHub() {
     return Math.abs(getPointAngleDegrees(Constants.VisionConstants.kHubPos) - getPose().getRotation().getDegrees()) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+  }
+
+    public void followTrajectory(SwerveSample sample) {
+    Pose2d pose = getPose();
+
+        // Generate the next speeds for the robot
+        ChassisSpeeds speeds = new ChassisSpeeds(
+            sample.vx + m_xPID.calculate(pose.getX(), sample.x),
+            sample.vy + m_yPID.calculate(pose.getY(), sample.y),
+            sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
+
+            drive(speeds, true);
   }
 
   /**

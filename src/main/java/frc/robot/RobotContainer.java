@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import choreo.auto.AutoFactory;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,6 +23,9 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem;
   private final FuelSubsystem m_fuelSubsystem;
 
+  
+  private final AutoFactory autoFactory;
+
   LogitechPro joystick;
   XboxController gamepad;
 
@@ -31,7 +35,18 @@ public class RobotContainer {
     m_shooterSubsystem = new ShooterSubsystem();
     m_fuelSubsystem = new FuelSubsystem();
 
+    autoFactory = new AutoFactory(
+        m_swerveSubsystem::getPose,
+        m_swerveSubsystem::resetOdometry,
+        m_swerveSubsystem::followTrajectory,
+        true,
+        m_swerveSubsystem);
+
     joystick = new LogitechPro(0);
+    // CommandJoystick buttonBox = new CommandJoystick(1);
+
+    configureBindings();
+    Command testTrajectory = autoFactory.trajectoryCmd("TestPath");
     gamepad = new XboxController(1);
   
     configureBindings(); 
@@ -56,7 +71,15 @@ public class RobotContainer {
       joystick.button(1)));
   }
 
+  public Command testAuto() {
+    return Commands.sequence(
+        autoFactory.resetOdometry("TestPath"),
+        autoFactory.trajectoryCmd("TestPath"));
+  }
+
+
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return testAuto();
+    // return Commands.print("No autonomous command configured");
   }
 }
