@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param photonVision used for pose estimation
    */
   public SwerveSubsystem() {
-    
+
     m_frontLeft = new SwerveModule(Constants.SwerveConstants.kFrontLeftDriveMotorCANId,
         Constants.SwerveConstants.kFrontLeftTurnMotorCANId,
         Configs.FrontLeftConfig.drivingConfig,
@@ -155,6 +155,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Resets the pids
+   * 
    * @param setPose
    */
   public void resetPIDs(Pose2d setPose) {
@@ -165,6 +166,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Drives to a pose not based off of the field
+   * 
    * @param currentPose
    * @param newPose
    */
@@ -178,6 +180,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Drives to a pose relative to the field
+   * 
    * @param pose
    */
   public void driveTo(Pose2d pose) {
@@ -191,6 +194,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Points the front of the robot to a point on the field while driving
+   * 
    * @param x
    * @param y
    * @param rot
@@ -219,6 +223,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Gets the angle relative to the field from the robot to a point in degrees
+   * 
    * @param point
    * @return
    */
@@ -228,6 +233,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Gets the angle relative to the field from the robot to a point in radians
+   * 
    * @param point
    * @return
    */
@@ -235,25 +241,26 @@ public class SwerveSubsystem extends SubsystemBase {
     return Units.degreesToRadians(getPointAngleDegrees(point));
   }
 
-
   /**
    * Checks if the robot is aligned with the hub
+   * 
    * @return
    */
   public boolean isAlignedWithHub() {
-    return Math.abs(getPointAngleDegrees(Constants.VisionConstants.kHubPos) - getPose().getRotation().getDegrees()) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+    return Math.abs(getPointAngleDegrees(Constants.VisionConstants.kHubPos)
+        - getPose().getRotation().getDegrees()) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
-    public void followTrajectory(SwerveSample sample) {
+  public void followTrajectory(SwerveSample sample) {
     Pose2d pose = getPose();
 
-        // Generate the next speeds for the robot
-        ChassisSpeeds speeds = new ChassisSpeeds(
-            sample.vx + m_xPID.calculate(pose.getX(), sample.x),
-            sample.vy + m_yPID.calculate(pose.getY(), sample.y),
-            sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
+    // Generate the next speeds for the robot
+    ChassisSpeeds speeds = new ChassisSpeeds(
+        sample.vx + m_xPID.calculate(pose.getX(), sample.x),
+        sample.vy + m_yPID.calculate(pose.getY(), sample.y),
+        sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
 
-            drive(speeds, true);
+    drive(speeds, true);
   }
 
   /**

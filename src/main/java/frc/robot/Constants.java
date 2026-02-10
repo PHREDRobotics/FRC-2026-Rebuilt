@@ -241,15 +241,15 @@ public class Constants {
 
     public static final double kMetersFromAprilTag = 2;
 
-    public static final double kXYPosP = 0.4;
-    public static final double kXYPosI = 0.001;
+    public static final double kXYPosP = 0.4; /* TODO */
+    public static final double kXYPosI = 0;
     public static final double kXYPosD = 0.005;
     public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
         0.5,
         0.5);
 
     public static final double kRotP = 0.4;
-    public static final double kRotI = 0.001;
+    public static final double kRotI = 0;
     public static final double kRotD = 0.025;
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,

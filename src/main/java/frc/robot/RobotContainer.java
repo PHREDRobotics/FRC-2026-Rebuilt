@@ -80,6 +80,5 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return testAuto();
-    // return Commands.print("No autonomous command configured");
   }
 }
