@@ -5,15 +5,24 @@
 package frc.robot;
 
 import choreo.auto.AutoFactory;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.climb.ClimberClimbCommand;
+import frc.robot.commands.climb.ClimberExtendCommand;
+import frc.robot.commands.climb.ClimberRetractCommand;
 import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.fuel.IntakeCommand;
+import frc.robot.commands.intake.IntakeArmDropCommand;
+import frc.robot.commands.intake.IntakeArmRaiseCommand;
 import frc.robot.commands.shoot.AutoShootCommand;
+import frc.robot.commands.shoot.ShooterCommand;
 import frc.robot.controls.LogitechPro;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.fuel.FuelSubsystem;
+import frc.robot.subsystems.intakeArm.IntakeArmSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
@@ -23,18 +32,21 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final FuelSubsystem m_fuelSubsystem;
-
+  private final IntakeArmSubsystem m_intakeArmSubsystem;
+  private final ClimberSubsystem m_climberSubsystem;
   
   private final AutoFactory autoFactory;
 
   LogitechPro joystick;
-  XboxController gamepad;
+  CommandXboxController gamepad;
 
   public RobotContainer() {
     m_swerveSubsystem = new SwerveSubsystem();
     m_visionSubsystem = new VisionSubsystem();
     m_shooterSubsystem = new ShooterSubsystem();
     m_fuelSubsystem = new FuelSubsystem();
+    m_intakeArmSubsystem = new IntakeArmSubsystem();
+    m_climberSubsystem = new ClimberSubsystem();
 
     autoFactory = new AutoFactory(
         m_swerveSubsystem::getPose,
@@ -44,22 +56,39 @@ public class RobotContainer {
         m_swerveSubsystem);
 
     joystick = new LogitechPro(0);
-    // CommandJoystick buttonBox = new CommandJoystick(1);
+    gamepad = new CommandXboxController(1);
 
-    configureBindings();
-    gamepad = new XboxController(1);
-  
     configureBindings(); 
   }
 
   private void configureBindings() {
     // -- Triggers --
 
-    Trigger shooterButton = new Trigger(joystick.button(1));
+    Trigger shooterButton = new Trigger(gamepad.y());
+    Trigger manShootButton = new Trigger(gamepad.b());
 
+    Trigger intakeButton = new Trigger(gamepad.a());
+
+    Trigger armUpButton = new Trigger(gamepad.start());
+    Trigger armDownButton = new Trigger(gamepad.back());
+
+    Trigger climberClimbButton = new Trigger(gamepad.povLeft());
+    Trigger climberExtendButton = new Trigger(gamepad.povUp());
+    Trigger climberRetractButton = new Trigger(gamepad.povDown());
+  
     // -- Button Assignments --
 
     shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, joystick::getX, joystick::getY));
+    manShootButton.whileTrue(new ShooterCommand(m_shooterSubsystem, () -> Constants.ShooterConstants.kInitialShootingSpeed));
+
+    intakeButton.toggleOnTrue(new IntakeCommand(m_fuelSubsystem));
+
+    armUpButton.onTrue(new IntakeArmRaiseCommand(m_intakeArmSubsystem));
+    armDownButton.onTrue(new IntakeArmDropCommand(m_intakeArmSubsystem));
+
+    climberClimbButton.onTrue(new ClimberClimbCommand(m_climberSubsystem));
+    climberExtendButton.onTrue(new ClimberExtendCommand(m_climberSubsystem));
+    climberRetractButton.onTrue(new ClimberRetractCommand(m_climberSubsystem));
 
     // -- Default commands --
 
