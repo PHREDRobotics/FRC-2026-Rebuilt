@@ -24,12 +24,54 @@ public record ChoreoTraj(
     Pose2d initialPoseBlue,
     Pose2d endPoseBlue
 ) {
-    public static final ChoreoTraj TestPath = new ChoreoTraj(
+    public static final ChoreoTraj PositionLeftToShoot = new ChoreoTraj(
+	    "PositionLeftToShoot",
+	    OptionalInt.empty(),
+	    1.02575,
+	    new Pose2d(3.55, 7.444, Rotation2d.fromRadians(0)),
+	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
+	);
+	public static final ChoreoTraj PositionRightToShoot = new ChoreoTraj(
+	    "PositionRightToShoot",
+	    OptionalInt.empty(),
+	    0.96481,
+	    new Pose2d(3.431, 0.659, Rotation2d.fromRadians(0)),
+	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
+	);
+	public static final ChoreoTraj PositionMiddleToShoot = new ChoreoTraj(
+	    "PositionMiddleToShoot",
+	    OptionalInt.empty(),
+	    0.69425,
+	    new Pose2d(3.442, 4.033, Rotation2d.fromRadians(0)),
+	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0))
+	);
+	public static final ChoreoTraj TestPath = new ChoreoTraj(
 	    "TestPath",
 	    OptionalInt.empty(),
 	    0.7981,
 	    new Pose2d(4, 6, Rotation2d.fromRadians(3.142)),
 	    new Pose2d(3, 5, Rotation2d.fromRadians(0))
+	);
+	public static final ChoreoTraj ShootPositionOneToClimb = new ChoreoTraj(
+	    "ShootPositionOneToClimb",
+	    OptionalInt.empty(),
+	    1.23648,
+	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549)),
+	    new Pose2d(1.147, 3.733, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj ShootPositionTwoToClimb = new ChoreoTraj(
+	    "ShootPositionTwoToClimb",
+	    OptionalInt.empty(),
+	    0.85116,
+	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0)),
+	    new Pose2d(1.146, 3.612, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj ShootPositionThreeToClimb = new ChoreoTraj(
+	    "ShootPositionThreeToClimb",
+	    OptionalInt.empty(),
+	    0.96202,
+	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658)),
+	    new Pose2d(1.071, 2.67, Rotation2d.fromRadians(3.142))
 	);
 
     /**
@@ -37,7 +79,13 @@ public record ChoreoTraj(
      * This allows for trajectory data to be looked up with strings during runtime.
      */
     public static final Map<String, ChoreoTraj> ALL_TRAJECTORIES = Map.ofEntries(
-    	Map.entry("TestPath", TestPath)
+    	Map.entry("PositionLeftToShoot", PositionLeftToShoot),
+		Map.entry("PositionRightToShoot", PositionRightToShoot),
+		Map.entry("PositionMiddleToShoot", PositionMiddleToShoot),
+		Map.entry("TestPath", TestPath),
+		Map.entry("ShootPositionOneToClimb", ShootPositionOneToClimb),
+		Map.entry("ShootPositionTwoToClimb", ShootPositionTwoToClimb),
+		Map.entry("ShootPositionThreeToClimb", ShootPositionThreeToClimb)
     );
 
     /**

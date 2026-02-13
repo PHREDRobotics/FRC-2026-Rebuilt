@@ -7,6 +7,7 @@ package frc.robot;
 import choreo.auto.AutoFactory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -110,7 +111,48 @@ public class RobotContainer {
     return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, () -> 0, () -> 0));
   }
 
+  public Command ShootClimbPositionLeft() {
+    return Commands.sequence(
+      autoFactory.resetOdometry("PositionLeftToShoot"),
+      autoFactory.trajectoryCmd("PositionLeftToShoot"),
+      shootHub(),
+      autoFactory.resetOdometry("ShootPositionOneToClimb"),
+      new ParallelCommandGroup(
+        autoFactory.trajectoryCmd("ShootPositionOneToClimb"),
+        new ClimberExtendCommand(m_climberSubsystem)
+      ),
+      new ClimberClimbCommand(m_climberSubsystem)
+    );
+  }
 
+  public Command ShootClimbPositionMiddle() {
+    return Commands.sequence(
+      autoFactory.resetOdometry("PositionMiddleToShoot"),
+      autoFactory.trajectoryCmd("PositionMiddleToShoot"),
+      shootHub(),
+      autoFactory.resetOdometry("ShootPositionTwoToClimb"),
+      new ParallelCommandGroup(
+        autoFactory.trajectoryCmd("ShootPositionTwoToClimb"),
+        new ClimberExtendCommand(m_climberSubsystem)
+      ),
+      new ClimberClimbCommand(m_climberSubsystem)
+    );
+  }
+
+  public Command ShootClimbPositionRight() {
+    return Commands.sequence(
+      autoFactory.resetOdometry("PositionRightToShoot"),
+      autoFactory.trajectoryCmd("PositionRightToShoot"),
+      shootHub(),
+      autoFactory.resetOdometry("ShootPositionThreeToClimb"),
+      new ParallelCommandGroup(
+        autoFactory.trajectoryCmd("ShootPositionThreeToClimb"),
+        new ClimberExtendCommand(m_climberSubsystem)
+      ),
+      new ClimberClimbCommand(m_climberSubsystem)
+    );
+  }
+  
   public Command getAutonomousCommand() {
     return testAuto();
   }

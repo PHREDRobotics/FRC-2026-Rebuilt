@@ -5,6 +5,62 @@
  "variables":{
   "expressions":{},
   "poses":{
+   "ClimbPositionLeft":{
+    "x":{
+     "exp":"1 m",
+     "val":1.0
+    },
+    "y":{
+     "exp":"3 m",
+     "val":3.0
+    },
+    "heading":{
+     "exp":"180 deg",
+     "val":3.141592653589793
+    }
+   },
+   "ClimbPositionMiddle":{
+    "x":{
+     "exp":"1.1462898254394531 m",
+     "val":1.1462898254394531
+    },
+    "y":{
+     "exp":"3.612100839614868 m",
+     "val":3.612100839614868
+    },
+    "heading":{
+     "exp":"180 deg",
+     "val":3.141592653589793
+    }
+   },
+   "SetUpToClimbPositionMiddle":{
+    "x":{
+     "exp":"2.0349950790405273 m",
+     "val":2.0349950790405273
+    },
+    "y":{
+     "exp":"3.714083433151245 m",
+     "val":3.714083433151245
+    },
+    "heading":{
+     "exp":"180 deg",
+     "val":3.141592653589793
+    }
+   },
+   "SetUpToClimbPositionRight":{
+    "x":{
+     "exp":"1.787322998046875 m",
+     "val":1.787322998046875
+    },
+    "y":{
+     "exp":"3.029343366622925 m",
+     "val":3.029343366622925
+    },
+    "heading":{
+     "exp":"180 deg",
+     "val":3.141592653589793
+    }
+   },
    "ShootPositionOne":{
     "x":{
      "exp":"2.5552444458007812 m",
@@ -142,16 +198,16 @@
   },
   "bumper":{
    "front":{
-    "exp":"22 in",
-    "val":0.5588
+    "exp":"14 in",
+    "val":0.35559999999999997
    },
    "side":{
-    "exp":"22 in",
-    "val":0.5588
+    "exp":"14 in",
+    "val":0.35559999999999997
    },
    "back":{
-    "exp":"22 in",
-    "val":0.5588
+    "exp":"14 in",
+    "val":0.35559999999999997
    }
   },
   "differentialTrackWidth":{

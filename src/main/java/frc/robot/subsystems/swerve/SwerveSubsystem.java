@@ -247,8 +247,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isAlignedWithHub() {
-    return Math.abs(getPointAngleDegrees(Constants.VisionConstants.kHubPos)
-        - getPose().getRotation().getDegrees()) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+    return Math.abs(getPose().getRotation().getDegrees() - getPointAngleDegrees(m_hubTranslation)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
   public void followTrajectory(SwerveSample sample) {

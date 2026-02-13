@@ -30,9 +30,6 @@ public class Constants {
   public static final class ClimberConstants {
     public static final int kClimberMotorCANId = 6;
 
-    public static final double kClimberExtendPower = -0.1; // this lowers the robot
-    public static final double kClimberRetractPower = 1.0; // This raises the robot
-
     public static final double kClimberRaisedEncoderValue = 99; /* TODO determine climber encoder values */
     public static final double kClimberClimbedEncoderValue = 99;
     public static final double kClimberLoweredEncoderValue = 99;
@@ -143,7 +140,7 @@ public class Constants {
     public static final double kInitialShootingSpeed = 1000;
 
     public static final double kAutoShooterDistanceMultiplier = 0.2;
-    public static final double kAutoShooterDistanceExponent = 1.5;
+    public static final double kAutoShooterDistanceExponent = 1.2;
 
     public static final double kP = 0.0005;
     public static final double kI = 0.0;

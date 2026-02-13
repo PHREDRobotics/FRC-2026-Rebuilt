@@ -29,7 +29,7 @@ public class AutoShootCommand extends Command {
     m_x = x.getAsDouble();
     m_y = y.getAsDouble();
 
-    addRequirements(shooterSubsystem, swerveSubsystem, visionSubsystem);
+    addRequirements(shooterSubsystem, fuelSubsystem, swerveSubsystem, visionSubsystem);
   }
 
   private boolean canShoot() {
