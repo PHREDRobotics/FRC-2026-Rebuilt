@@ -7,6 +7,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 
+/**
+ * Aligns to a tag while letting the driver control the x and y component
+ */
 public class AlignAndDriveCommand extends Command {
   SwerveSubsystem m_swerveSubsystem;
 

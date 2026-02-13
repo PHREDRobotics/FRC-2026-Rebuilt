@@ -11,6 +11,9 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
+/**
+ * Automatically aims and shoots at the hub based on the distance from the hub
+ */
 public class AutoShootCommand extends Command {
   private ShooterSubsystem m_shooterSubsystem;
   private FuelSubsystem m_fuelSubsystem;
@@ -20,6 +23,15 @@ public class AutoShootCommand extends Command {
   private double m_x;
   private double m_y;
 
+  /**
+   * Initialize the auto shoot command
+   * @param shooterSubsystem
+   * @param fuelSubsystem
+   * @param swerveSubsystem
+   * @param visionSubsystem
+   * @param x The x input of the controller (You can still drive!)
+   * @param y The y input of the controller (You can still strafe!)
+   */
   public AutoShootCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem, SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, DoubleSupplier x, DoubleSupplier y) {
     m_shooterSubsystem = shooterSubsystem;
     m_fuelSubsystem = fuelSubsystem;

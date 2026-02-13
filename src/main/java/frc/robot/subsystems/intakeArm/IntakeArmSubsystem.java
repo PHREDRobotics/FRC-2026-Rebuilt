@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
 
+/**
+ * Subsystem for controller the intake arm
+ */
 public class IntakeArmSubsystem extends SubsystemBase {
-
     private SparkMax m_intakeArmMotor;
     private RelativeEncoder m_intakeArmEncoder;
     private SparkClosedLoopController m_intakeArmPIDController;

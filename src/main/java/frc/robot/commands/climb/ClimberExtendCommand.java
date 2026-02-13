@@ -5,9 +5,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 
 /**
- * Command for manually climbing the robot
+ * Command for extending the climber to full length
  */
-
 public class ClimberExtendCommand extends Command {
   private ClimberSubsystem m_climberSubsystem;
 

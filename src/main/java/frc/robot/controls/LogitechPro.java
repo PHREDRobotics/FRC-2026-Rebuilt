@@ -5,6 +5,9 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 
+/**
+ * Class to represent the Logitech Pro joystick
+ */
 public class LogitechPro extends CommandJoystick {
   public LogitechPro(int port) {
     super(port);

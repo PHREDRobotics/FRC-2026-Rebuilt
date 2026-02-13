@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
 
+/**
+ * Subsystem for controller the climber
+ */
 public class ClimberSubsystem extends SubsystemBase {
   private SparkMax m_climberMotor;
   private RelativeEncoder m_climberEncoder;

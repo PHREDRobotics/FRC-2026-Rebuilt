@@ -59,11 +59,6 @@ public class Constants {
     public static final double kMinThrottle = 0.1;
   }
 
-  /* -------------------- Gyro Constants ------------------------- */
-  public static final class GyroConstants {
-    public static final NavXComType kComType = NavXComType.kMXP_SPI;
-  }
-
   /* -------------------- Fuel Constants ----------------------- */
   // Intake, Hopper, and Vector
   public static final class FuelConstants {
@@ -90,6 +85,11 @@ public class Constants {
     public static final double kVectorP = 1.0;
     public static final double kVectorI = 0.0;
     public static final double kVectorD = 0.0;
+  }
+
+  /* -------------------- Gyro Constants ------------------------- */
+  public static final class GyroConstants {
+    public static final NavXComType kComType = NavXComType.kMXP_SPI;
   }
 
   /* -------------------- Intake Arm Constants ------------------- */
@@ -139,7 +139,7 @@ public class Constants {
 
     public static final double kInitialShootingSpeed = 1000;
 
-    public static final double kAutoShooterDistanceMultiplier = 0.2;
+    public static final double kAutoShooterDistanceMultiplier = 0.2; // TODO determine shooter multiplier and exponent
     public static final double kAutoShooterDistanceExponent = 1.2;
 
     public static final double kP = 0.0005;

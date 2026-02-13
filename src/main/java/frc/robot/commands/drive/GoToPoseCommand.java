@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
+/**
+ * Goes to a pose relative to the field
+ */
 public class GoToPoseCommand extends Command {
 
   private SwerveSubsystem m_swerveSubsystem;

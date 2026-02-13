@@ -5,9 +5,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 
 /**
- * Command for manually climb the robot
+ * Command to bring the climber all the way down so we can go under the trench
  */
-
 public class ClimberRetractCommand extends Command {
   private ClimberSubsystem m_climberSubsystem;
 

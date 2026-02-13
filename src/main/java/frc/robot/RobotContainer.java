@@ -28,6 +28,9 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
+/**
+ * Class to connect everything in the robot together
+ */
 public class RobotContainer {
   private final SwerveSubsystem m_swerveSubsystem;
   private final VisionSubsystem m_visionSubsystem;
@@ -101,16 +104,30 @@ public class RobotContainer {
       joystick.button(1)));
   }
 
+  // Autos
+  
+  /**
+   * Auto for testing purposes
+   * @return
+   */
   public Command testAuto() {
     return Commands.sequence(
         autoFactory.resetOdometry("TestPath"),
         autoFactory.trajectoryCmd("TestPath"));
   }
 
+  /**
+   * Shoots at the hub
+   * @return
+   */
   public Command shootHub() {
     return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, () -> 0, () -> 0));
   }
 
+  /**
+   * Shoots then climbs starting from the left position relative to the drivers
+   * @return
+   */
   public Command ShootClimbPositionLeft() {
     return Commands.sequence(
       autoFactory.resetOdometry("PositionLeftToShoot"),
@@ -125,6 +142,10 @@ public class RobotContainer {
     );
   }
 
+  /**
+   * Shoots then climbs starting from the center position relative to the drivers
+   * @return
+   */
   public Command ShootClimbPositionMiddle() {
     return Commands.sequence(
       autoFactory.resetOdometry("PositionMiddleToShoot"),
@@ -139,6 +160,10 @@ public class RobotContainer {
     );
   }
 
+  /**
+   * Shoots then climbs starting from the right position relative to the drivers
+   * @return
+   */
   public Command ShootClimbPositionRight() {
     return Commands.sequence(
       autoFactory.resetOdometry("PositionRightToShoot"),

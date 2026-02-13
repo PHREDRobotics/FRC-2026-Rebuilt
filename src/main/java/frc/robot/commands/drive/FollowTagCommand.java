@@ -6,6 +6,10 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
+/**
+ * Follows a tag
+ * (not field relative)
+ */
 public class FollowTagCommand extends Command {
 
   private SwerveSubsystem m_swerveSubsystem;

@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
 
+/**
+ * Subsystem for controlling all elements that move fuel around except for the shooter
+ * (Intake motors, hopper motors, vector motors, and feeder motors)
+ */
 public class FuelSubsystem extends SubsystemBase {
   enum FuelState {
     Intaking,
@@ -31,6 +35,9 @@ public class FuelSubsystem extends SubsystemBase {
     m_feederRightMotor.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
+  /**
+   * Starts intake, hopper, and vector motors
+   */
   public void intake() {
     m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
     m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
@@ -39,6 +46,9 @@ public class FuelSubsystem extends SubsystemBase {
     m_fuelState = FuelState.Intaking;
   }
 
+  /**
+   * Starts intake, hopper, and vector motors in reverse to spit out and stuck fuel
+   */
   public void outtake() {
     m_intakeMotor.set(-Constants.FuelConstants.kIntakeSpeed);
     m_hopperMotor.set(-Constants.FuelConstants.kHopperSpeed);
@@ -47,6 +57,9 @@ public class FuelSubsystem extends SubsystemBase {
     m_fuelState = FuelState.Outtaking;
   }
 
+  /**
+   * Starts hopper, vector and feeder motors
+   */
   public void feed() {
     m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
     m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);

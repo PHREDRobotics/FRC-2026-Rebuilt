@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.Constants;
 
+/**
+ * Shoots the shooter
+ */
 public class ShooterCommand extends Command {
   private ShooterSubsystem m_shooterSubsystem;
   private DoubleSupplier speed;

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swerve.SwerveSubsystem;
 
 /**
- * A command that allows the robot to be driven with a joystick.
+ * Drive robot
  */
 public class DriveCommand extends Command {
   private SwerveSubsystem m_swerveDrive;
