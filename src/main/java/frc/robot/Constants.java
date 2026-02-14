@@ -108,7 +108,8 @@ public class Constants {
     public static final double kArmI = 0.0; 
     public static final double kArmD = 0.0;
 
-    public static final double kArmCos = 0.1; /* TODO determine arm feedforward */
+    public static final double kArmFFCos = 0.1; /* TODO determine arm feedforward */
+    public static final double kArmFFRatio = 0.0;
   }
 
   /* -------------------- Physical Constants --------------------- */
@@ -118,11 +119,9 @@ public class Constants {
     public static final double kBumperLength = 35.5;
     public static final double kTrackLength = 24;
 
-    public static final double kMaxSpeed = 6;
-    public static final double kMaxAngularSpeed = 6;
-
-    public static final double kMaxAcceleration = 3;
-    public static final double kMaxAngularAcceleration = 3;
+    public static final double kMaxSpeed = 6; // m/s
+    public static final double kMaxAcceleration = 3; //m/s/s
+    public static final double kMaxAngularSpeed = 6; // spin rad per sec
 
     public static final double kNeoFreeSpeedRpm = 5676;
   }

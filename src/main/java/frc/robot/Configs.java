@@ -36,6 +36,8 @@ public final class Configs {
           .outputRange(-1, 1);
       drivingConfig.closedLoop.feedForward.kV(Constants.SwerveConstants.kDriveFF);
 
+      drivingConfig.closedLoop.maxMotion.maxAcceleration(Constants.PhysicalConstants.kMaxAcceleration);
+
       turningConfig
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(20)
@@ -113,7 +115,8 @@ public final class Configs {
           .outputRange(Constants.IntakeArmConstants.kArmDownEncoderValue, Constants.IntakeArmConstants.kArmUpEncoderValue);
 
       intakeArmMotorConfig.closedLoop.feedForward
-          .kCos(Constants.IntakeArmConstants.kArmCos);
+          .kCos(Constants.IntakeArmConstants.kArmFFCos)
+          .kCosRatio(Constants.IntakeArmConstants.kArmFFRatio);
     }
   }
 
