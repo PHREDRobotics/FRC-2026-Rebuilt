@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 
 /**
- * Class to represent the Logitech Pro joystick
+ * Class to adjust controls for the Logitech Pro joystick
  */
 public class LogitechPro extends CommandJoystick {
   public LogitechPro(int port) {
@@ -24,39 +24,30 @@ public class LogitechPro extends CommandJoystick {
 
   @Override
   public double getX() {
-    SlewRateLimiter limiter = new SlewRateLimiter(Constants.ControllerConstants.kXRateLimit);
-
     double input = super.getX();
 
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickXDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
-    input = limiter.calculate(input); // Limit acceleration
 
     return input;
   }
 
   @Override
   public double getY() {
-    SlewRateLimiter limiter = new SlewRateLimiter(Constants.ControllerConstants.kYRateLimit);
-
     double input = super.getY();
 
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickYDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
-    input = limiter.calculate(input); // Limit acceleration
 
     return input;
   }
 
   @Override
   public double getZ() {
-    SlewRateLimiter limiter = new SlewRateLimiter(Constants.ControllerConstants.kZRateLimit);
-
     double input = super.getZ();
 
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickZDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
-    input = limiter.calculate(input); // Limit acceleration
 
     return input;
   }
