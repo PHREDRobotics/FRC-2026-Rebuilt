@@ -9,6 +9,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
@@ -42,7 +44,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void stopClimber() {
-    m_climberMotor.set(0);
+    m_climberMotor.stopMotor();
   }
 
   public boolean isClimberExtended() {
@@ -55,6 +57,18 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public boolean isClimberRetracted() {
     return m_climberEncoder.getPosition() >= Constants.ClimberConstants.kClimberLoweredEncoderValue;
+  }
+
+  public Command climbCommand() {
+    return Commands.runOnce(() -> this.setClimberPosition(Constants.ClimberConstants.kClimberClimbedEncoderValue));
+  }
+
+  public Command extendCommand() {
+    return Commands.runOnce(() -> this.setClimberPosition(Constants.ClimberConstants.kClimberRaisedEncoderValue));
+  }
+
+  public Command retractCommand() {
+    return Commands.startEnd(() -> this.setClimberPosition(Constants.ClimberConstants.kClimberLoweredEncoderValue), () -> this.stopClimber()).until(() -> isClimberRetracted());
   }
 
   @Override

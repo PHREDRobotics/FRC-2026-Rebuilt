@@ -319,9 +319,9 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Creates a new DriveCommand.
    * 
-   * @param drive    Forward speed
-   * @param strafe    Sideways speed
-   * @param rot       Rotational speed
+   * @param drive         Forward speed
+   * @param strafe        Sideways speed
+   * @param rot           Rotational speed
    * @param throttle      Speed control
    * @param fieldOriented Whether the robot should drive oriented to itself or the
    *                      field
@@ -333,13 +333,9 @@ public class SwerveSubsystem extends SubsystemBase {
       DoubleSupplier throttle,
       BooleanSupplier fieldOriented) {
 
-    SmartDashboard.putNumber("Joystick/X", drive.getAsDouble()); 
-    SmartDashboard.putNumber("Joystick/Y", strafe.getAsDouble());
-    SmartDashboard.putNumber("Joystick/ROT", rot.getAsDouble());
-    SmartDashboard.putNumber("Joystick/T", throttle.getAsDouble());
-
-    return Commands.startEnd(
-        () -> this.drive(drive.getAsDouble()*throttle.getAsDouble(), strafe.getAsDouble()*throttle.getAsDouble(), rot.getAsDouble()*throttle.getAsDouble(), fieldOriented.getAsBoolean()),
+    return Commands.runEnd(
+        () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
+            rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
         () -> drive(0, 0, 0, true), this);
   }
 
