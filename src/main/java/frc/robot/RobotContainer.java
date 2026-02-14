@@ -15,11 +15,7 @@ import frc.robot.commands.climb.ClimberClimbCommand;
 import frc.robot.commands.climb.ClimberExtendCommand;
 import frc.robot.commands.climb.ClimberRetractCommand;
 import frc.robot.commands.drive.DriveCommand;
-import frc.robot.commands.fuel.IntakeCommand;
-import frc.robot.commands.intake.IntakeArmDropCommand;
-import frc.robot.commands.intake.IntakeArmRaiseCommand;
 import frc.robot.commands.shoot.AutoShootCommand;
-import frc.robot.commands.shoot.ShooterCommand;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.fuel.FuelSubsystem;
@@ -83,12 +79,12 @@ public class RobotContainer {
     // -- Button Assignments --
 
     shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, joystick::getX, joystick::getY));
-    manShootButton.whileTrue(new ShooterCommand(m_shooterSubsystem, () -> Constants.ShooterConstants.kInitialShootingSpeed));
+    manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() -> Constants.ShooterConstants.kInitialShootingSpeed));
 
-    intakeButton.toggleOnTrue(new IntakeCommand(m_fuelSubsystem));
+    intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
-    armUpButton.onTrue(new IntakeArmRaiseCommand(m_intakeArmSubsystem));
-    armDownButton.onTrue(new IntakeArmDropCommand(m_intakeArmSubsystem));
+    armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
+    armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
 
     climberClimbButton.onTrue(new ClimberClimbCommand(m_climberSubsystem));
     climberExtendButton.onTrue(new ClimberExtendCommand(m_climberSubsystem));

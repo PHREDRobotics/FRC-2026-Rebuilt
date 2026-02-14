@@ -4,7 +4,11 @@ import frc.robot.Configs;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.function.DoubleSupplier;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -55,12 +59,16 @@ public class ShooterSubsystem extends SubsystemBase {
         * Math.pow(distance, Constants.ShooterConstants.kAutoShooterDistanceExponent);
   }
 
+  public Command shootCommand(DoubleSupplier speed) {
+    return Commands.startEnd(() -> this.shoot(speed.getAsDouble()), () -> this.stop());
+  }
+
   @Override
   public void periodic() {
     super.periodic();
 
     SmartDashboard.putNumber("sparkmax encoder", m_shooterLeftSparkMax.getEncoder().getPosition());
     SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
-
+    SmartDashboard.putNumber("Target Speed", Constants.ShooterConstants.kInitialShootingSpeed);
   }
 }
