@@ -70,7 +70,7 @@ public class Constants {
 
     public static final double kFeederSpeed = 0.5;
 
-    public static final double kIntakeSpeed = 99; /* TODO determine speeds of fuel movers*/
+    public static final double kIntakeSpeed = 99; /* TODO determine speeds (RPM) of fuel movers*/
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
