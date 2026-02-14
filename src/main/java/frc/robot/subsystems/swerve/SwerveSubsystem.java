@@ -1,5 +1,8 @@
 package frc.robot.subsystems.swerve;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.studica.frc.AHRS;
 
 import choreo.trajectory.SwerveSample;
@@ -16,6 +19,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants;
@@ -247,7 +252,8 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isAlignedWithHub() {
-    return Math.abs(getPose().getRotation().getDegrees() - getPointAngleDegrees(m_hubTranslation)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+    return Math.abs(getPose().getRotation().getDegrees()
+        - getPointAngleDegrees(m_hubTranslation)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
   public void followTrajectory(SwerveSample sample) {
@@ -304,6 +310,37 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void addVisionMeasurement(Pose2d measurement, double timestamp) {
     m_poseEstimator.addVisionMeasurement(measurement, timestamp);
+  }
+
+  public Command swerveResetCommand() {
+    return Commands.runOnce(() -> this.resetGyro(), this);
+  }
+
+  /**
+   * Creates a new DriveCommand.
+   * 
+   * @param drive    Forward speed
+   * @param strafe    Sideways speed
+   * @param rot       Rotational speed
+   * @param throttle      Speed control
+   * @param fieldOriented Whether the robot should drive oriented to itself or the
+   *                      field
+   */
+  public Command driveCommand(
+      DoubleSupplier drive,
+      DoubleSupplier strafe,
+      DoubleSupplier rot,
+      DoubleSupplier throttle,
+      BooleanSupplier fieldOriented) {
+
+    SmartDashboard.putNumber("Joystick/X", drive.getAsDouble()); 
+    SmartDashboard.putNumber("Joystick/Y", strafe.getAsDouble());
+    SmartDashboard.putNumber("Joystick/ROT", rot.getAsDouble());
+    SmartDashboard.putNumber("Joystick/T", throttle.getAsDouble());
+
+    return Commands.startEnd(
+        () -> this.drive(drive.getAsDouble()*throttle.getAsDouble(), strafe.getAsDouble()*throttle.getAsDouble(), rot.getAsDouble()*throttle.getAsDouble(), fieldOriented.getAsBoolean()),
+        () -> drive(0, 0, 0, true), this);
   }
 
   /**

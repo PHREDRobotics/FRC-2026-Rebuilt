@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.climb.ClimberClimbCommand;
 import frc.robot.commands.climb.ClimberExtendCommand;
 import frc.robot.commands.climb.ClimberRetractCommand;
-import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.shoot.AutoShootCommand;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.climber.ClimberSubsystem;
@@ -92,7 +91,7 @@ public class RobotContainer {
 
     // -- Default commands --
 
-    m_swerveSubsystem.setDefaultCommand(new DriveCommand(m_swerveSubsystem,
+    m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
       joystick::getY,
       joystick::getX, 
       joystick::getZ,
