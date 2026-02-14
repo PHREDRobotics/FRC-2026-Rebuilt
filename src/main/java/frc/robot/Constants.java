@@ -170,10 +170,10 @@ public class Constants {
     public static final double kDrivingMotorReduction = 8;
     public static final double kTurningMotorReduction = 21;
 
-    public static final Translation2d kFrontLeftLocationInches = new Translation2d(12.25, 12.25); /* TODO Measure wheel distance */
-    public static final Translation2d kFrontRightLocationInches = new Translation2d(12.25, -12.25);
-    public static final Translation2d kBackLeftLocationInches = new Translation2d(-12.25, 12.25);
-    public static final Translation2d kBackRightLocationInches = new Translation2d(-12.25, -12.25);
+    public static final Translation2d kFrontLeftLocationInches = new Translation2d(11.036, 11.036);
+    public static final Translation2d kFrontRightLocationInches = new Translation2d(11.036, -11.036);
+    public static final Translation2d kBackLeftLocationInches = new Translation2d(-11.036, 11.036);
+    public static final Translation2d kBackRightLocationInches = new Translation2d(-11.036, -11.036);
 
     public static final Translation2d kFrontLeftLocationMeters = new Translation2d(
         Units.inchesToMeters(Constants.SwerveConstants.kFrontLeftLocationInches.getX()),
