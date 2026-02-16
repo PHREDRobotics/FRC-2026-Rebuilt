@@ -92,6 +92,13 @@ public class FuelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putString("Fuel State", m_fuelState.toString());
+
+    SmartDashboard.putNumber("Amps/Feeder Left Motor", m_feederLeftMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Amps/Feeder Right Motor", m_feederRightMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Amps/Vector Motor", m_vectorMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Amps/Hopper Motor", m_hopperMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Amps/Intake Motor", m_intakeMotor.getOutputCurrent());
+
   }
 
 }

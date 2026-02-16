@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.swerve;
 
+import java.lang.reflect.Array;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -90,6 +92,14 @@ public class SwerveModule {
 
   public double getTurnTemp() {
     return m_turnMotor.getMotorTemperature();
+  }
+
+  public double getDriveAmps() {
+    return m_driveMotor.getOutputCurrent();
+  }
+
+  public double getTurnAmps() {
+    return m_turnMotor.getOutputCurrent();
   }
 
   /**
