@@ -25,7 +25,7 @@ public final class Configs {
 
       drivingConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50)
+          .smartCurrentLimit(40)
           .inverted(true);
       drivingConfig.encoder
           .positionConversionFactor(drivingFactor)
@@ -40,7 +40,7 @@ public final class Configs {
 
       turningConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(20)
+          .smartCurrentLimit(40)
           .inverted(true);
       turningConfig.absoluteEncoder
           .inverted(true)
@@ -82,7 +82,7 @@ public final class Configs {
     static {
       feederMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(50)
+          .smartCurrentLimit(40)
           .inverted(false);
     }
   }
@@ -92,7 +92,7 @@ public final class Configs {
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(50)
+          .smartCurrentLimit(40)
           .inverted(false);
 
       shooterMotorConfig.closedLoop
@@ -125,7 +125,7 @@ public final class Configs {
     static {
       fuelIntakeConfig
         .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(40)
         .inverted(false);
       fuelIntakeConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -138,7 +138,7 @@ public final class Configs {
     static {
       hopperConfig
         .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(40)
         .inverted(false);
       hopperConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -151,7 +151,7 @@ public final class Configs {
     static {
       vectorConfig 
         .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(40)
         .inverted(false);
       vectorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -164,7 +164,7 @@ public final class Configs {
     static {
       climberConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(40)
         .inverted(false);
       climberConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
