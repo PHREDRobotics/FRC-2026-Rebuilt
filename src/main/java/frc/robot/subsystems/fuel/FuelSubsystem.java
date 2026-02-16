@@ -24,9 +24,9 @@ public class FuelSubsystem extends SubsystemBase {
     Stop 
   }
 
-  private SparkMax m_intakeMotor = new SparkMax(Constants.FuelConstants.kIntakeMotorCANId, MotorType.kBrushless);
-  private SparkMax m_hopperMotor = new SparkMax(Constants.FuelConstants.kHopperMotorCANId, MotorType.kBrushless);
-  private SparkMax m_vectorMotor = new SparkMax(Constants.FuelConstants.kVectorMotorCANId, MotorType.kBrushless);
+  private SparkMax m_intakeMotor =null;// new SparkMax(Constants.FuelConstants.kIntakeMotorCANId, MotorType.kBrushless);
+  private SparkMax m_hopperMotor = null;// new SparkMax(Constants.FuelConstants.kHopperMotorCANId, MotorType.kBrushless);
+  private SparkMax m_vectorMotor = null;//new SparkMax(Constants.FuelConstants.kVectorMotorCANId, MotorType.kBrushless);
   private SparkMax m_feederLeftMotor = new SparkMax(Constants.FuelConstants.kFeederLeftMotorCANId, MotorType.kBrushless);
   private SparkMax m_feederRightMotor = new SparkMax(Constants.FuelConstants.kFeederRightMotorCANId,MotorType.kBrushless);
 
@@ -63,8 +63,8 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts hopper, vector and feeder motors
    */
   public void feed() {
-    m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
-    m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
+    //m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
+    //m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
     m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
     m_feederRightMotor.set(Constants.FuelConstants.kFeederSpeed);
 
@@ -72,9 +72,9 @@ public class FuelSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    m_intakeMotor.stopMotor();
-    m_hopperMotor.stopMotor();    
-    m_vectorMotor.stopMotor();
+    //m_intakeMotor.stopMotor();
+    //m_hopperMotor.stopMotor();    
+    //m_vectorMotor.stopMotor();
     m_feederLeftMotor.stopMotor();
     m_feederRightMotor.stopMotor();
 
