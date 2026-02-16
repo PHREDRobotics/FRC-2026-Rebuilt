@@ -78,14 +78,14 @@ public class RobotContainer {
         m_visionSubsystem, joystick::getX, joystick::getY));
     manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() -> Constants.ShooterConstants.kInitialShootingSpeed));
 
-    intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
+    //intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
-    armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
-    armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
+    //armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
+    //armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
 
-    climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
-    climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
-    climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
+    //climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
+    //climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
+    //climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
 
     // -- Default commands --
 
