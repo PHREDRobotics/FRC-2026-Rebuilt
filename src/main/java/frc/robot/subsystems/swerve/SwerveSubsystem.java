@@ -395,17 +395,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     SmartDashboard.putString("CurrentPose", getPose().toString());
 
-    SmartDashboard.putNumber("Amps/FL Drive Motor", m_frontLeft.getDriveAmps());
-    SmartDashboard.putNumber("Amps/FL Turn Motor", m_frontLeft.getTurnAmps());
-
-    SmartDashboard.putNumber("Amps/FR Drive Motor", m_frontRight.getDriveAmps());
-    SmartDashboard.putNumber("Amps/FR Turn Motor", m_frontRight.getDriveAmps());
-
-    SmartDashboard.putNumber("Amps/BL Drive Motor", m_backLeft.getDriveAmps());
-    SmartDashboard.putNumber("Amps/Bl Turn Motor", m_backLeft.getDriveAmps());
-
-    SmartDashboard.putNumber("Amps/BR Drive Motor", m_backRight.getDriveAmps());
-    SmartDashboard.putNumber("Amps/BR Turn Motor", m_backRight.getDriveAmps());
 
     SmartDashboard.updateValues();
   }
