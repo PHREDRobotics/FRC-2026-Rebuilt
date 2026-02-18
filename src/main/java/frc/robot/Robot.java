@@ -68,6 +68,20 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     SmartDashboard.putNumber("Amps/Total", m_pdh.getTotalCurrent());
+
+    SmartDashboard.putNumber("Amps/FRdrive", m_pdh.getCurrent(16));
+    SmartDashboard.putNumber("Amps/FRturn", m_pdh.getCurrent(17));
+    SmartDashboard.putNumber("Amps/FLdrive", m_pdh.getCurrent(18));
+    SmartDashboard.putNumber("Amps/FLturn", m_pdh.getCurrent(19));
+    SmartDashboard.putNumber("Amps/BRdrive", m_pdh.getCurrent(3));
+    SmartDashboard.putNumber("Amps/BRturn", m_pdh.getCurrent(2));
+    SmartDashboard.putNumber("Amps/BLdrive", m_pdh.getCurrent(14));
+    SmartDashboard.putNumber("Amps/BLturn", m_pdh.getCurrent(0));
+
+    SmartDashboard.putNumber("Amps/leftFeeder", m_pdh.getCurrent(13));
+    SmartDashboard.putNumber("Amps/rightFeeder", m_pdh.getCurrent(15));
+
+    SmartDashboard.putNumber("Amps/hopperFloor", m_pdh.getCurrent(12));
   }
 
   @Override
