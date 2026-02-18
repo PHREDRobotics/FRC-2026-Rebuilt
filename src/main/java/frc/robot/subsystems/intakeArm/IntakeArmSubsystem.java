@@ -25,7 +25,7 @@ public class IntakeArmSubsystem extends SubsystemBase {
   private double m_encoderValue;
 
   public IntakeArmSubsystem() {
-    m_intakeArmMotor = null;// new SparkMax(Constants.IntakeArmConstants.kIntakeArmMotorCANId, MotorType.kBrushless);
+    m_intakeArmMotor = new SparkMax(Constants.IntakeArmConstants.kIntakeArmMotorCANId, MotorType.kBrushless);
     m_intakeArmEncoder = m_intakeArmMotor.getEncoder();
 
     // Initialize the closed loop controller

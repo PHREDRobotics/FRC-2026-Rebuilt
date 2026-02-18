@@ -24,9 +24,9 @@ public class FuelSubsystem extends SubsystemBase {
     Stop 
   }
 
-  private SparkMax m_intakeMotor =null;// new SparkMax(Constants.FuelConstants.kIntakeMotorCANId, MotorType.kBrushless);
-  private SparkMax m_hopperMotor = null;// new SparkMax(Constants.FuelConstants.kHopperMotorCANId, MotorType.kBrushless);
-  private SparkMax m_vectorMotor = null;//new SparkMax(Constants.FuelConstants.kVectorMotorCANId, MotorType.kBrushless);
+  private SparkMax m_intakeMotor = new SparkMax(Constants.FuelConstants.kIntakeMotorCANId, MotorType.kBrushless);
+  private SparkMax m_hopperMotor = new SparkMax(Constants.FuelConstants.kHopperMotorCANId, MotorType.kBrushless);
+  private SparkMax m_vectorMotor = new SparkMax(Constants.FuelConstants.kVectorMotorCANId, MotorType.kBrushless);
   private SparkMax m_feederLeftMotor = new SparkMax(Constants.FuelConstants.kFeederLeftMotorCANId, MotorType.kBrushless);
   private SparkMax m_feederRightMotor = new SparkMax(Constants.FuelConstants.kFeederRightMotorCANId,MotorType.kBrushless);
 
