@@ -76,6 +76,6 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("climb Power", m_climberMotor.get());
     SmartDashboard.putNumber("climb Encoder", m_climberEncoder.getPosition());
 
-    SmartDashboard.putNumber("Amps/Climber Motor", m_climberMotor.getOutputCurrent());
+
   }
 }
