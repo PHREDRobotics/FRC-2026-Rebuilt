@@ -32,7 +32,7 @@ public class Constants {
 
     public static final double kClimberRaisedEncoderValue = 99; /* TODO determine climber encoder values */
     public static final double kClimberClimbedEncoderValue = 99;
-    public static final double kClimberLoweredEncoderValue = 99;
+    public static final double kClimberLoweredEncoderValue = 0;
 
     public static final double kP = 0.847; /* TODO determine climber pid values */
     public static final double kI = 0.0;
@@ -70,7 +70,7 @@ public class Constants {
 
     public static final double kFeederSpeed = 0.5;
 
-    public static final double kIntakeSpeed = 99; /* TODO determine speeds (RPM) of fuel movers*/
+    public static final double kIntakeSpeed = 800; /* TODO determine speeds (RPM) of fuel movers*/
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
@@ -109,7 +109,7 @@ public class Constants {
     public static final double kArmD = 0.0;
 
     public static final double kArmFFCos = 0.1; /* TODO determine arm feedforward */
-    public static final double kArmFFRatio = 0.0;
+    public static final double kArmFFRatio = 1/60;
   }
 
   /* -------------------- Physical Constants --------------------- */
@@ -141,10 +141,10 @@ public class Constants {
     public static final double kAutoShooterDistanceMultiplier = 0.2; // TODO determine shooter multiplier and exponent
     public static final double kAutoShooterDistanceExponent = 1.2;
 
-    public static final double kP = 0.0005;
+    public static final double kP = 0.0;//0.0005;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
-    public static final double kFFV = 0.001;
+    public static final double kFFV = 0.00017;
 
     public static final double kShootThreshold = 200;
   }
