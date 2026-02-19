@@ -24,7 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private SparkClosedLoopController m_climberPID;
 
   public ClimberSubsystem() {
-    m_climberMotor = null;//new SparkMax(Constants.ClimberConstants.kClimberMotorCANId, MotorType.kBrushless);
+    m_climberMotor = new SparkMax(Constants.ClimberConstants.kClimberMotorCANId, MotorType.kBrushless);
     m_climberEncoder = m_climberMotor.getEncoder();
     m_climberPID = m_climberMotor.getClosedLoopController();
 

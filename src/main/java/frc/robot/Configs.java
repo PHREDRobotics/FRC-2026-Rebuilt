@@ -63,7 +63,6 @@ public final class Configs {
   }
   public static final class FrontRightConfig extends SwerveConfig {
     static {
-      // Configs
     }
   }
   public static final class BackLeftConfig extends SwerveConfig {
@@ -73,7 +72,7 @@ public final class Configs {
   }
   public static final class BackRightConfig extends SwerveConfig {
     static {
-      // Configs
+      
     }
   }
 
@@ -83,7 +82,7 @@ public final class Configs {
       feederMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(40)
-          .inverted(false);
+          .inverted(true);
     }
   }
 

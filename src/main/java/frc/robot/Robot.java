@@ -58,13 +58,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double[] coolGuy = SmartDashboard.getNumberArray("Amps", new double[0]);
+    /*double[] coolGuy = SmartDashboard.getNumberArray("Amps", new double[0]);
     double totalAmps = 0;
     for (int i = 0; i < coolGuy.length+1; i++) {
         totalAmps+=coolGuy[i];
     }
     SmartDashboard.putNumber("Total Amps", totalAmps);
-    totalAmps=0;
+    totalAmps=0; */
   }
 
   @Override

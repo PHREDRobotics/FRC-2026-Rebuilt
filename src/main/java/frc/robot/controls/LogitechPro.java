@@ -9,8 +9,6 @@ import frc.robot.Constants;
  * Class to adjust controls for the Logitech Pro joystick
  */
 public class LogitechPro extends CommandJoystick {
-  LinearFilter m_linearFilter = LinearFilter.movingAverage(5);
-
   public LogitechPro(int port) {
     super(port);
   } 
@@ -27,8 +25,7 @@ public class LogitechPro extends CommandJoystick {
   @Override
   public double getX() {
     double input = super.getX();
-    
-    input = m_linearFilter.calculate(input);
+  
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickXDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 
@@ -39,7 +36,6 @@ public class LogitechPro extends CommandJoystick {
   public double getY() {
     double input = super.getY();
 
-    input = m_linearFilter.calculate(input);
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickYDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 
@@ -50,7 +46,6 @@ public class LogitechPro extends CommandJoystick {
   public double getZ() {
     double input = super.getZ();
 
-    input = m_linearFilter.calculate(input);
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickZDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 

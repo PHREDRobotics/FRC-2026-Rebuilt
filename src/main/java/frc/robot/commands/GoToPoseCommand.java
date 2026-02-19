@@ -33,13 +33,10 @@ public class GoToPoseCommand extends Command {
   @Override
   public void execute() {
     if (m_visionSubsystem.hasValidTarget()) {
-      m_swerveSubsystem.driveTo(pose);
-
       // Send vision measurements
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
-    } else {
-      m_swerveSubsystem.driveRelativeTo(new Pose2d(), new Pose2d());
     }
-
+    
+    m_swerveSubsystem.driveTo(pose);
   }
 }

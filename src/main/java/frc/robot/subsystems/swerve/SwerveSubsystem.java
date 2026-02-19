@@ -132,6 +132,8 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setDesiredState(swerveModuleStates[3]);
 
     publisher.set(swerveModuleStates);
+
+    SmartDashboard.putNumber("Drive", xSpeed);
   }
 
   /**
@@ -312,7 +314,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_poseEstimator.addVisionMeasurement(measurement, timestamp);
   }
 
-  public Command swerveResetCommand() {
+  public Command resetGyroCommand() {
     return Commands.runOnce(() -> this.resetGyro(), this);
   }
 
