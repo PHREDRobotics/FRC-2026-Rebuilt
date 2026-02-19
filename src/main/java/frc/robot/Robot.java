@@ -4,9 +4,11 @@
 
 package frc.robot;
 
-import java.lang.reflect.Array;
-
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,10 +17,12 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+  private final PowerDistribution m_pdh;
+
   public Robot() {
     m_robotContainer = new RobotContainer();
-
-          }
+    m_pdh = new PowerDistribution(1, ModuleType.kRev);
+  }
 
   @Override
   public void robotPeriodic() {
@@ -26,13 +30,16 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
@@ -44,10 +51,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
@@ -58,17 +67,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    /*double[] coolGuy = SmartDashboard.getNumberArray("Amps", new double[0]);
-    double totalAmps = 0;
-    for (int i = 0; i < coolGuy.length+1; i++) {
-        totalAmps+=coolGuy[i];
-    }
-    SmartDashboard.putNumber("Total Amps", totalAmps);
-    totalAmps=0; */
+    SmartDashboard.putNumber("Amps/Total", m_pdh.getTotalCurrent());
+
+    SmartDashboard.putNumber("Amps/FRdrive", m_pdh.getCurrent(16));
+    SmartDashboard.putNumber("Amps/FRturn", m_pdh.getCurrent(17));
+    SmartDashboard.putNumber("Amps/FLdrive", m_pdh.getCurrent(18));
+    SmartDashboard.putNumber("Amps/FLturn", m_pdh.getCurrent(19));
+    SmartDashboard.putNumber("Amps/BRdrive", m_pdh.getCurrent(3));
+    SmartDashboard.putNumber("Amps/BRturn", m_pdh.getCurrent(2));
+    SmartDashboard.putNumber("Amps/BLdrive", m_pdh.getCurrent(14));
+    SmartDashboard.putNumber("Amps/BLturn", m_pdh.getCurrent(0));
+
+    SmartDashboard.putNumber("Amps/leftFeeder", m_pdh.getCurrent(13));
+    SmartDashboard.putNumber("Amps/rightFeeder", m_pdh.getCurrent(15));
+
+    SmartDashboard.putNumber("Amps/hopperFloor", m_pdh.getCurrent(12));
   }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -76,8 +94,21 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
+
+  public double getTotalAmps() {
+    NetworkTable ampsTable = NetworkTableInstance.getDefault().getTable("Amps");
+    double total = 0;
+
+    for (String key : ampsTable.getKeys()) {
+      total += ampsTable.getEntry(key).getDouble(0.0);
+    }
+
+    return total;
+  }
 }

@@ -213,17 +213,50 @@ public class SwerveSubsystem extends SubsystemBase {
     drive(x, y, rotOutput, fieldOriented);
   }
 
+  public void followTrajectory(SwerveSample sample) {
+    Pose2d pose = getPose();
+
+    // Generate the next speeds for the robot
+    ChassisSpeeds speeds = new ChassisSpeeds(
+        sample.vx + m_xPID.calculate(pose.getX(), sample.x),
+        sample.vy + m_yPID.calculate(pose.getY(), sample.y),
+        sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
+
+    drive(speeds, true);
+  }
+
+  /**
+   * Resets the odometry on the swerves back to the provided pose
+   * 
+   * @param pose The pose to reset to
+   */
+  public void resetOdometry(Pose2d pose) {
+    m_poseEstimator.resetPose(pose);
+  }
+
+  /**
+   * Resets the gyro to 0
+   */
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
+  /**
+   * Adds a vision measurement to the pose estimator
+   * 
+   * @param measurement the vision measurement to add
+   * @param timestamp   the time that the measurement was taken
+   */
+  public void addVisionMeasurement(Pose2d measurement, double timestamp) {
+    m_poseEstimator.addVisionMeasurement(measurement, timestamp);
+  }
+
   /**
    * Gets the distance from the hub
    */
   public double getHubDistance() {
     double distance = -1;
-    distance = Math.sqrt(
-        Math.pow(m_hubTranslation.getX() - getPose().getX(),
-            2)
-            + Math.pow(
-                m_hubTranslation.getY() - getPose().getY(),
-                2));
+    distance = m_hubTranslation.getDistance(getPose().getTranslation());
 
     return distance;
   }
@@ -258,18 +291,6 @@ public class SwerveSubsystem extends SubsystemBase {
         - getPointAngleDegrees(m_hubTranslation)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
-  public void followTrajectory(SwerveSample sample) {
-    Pose2d pose = getPose();
-
-    // Generate the next speeds for the robot
-    ChassisSpeeds speeds = new ChassisSpeeds(
-        sample.vx + m_xPID.calculate(pose.getX(), sample.x),
-        sample.vy + m_yPID.calculate(pose.getY(), sample.y),
-        sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
-
-    drive(speeds, true);
-  }
-
   /**
    * Gets the rotation from the gyro
    * 
@@ -286,59 +307,6 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_poseEstimator.getEstimatedPosition();
-  }
-
-  /**
-   * Resets the odometry on the swerves back to the provided pose
-   * 
-   * @param pose The pose to reset to
-   */
-  public void resetOdometry(Pose2d pose) {
-    m_poseEstimator.resetPose(pose);
-  }
-
-  /**
-   * Resets the gyro to 0
-   */
-  public void resetGyro() {
-    m_gyro.reset();
-  }
-
-  /**
-   * Adds a vision measurement to the pose estimator
-   * 
-   * @param measurement the vision measurement to add
-   * @param timestamp   the time that the measurement was taken
-   */
-  public void addVisionMeasurement(Pose2d measurement, double timestamp) {
-    m_poseEstimator.addVisionMeasurement(measurement, timestamp);
-  }
-
-  public Command resetGyroCommand() {
-    return Commands.runOnce(() -> this.resetGyro(), this);
-  }
-
-  /**
-   * Creates a new DriveCommand.
-   * 
-   * @param drive         Forward speed
-   * @param strafe        Sideways speed
-   * @param rot           Rotational speed
-   * @param throttle      Speed control
-   * @param fieldOriented Whether the robot should drive oriented to itself or the
-   *                      field
-   */
-  public Command driveCommand(
-      DoubleSupplier drive,
-      DoubleSupplier strafe,
-      DoubleSupplier rot,
-      DoubleSupplier throttle,
-      BooleanSupplier fieldOriented) {
-
-    return Commands.runEnd(
-        () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
-            rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
-        () -> drive(0, 0, 0, true), this);
   }
 
   /**
@@ -386,6 +354,37 @@ public class SwerveSubsystem extends SubsystemBase {
         robotRelativeSpeeds, getPose().getRotation());
   }
 
+  /**
+   * Resets the gyro on the swerve
+   * @return
+   */
+  public Command swerveResetCommand() {
+    return Commands.runOnce(() -> this.resetGyro(), this);
+  }
+
+  /**
+   * Creates a new DriveCommand.
+   * 
+   * @param drive         Forward speed
+   * @param strafe        Sideways speed
+   * @param rot           Rotational speed
+   * @param throttle      Speed control
+   * @param fieldOriented Whether the robot should drive oriented to itself or the
+   *                      field
+   */
+  public Command driveCommand(
+      DoubleSupplier drive,
+      DoubleSupplier strafe,
+      DoubleSupplier rot,
+      DoubleSupplier throttle,
+      BooleanSupplier fieldOriented) {
+
+    return Commands.runEnd(
+        () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
+            rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
+        () -> drive(0, 0, 0, true), this);
+  }
+
   public void periodic() {
     m_poseEstimator.update(getRotation(), getModulePositions());
 
@@ -396,18 +395,6 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("States/BR", getModuleStates()[3].toString());
 
     SmartDashboard.putString("CurrentPose", getPose().toString());
-
-    SmartDashboard.putNumber("Amps/FL Drive Motor", m_frontLeft.getDriveAmps());
-    SmartDashboard.putNumber("Amps/FL Turn Motor", m_frontLeft.getTurnAmps());
-
-    SmartDashboard.putNumber("Amps/FR Drive Motor", m_frontRight.getDriveAmps());
-    SmartDashboard.putNumber("Amps/FR Turn Motor", m_frontRight.getDriveAmps());
-
-    SmartDashboard.putNumber("Amps/BL Drive Motor", m_backLeft.getDriveAmps());
-    SmartDashboard.putNumber("Amps/Bl Turn Motor", m_backLeft.getDriveAmps());
-
-    SmartDashboard.putNumber("Amps/BR Drive Motor", m_backRight.getDriveAmps());
-    SmartDashboard.putNumber("Amps/BR Turn Motor", m_backRight.getDriveAmps());
 
     SmartDashboard.updateValues();
   }

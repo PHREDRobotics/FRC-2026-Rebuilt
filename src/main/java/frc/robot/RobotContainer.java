@@ -4,11 +4,7 @@
 
 package frc.robot;
 
-import com.revrobotics.jni.CANSparkJNI;
-import com.revrobotics.spark.SparkMax;
-
 import choreo.auto.AutoFactory;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;

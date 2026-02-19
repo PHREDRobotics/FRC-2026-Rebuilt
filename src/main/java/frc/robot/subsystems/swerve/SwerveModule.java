@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.swerve;
 
-import java.lang.reflect.Array;
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;

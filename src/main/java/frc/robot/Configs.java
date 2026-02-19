@@ -86,12 +86,28 @@ public final class Configs {
     }
   }
 
-  public static final class ShooterConfig {
+  public static final class ShooterLeftConfig {
     public static final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(40)
+          .inverted(false);
+
+      shooterMotorConfig.closedLoop
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          .pid(Constants.ShooterConstants.kP, Constants.ShooterConstants.kI, Constants.ShooterConstants.kD).feedForward
+          .kV(Constants.ShooterConstants.kFFV);
+    }
+  }
+
+  public static final class ShooterRightConfig {
+    public static final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
+    static {
+      shooterMotorConfig
+          .idleMode(IdleMode.kCoast)
+          .smartCurrentLimit(50)
+          .follow(41, true)
           .inverted(false);
 
       shooterMotorConfig.closedLoop

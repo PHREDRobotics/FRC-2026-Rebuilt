@@ -27,8 +27,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private double shootSpeed;
 
   public ShooterSubsystem() {
-    m_shooterLeftSparkMax.configure(Configs.ShooterConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    m_shooterRightSparkMax.configure(Configs.ShooterConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    // Left is leader, right follows the leader
+    m_shooterLeftSparkMax.configure(Configs.ShooterLeftConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_shooterRightSparkMax.configure(Configs.ShooterRightConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     m_shooterLeftPID = m_shooterLeftSparkMax.getClosedLoopController();
     m_shooterRightPID = m_shooterRightSparkMax.getClosedLoopController();
@@ -38,12 +39,12 @@ public class ShooterSubsystem extends SubsystemBase {
     this.shootSpeed = shootSpeedRPM;
 
     m_shooterLeftPID.setSetpoint(-this.shootSpeed, ControlType.kVelocity);
-    m_shooterRightPID.setSetpoint(this.shootSpeed, ControlType.kVelocity);
+    //m_shooterRightPID.setSetpoint(this.shootSpeed, ControlType.kVelocity);
   }
 
   public void stop() {
     m_shooterLeftSparkMax.stopMotor();
-    m_shooterRightSparkMax.stopMotor();
+    //m_shooterRightSparkMax.stopMotor();
   }
 
   public boolean isAtSpeed() {
@@ -70,9 +71,6 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("sparkmax encoder", m_shooterLeftSparkMax.getEncoder().getPosition());
     SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
     SmartDashboard.putNumber("Target Speed", Constants.ShooterConstants.kInitialShootingSpeed);
-
-    SmartDashboard.putNumber("Amps/Shooter Left Motor", m_shooterLeftSparkMax.getOutputCurrent());
-    SmartDashboard.putNumber("Amps/Shooter Right Motor", m_shooterRightSparkMax.getOutputCurrent());
 
   }
 }
