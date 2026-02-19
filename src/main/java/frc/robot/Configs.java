@@ -91,7 +91,7 @@ public final class Configs {
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(30)
           .inverted(false);
 
       shooterMotorConfig.closedLoop
@@ -106,7 +106,7 @@ public final class Configs {
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(50)
+          .smartCurrentLimit(30)
           .follow(41, true)
           .inverted(false);
 

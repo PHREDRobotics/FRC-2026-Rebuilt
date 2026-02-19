@@ -141,7 +141,7 @@ public class Constants {
     public static final double kAutoShooterDistanceMultiplier = 0.2; // TODO determine shooter multiplier and exponent
     public static final double kAutoShooterDistanceExponent = 1.2;
 
-    public static final double kP = 0.0;//0.0005;
+    public static final double kP = 0.0001;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFFV = 0.00017;
