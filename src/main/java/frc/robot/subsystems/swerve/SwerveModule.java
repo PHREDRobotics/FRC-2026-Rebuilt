@@ -92,6 +92,14 @@ public class SwerveModule {
     return m_turnMotor.getMotorTemperature();
   }
 
+  public double getDriveAmps() {
+    return m_driveMotor.getOutputCurrent();
+  }
+
+  public double getTurnAmps() {
+    return m_turnMotor.getOutputCurrent();
+  }
+
   /**
    * Sets the desired state for the module.
    *

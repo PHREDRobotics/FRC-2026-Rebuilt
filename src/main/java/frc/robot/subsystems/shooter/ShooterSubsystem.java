@@ -71,5 +71,6 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("sparkmax encoder", m_shooterLeftSparkMax.getEncoder().getPosition());
     SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
     SmartDashboard.putNumber("Target Speed", Constants.ShooterConstants.kInitialShootingSpeed);
+
   }
 }

@@ -92,6 +92,7 @@ public class IntakeArmSubsystem extends SubsystemBase {
       // Reset the encoder position to 0
       m_intakeArmEncoder.setPosition(0);
     }
+
   }
 
 }

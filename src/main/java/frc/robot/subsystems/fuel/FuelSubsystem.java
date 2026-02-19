@@ -63,8 +63,8 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts hopper, vector and feeder motors
    */
   public void feed() {
-    m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
-    m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
+    //m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
+    //m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
     m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
     m_feederRightMotor.set(Constants.FuelConstants.kFeederSpeed);
 
@@ -72,9 +72,9 @@ public class FuelSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    m_intakeMotor.stopMotor();
-    m_hopperMotor.stopMotor();    
-    m_vectorMotor.stopMotor();
+    //m_intakeMotor.stopMotor();
+    //m_hopperMotor.stopMotor();    
+    //m_vectorMotor.stopMotor();
     m_feederLeftMotor.stopMotor();
     m_feederRightMotor.stopMotor();
 
@@ -92,6 +92,8 @@ public class FuelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putString("Fuel State", m_fuelState.toString());
+
+
   }
 
 }
