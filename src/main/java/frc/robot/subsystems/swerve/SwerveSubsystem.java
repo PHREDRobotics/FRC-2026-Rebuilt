@@ -1,5 +1,6 @@
 package frc.robot.subsystems.swerve;
 
+import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -18,6 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -39,6 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveDrivePoseEstimator m_poseEstimator;
 
   private final StructArrayPublisher<SwerveModuleState> publisher;
+  private final Field2d m_field;
 
   private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
       Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
@@ -49,8 +52,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.VisionConstants.kRotP,
       Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD,
       Constants.VisionConstants.kRotControllerConstraints);
-
-  private Translation2d m_hubTranslation;
 
   /**
    * Creates a new swerve subsystem
@@ -82,6 +83,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     publisher = NetworkTableInstance.getDefault()
         .getStructArrayTopic("/SwerveStates", SwerveModuleState.struct).publish();
+
+    m_field = new Field2d();
+    SmartDashboard.putData("Current Pose Field", m_field);
 
     m_poseEstimator = new SwerveDrivePoseEstimator(Constants.SwerveConstants.kKinematics, getRotation(),
         getModulePositions(), new Pose2d(), Constants.SwerveConstants.kStateStdDevs,
@@ -210,7 +214,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void alignToAndDrive(double x, double y, Rotation2d rot, boolean fieldOriented) {
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians());
 
-    drive(x, y, rotOutput, fieldOriented);
+    drive(0, 0, rotOutput, fieldOriented);
   }
 
   public void followTrajectory(SwerveSample sample) {
@@ -256,7 +260,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public double getHubDistance() {
     double distance = -1;
-    distance = m_hubTranslation.getDistance(getPose().getTranslation());
+    distance = Constants.VisionConstants.kHubPos.getDistance(getPose().getTranslation());
 
     return distance;
   }
@@ -288,7 +292,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public boolean isAlignedWithHub() {
     return Math.abs(getPose().getRotation().getDegrees()
-        - getPointAngleDegrees(m_hubTranslation)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+        - getPointAngleDegrees(Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
   /**
@@ -395,6 +399,12 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("States/BR", getModuleStates()[3].toString());
 
     SmartDashboard.putString("CurrentPose", getPose().toString());
+
+    m_field.setRobotPose(getPose());
+    
+    if (SmartDashboard.getBoolean("Estimated pose/hasTarget", false)) {
+      addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X", 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
+    }
 
     SmartDashboard.updateValues();
   }

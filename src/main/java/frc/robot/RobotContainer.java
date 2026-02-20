@@ -5,6 +5,8 @@
 package frc.robot;
 
 import choreo.auto.AutoFactory;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoShootCommand;
+import frc.robot.commands.GoToPoseCommand;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.fuel.FuelSubsystem;
@@ -79,9 +82,9 @@ public class RobotContainer {
 
     shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem,
         m_visionSubsystem, joystick::getX, joystick::getY));
-    manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() -> Constants.ShooterConstants.kInitialShootingSpeed));
+    //manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() -> Constants.ShooterConstants.kInitialShootingSpeed));
 
-    joystick.button(3).whileTrue(new RunCommand(m_fuelSubsystem::feed, m_fuelSubsystem));
+    //joystick.button(3).whileTrue(new RunCommand(m_fuelSubsystem::feed, m_fuelSubsystem));
 
     //intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
@@ -93,6 +96,8 @@ public class RobotContainer {
     //climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
 
     // -- Default commands --
+
+    joystick.button(1).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
         joystick::getY,

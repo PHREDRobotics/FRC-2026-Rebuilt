@@ -68,7 +68,7 @@ public class Constants {
     public static final int kFeederRightMotorCANId = 37;
     public static final int kVectorMotorCANId = 33;
 
-    public static final double kFeederSpeed = 100;
+    public static final double kFeederSpeed = 50;
 
     public static final double kIntakeSpeed = 800; /* TODO determine speeds (RPM) of fuel movers*/
     public static final double kHopperSpeed = 0.5;
@@ -138,13 +138,13 @@ public class Constants {
 
     public static final double kInitialShootingSpeed = 4000;
 
-    public static final double kAutoShooterDistanceMultiplier = 0.2; // TODO determine shooter multiplier and exponent
-    public static final double kAutoShooterDistanceExponent = 1.2;
-
-    public static final double kP = 0.0001;
+    public static final double kAutoShooterDistanceMultiplier = 660; // TODO determine shooter multiplier and exponent
+    public static final double kAutoShooterDistanceExponent = 1.37;
+    
+    public static final double kP = 0.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
-    public static final double kFFV = 0.00017;
+    public static final double kFFV = 0.0023;
 
     public static final double kShootThreshold = 200;
   }

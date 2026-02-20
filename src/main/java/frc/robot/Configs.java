@@ -3,6 +3,7 @@ package frc.robot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.SwerveConstants;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -25,8 +26,7 @@ public final class Configs {
 
       drivingConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(40)
-          .inverted(true);
+          .smartCurrentLimit(40);
       drivingConfig.encoder
           .positionConversionFactor(drivingFactor)
           .velocityConversionFactor(drivingFactor / 60);
@@ -58,21 +58,22 @@ public final class Configs {
 
   public static final class FrontLeftConfig extends SwerveConfig {
     static {
-      // Configs
+      drivingConfig.inverted(false);
     }
   }
   public static final class FrontRightConfig extends SwerveConfig {
     static {
+      drivingConfig.inverted(false);
     }
   }
   public static final class BackLeftConfig extends SwerveConfig {
     static {
-      // Configs
+      drivingConfig.inverted(false);
     }
   }
   public static final class BackRightConfig extends SwerveConfig {
     static {
-      
+      drivingConfig.inverted(false);
     }
   }
 
@@ -91,7 +92,7 @@ public final class Configs {
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(30)
+          .smartCurrentLimit(100)
           .inverted(false);
 
       shooterMotorConfig.closedLoop
@@ -106,7 +107,7 @@ public final class Configs {
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(30)
+          .smartCurrentLimit(100)
           .follow(41, true)
           .inverted(false);
 
