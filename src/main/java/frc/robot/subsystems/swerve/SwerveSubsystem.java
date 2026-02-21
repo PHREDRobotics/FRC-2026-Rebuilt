@@ -383,6 +383,7 @@ public class SwerveSubsystem extends SubsystemBase {
       DoubleSupplier throttle,
       BooleanSupplier fieldOriented) {
 
+        SmartDashboard.putString("Throttle", throttle.toString());
     return Commands.runEnd(
         () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
             rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
@@ -403,7 +404,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_field.setRobotPose(getPose());
     
     if (SmartDashboard.getBoolean("Estimated pose/hasTarget", false)) {
-      addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X", 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
+      // addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X", 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
     }
 
     SmartDashboard.updateValues();
