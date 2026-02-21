@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,9 +20,31 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
   private final PowerDistribution m_pdh;
 
+  private final SendableChooser<RobotContainer.AutoSwitcher> autoChooser = new SendableChooser<>();
+
   public Robot() {
     m_robotContainer = new RobotContainer();
     m_pdh = new PowerDistribution(1, ModuleType.kRev);
+  }
+
+  @Override
+  public void robotInit() {
+    autoChooser.setDefaultOption("Test-Auto", RobotContainer.AutoSwitcher.TEST);
+
+    autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
+    autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);
+    autoChooser.addOption("Right-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_RIGHT);
+
+    autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
+    autoChooser.addOption("Left-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_LEFT);
+
+    autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
+    autoChooser.addOption("Middle-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_MIDDLE);
+
+    autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
+    autoChooser.addOption("Right-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_RIGHT);
+
+        SmartDashboard.putData("Auto mode", autoChooser);
   }
 
   @Override
@@ -43,7 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(autoChooser.getSelected());
 
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);

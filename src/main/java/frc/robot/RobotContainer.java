@@ -130,6 +130,25 @@ public class RobotContainer {
         m_visionSubsystem, () -> 0, () -> 0));
   }
 
+  public Command pickUpFuel() {
+    return new Command() {
+      /* TODO */
+    };
+  }
+
+  public enum AutoSwitcher { // enum to switch between different auto modes
+    TEST,
+    SHOOT_CLIMB_LEFT,
+    SHOOT_CLIMB_MIDDLE,
+    SHOOT_CLIMB_RIGHT,
+    PICKUP_SHOOT_LEFT,
+    PICKUP_SHOOT_CLIMB_LEFT,
+    PICKUP_SHOOT_MIDDLE,
+    PICKUP_SHOOT_CLIMB_MIDDLE,
+    PICKUP_SHOOT_RIGHT,
+    PICKUP_SHOOT_CLIMB_RIGHT
+  }
+
   /**
    * Shoots then climbs starting from the left position relative to the drivers
    * 
@@ -181,9 +200,9 @@ public class RobotContainer {
         m_climberSubsystem.climbCommand());
   }
 
-
   /**
-   * Starts on the left then gets more fuel from the spot to the left of driver's view then shoots
+   * Starts on the left then gets more fuel from the spot to the left of driver's
+   * view then shoots
    * 
    * @return
    */
@@ -191,14 +210,15 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionLeftToPickupLeft"),
         autoFactory.trajectoryCmd("PositionLeftToPickupLeft"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("PickupLeftToShootLeft"),
         autoFactory.trajectoryCmd("PickupLeftToShootLeft"),
         shootHub());
   }
 
   /**
-   * Starts on the left then gets more fuel from the spot to the left of driver's view then shoots and then climbs
+   * Starts on the left then gets more fuel from the spot to the left of driver's
+   * view then shoots and then climbs
    * 
    * @return
    */
@@ -206,7 +226,7 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionLeftToPickupLeft"),
         autoFactory.trajectoryCmd("PositionLeftToPickupLeft"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("PickupLeftToShootLeft"),
         autoFactory.trajectoryCmd("PickupLeftToShootLeft"),
         shootHub(),
@@ -218,7 +238,8 @@ public class RobotContainer {
   }
 
   /**
-   * Starts in the middle then gets more fuel from the spot to the left of driver's view then shoots
+   * Starts in the middle then gets more fuel from the spot to the left of
+   * driver's view then shoots
    * 
    * @return
    */
@@ -226,14 +247,15 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionMiddleToPickup"),
         autoFactory.trajectoryCmd("PositionMiddleToPickup"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("PickupLeftToShootMiddle"),
         autoFactory.trajectoryCmd("PickupLeftToShootMiddle"),
         shootHub());
   }
 
   /**
-   * Starts in the middle then gets more fuel from the spot to the left of driver's view then shoots then climbs
+   * Starts in the middle then gets more fuel from the spot to the left of
+   * driver's view then shoots then climbs
    * 
    * @return
    */
@@ -241,7 +263,7 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionMiddleToPickup"),
         autoFactory.trajectoryCmd("PositionMiddleToPickup"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("PickupLeftToShootMiddle"),
         autoFactory.trajectoryCmd("PickupLeftToShootMiddle"),
         shootHub(),
@@ -252,24 +274,25 @@ public class RobotContainer {
         m_climberSubsystem.climbCommand());
   }
 
-
   /**
-   * Starts on the right then gets more fuel from the human player station then shoots
+   * Starts on the right then gets more fuel from the human player station then
+   * shoots
    * 
    * @return
    */
-    public Command PickupAndShootRight() {
+  public Command PickupAndShootRight() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
         autoFactory.trajectoryCmd("PositionRightToHumanPlayerPickup"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("HumanPlayerToShootPositionThree"),
         autoFactory.trajectoryCmd("HumanPlayerToShootPositionThree"),
         shootHub());
   }
 
   /**
-   * Starts on the right then gets more fuel from the human player station then shoots and then climbs
+   * Starts on the right then gets more fuel from the human player station then
+   * shoots and then climbs
    * 
    * @return
    */
@@ -277,7 +300,7 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
         autoFactory.trajectoryCmd("PositionRightToHumanPlayerPickup"),
-        // pickup()
+        pickUpFuel(),
         autoFactory.resetOdometry("HumanPlayerToShootPositionThree"),
         autoFactory.trajectoryCmd("HumanPlayerToShootPositionThree"),
         shootHub(),
@@ -289,11 +312,43 @@ public class RobotContainer {
   }
 
   /**
-   * Returns the autonomous that was chosen from the dashboard
+   * Returns the autonomous that was chosen from the dash
    * 
-   * @return
+   * @param autoMode
+   * @return Command
    */
-  public Command getAutonomousCommand() {
-    return testAuto(); /* TODO */
+  public Command getAutonomousCommand(AutoSwitcher autoMode) {
+    switch (autoMode) {
+      default:
+      case TEST:
+        return testAuto();
+
+      case SHOOT_CLIMB_LEFT:
+        return ShootClimbPositionLeft();
+
+      case SHOOT_CLIMB_MIDDLE:
+        return ShootClimbPositionMiddle();
+
+      case SHOOT_CLIMB_RIGHT:
+        return ShootClimbPositionRight();
+
+      case PICKUP_SHOOT_LEFT:
+        return PickupAndShootLeft();
+
+      case PICKUP_SHOOT_CLIMB_LEFT:
+        return PickupAndShootLeftAndClimb();
+
+      case PICKUP_SHOOT_MIDDLE:
+        return PickupAndShootMiddle();
+
+      case PICKUP_SHOOT_CLIMB_MIDDLE:
+        return PickupAndShootMiddleAndClimb();
+
+      case PICKUP_SHOOT_RIGHT:
+        return PickupAndShootRight();
+
+      case PICKUP_SHOOT_CLIMB_RIGHT:
+        return PickupAndShootRightAndClimb();
+    }
   }
 }
