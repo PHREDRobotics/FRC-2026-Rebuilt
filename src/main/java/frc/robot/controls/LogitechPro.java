@@ -16,14 +16,13 @@ public class LogitechPro extends CommandJoystick {
   /**
    * Dude is this working or not?
    */
-  @Override
-  public double getThrottle() { // have to turn 1 -> -1 to 0 -> 1
+  public double getThrottleLever() { // have to turn 1 -> -1 to 0 -> 1
     return (1 + (-1 * super.getThrottle())) / 2;
   }
 
   public double getAdjustedThrottle() {
-    double throttl = ((getThrottle() * (Constants.ControllerConstants.kMaxThrottle - Constants.ControllerConstants.kMinThrottle)) + Constants.ControllerConstants.kMinThrottle);
-    SmartDashboard.putNumber("Joystick/Throttle", throttl);
+    double throttl = ((getThrottleLever() * (Constants.ControllerConstants.kMaxThrottle - Constants.ControllerConstants.kMinThrottle)) + Constants.ControllerConstants.kMinThrottle);
+    //SmartDashboard.putNumber("Joystick/Throttle", throttl);
     return throttl;
   }
 
@@ -42,8 +41,8 @@ public class LogitechPro extends CommandJoystick {
     return input;
   }
 
-  @Override
-  public double getY() {
+  
+  public double getCoolerY() {
     double input = super.getY();
 
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickYDeadband); // Deadband
@@ -52,8 +51,8 @@ public class LogitechPro extends CommandJoystick {
     return input;
   }
 
-  @Override
-  public double getZ() {
+  
+  public double getCoolerZ() {
     double input = super.getZ();
 
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kFlightStickZDeadband); // Deadband
