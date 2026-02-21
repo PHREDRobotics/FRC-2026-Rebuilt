@@ -76,7 +76,8 @@ public class VisionSubsystem extends SubsystemBase {
     var results = m_camera.getAllUnreadResults();
     if (!results.isEmpty()) {
       result = results.get(results.size() - 1);
-      SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
+      SmartDashboard.putBoolean("Has valid target?", result.hasTargets());
+      //SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
       if (result.hasTargets()) {
         m_robotToTarget = VisionConstants.kRobotToCamera1.plus(result.getBestTarget().getBestCameraToTarget());
         SmartDashboard.putNumber("robotToTarget/X", m_robotToTarget.getX());
@@ -88,6 +89,8 @@ public class VisionSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Estimated pose/X", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getX());
         SmartDashboard.putNumber("Estimated pose/Y", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getY());
       }
+    } else {
+      SmartDashboard.putBoolean("Has valid target?", result.hasTargets());
     }
   }
 }

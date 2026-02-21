@@ -37,6 +37,6 @@ public class GoToPoseCommand extends Command {
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
     }
     
-    m_swerveSubsystem.driveTo(pose);
+    //m_swerveSubsystem.driveTo(pose);
   }
 }

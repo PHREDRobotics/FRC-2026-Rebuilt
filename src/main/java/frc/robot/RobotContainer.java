@@ -100,9 +100,9 @@ public class RobotContainer {
     joystick.button(1).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
-        joystick::getY,
+        joystick::getCoolerY,
         joystick::getX,
-        joystick::getZ,
+        joystick::getCoolerZ,
         joystick::getAdjustedThrottle,
         joystick.button(1)));
   }
