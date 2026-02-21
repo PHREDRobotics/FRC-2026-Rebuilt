@@ -48,7 +48,7 @@ public record ChoreoTraj(
 	public static final ChoreoTraj ShootPositionOneToClimb = new ChoreoTraj(
 	    "ShootPositionOneToClimb",
 	    OptionalInt.empty(),
-	    1.23648,
+	    1.19602,
 	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549)),
 	    new Pose2d(1.147, 3.733, Rotation2d.fromRadians(3.142))
 	);
@@ -73,6 +73,48 @@ public record ChoreoTraj(
 	    new Pose2d(4, 6, Rotation2d.fromRadians(3.142)),
 	    new Pose2d(3, 5, Rotation2d.fromRadians(0))
 	);
+	public static final ChoreoTraj PositionLeftToPickupLeft = new ChoreoTraj(
+	    "PositionLeftToPickupLeft",
+	    OptionalInt.empty(),
+	    1.31823,
+	    new Pose2d(3.893, 7.432, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj PickupLeftToShootLeft = new ChoreoTraj(
+	    "PickupLeftToShootLeft",
+	    OptionalInt.empty(),
+	    0.93811,
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
+	);
+	public static final ChoreoTraj PositionMiddleToPickup = new ChoreoTraj(
+	    "PositionMiddleToPickup",
+	    OptionalInt.empty(),
+	    1.28411,
+	    new Pose2d(3.442, 4.033, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj PickupLeftToShootMiddle = new ChoreoTraj(
+	    "PickupLeftToShootMiddle",
+	    OptionalInt.empty(),
+	    1.11782,
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0))
+	);
+	public static final ChoreoTraj PositionRightToHumanPlayerPickup = new ChoreoTraj(
+	    "PositionRightToHumanPlayerPickup",
+	    OptionalInt.empty(),
+	    1.24489,
+	    new Pose2d(3.431, 0.659, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj HumanPlayerToShootPositionThree = new ChoreoTraj(
+	    "HumanPlayerToShootPositionThree",
+	    OptionalInt.empty(),
+	    1.20169,
+	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
+	);
 
     /**
      * A map between trajectory names and their corresponding data.
@@ -85,7 +127,13 @@ public record ChoreoTraj(
 		Map.entry("ShootPositionOneToClimb", ShootPositionOneToClimb),
 		Map.entry("ShootPositionThreeToClimb", ShootPositionThreeToClimb),
 		Map.entry("ShootPositionTwoToClimb", ShootPositionTwoToClimb),
-		Map.entry("TestPath", TestPath)
+		Map.entry("TestPath", TestPath),
+		Map.entry("PositionLeftToPickupLeft", PositionLeftToPickupLeft),
+		Map.entry("PickupLeftToShootLeft", PickupLeftToShootLeft),
+		Map.entry("PositionMiddleToPickup", PositionMiddleToPickup),
+		Map.entry("PickupLeftToShootMiddle", PickupLeftToShootMiddle),
+		Map.entry("PositionRightToHumanPlayerPickup", PositionRightToHumanPlayerPickup),
+		Map.entry("HumanPlayerToShootPositionThree", HumanPlayerToShootPositionThree)
     );
 
     /**

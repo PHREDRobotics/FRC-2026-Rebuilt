@@ -61,7 +61,7 @@ public class AutoShootCommand extends Command {
       m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
     }
 
-    //m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
+    // m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
 
     if (m_visionSubsystem.hasValidTarget()) {
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
