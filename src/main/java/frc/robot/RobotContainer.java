@@ -182,6 +182,11 @@ public class RobotContainer {
   }
 
 
+  /**
+   * Starts on the left then gets more fuel from the spot to the left of driver's view then shoots
+   * 
+   * @return
+   */
   public Command PickupAndShootLeft() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionLeftToPickupLeft"),
@@ -192,7 +197,11 @@ public class RobotContainer {
         shootHub());
   }
 
-
+  /**
+   * Starts on the left then gets more fuel from the spot to the left of driver's view then shoots and then climbs
+   * 
+   * @return
+   */
   public Command PickupAndShootLeftAndClimb() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionLeftToPickupLeft"),
@@ -208,7 +217,11 @@ public class RobotContainer {
         m_climberSubsystem.climbCommand());
   }
 
-
+  /**
+   * Starts in the middle then gets more fuel from the spot to the left of driver's view then shoots
+   * 
+   * @return
+   */
   public Command PickupAndShootMiddle() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionMiddleToPickup"),
@@ -219,7 +232,11 @@ public class RobotContainer {
         shootHub());
   }
 
-
+  /**
+   * Starts in the middle then gets more fuel from the spot to the left of driver's view then shoots then climbs
+   * 
+   * @return
+   */
   public Command PickupAndShootMiddleAndClimb() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionMiddleToPickup"),
@@ -236,7 +253,11 @@ public class RobotContainer {
   }
 
 
-
+  /**
+   * Starts on the right then gets more fuel from the human player station then shoots
+   * 
+   * @return
+   */
     public Command PickupAndShootRight() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
@@ -247,7 +268,11 @@ public class RobotContainer {
         shootHub());
   }
 
-
+  /**
+   * Starts on the right then gets more fuel from the human player station then shoots and then climbs
+   * 
+   * @return
+   */
   public Command PickupAndShootRightAndClimb() {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
@@ -263,7 +288,12 @@ public class RobotContainer {
         m_climberSubsystem.climbCommand());
   }
 
+  /**
+   * Returns the autonomous that was chosen from the dashboard
+   * 
+   * @return
+   */
   public Command getAutonomousCommand() {
-    return testAuto();
+    return testAuto(); /* TODO */
   }
 }
