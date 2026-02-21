@@ -401,10 +401,6 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("CurrentPose", getPose().toString());
 
     m_field.setRobotPose(getPose());
-    
-    if (SmartDashboard.getBoolean("Estimated pose/hasTarget", false)) {
-      addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X", 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
-    }
 
     SmartDashboard.updateValues();
   }
