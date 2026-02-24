@@ -226,6 +226,8 @@ public class SwerveSubsystem extends SubsystemBase {
         sample.vy + m_yPID.calculate(pose.getY(), sample.y),
         sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
 
+        SmartDashboard.putString("Auto follow trajectory speeds", speeds.toString());
+
     drive(speeds, true);
   }
 
@@ -235,6 +237,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param pose The pose to reset to
    */
   public void resetOdometry(Pose2d pose) {
+    SmartDashboard.putString("Odometry reset to", pose.toString());
     m_poseEstimator.resetPose(pose);
   }
 
@@ -310,6 +313,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return the current pose
    */
   public Pose2d getPose() {
+    SmartDashboard.putString("Estimated Position", m_poseEstimator.getEstimatedPosition().toString());
     return m_poseEstimator.getEstimatedPosition();
   }
 

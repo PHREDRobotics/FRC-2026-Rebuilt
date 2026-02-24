@@ -24,12 +24,47 @@ public record ChoreoTraj(
     Pose2d initialPoseBlue,
     Pose2d endPoseBlue
 ) {
-    public static final ChoreoTraj PositionLeftToShoot = new ChoreoTraj(
+    public static final ChoreoTraj HumanPlayerToShootPositionThree = new ChoreoTraj(
+	    "HumanPlayerToShootPositionThree",
+	    OptionalInt.empty(),
+	    1.20169,
+	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
+	);
+	public static final ChoreoTraj PickupLeftToShootLeft = new ChoreoTraj(
+	    "PickupLeftToShootLeft",
+	    OptionalInt.empty(),
+	    0.93811,
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
+	);
+	public static final ChoreoTraj PickupLeftToShootMiddle = new ChoreoTraj(
+	    "PickupLeftToShootMiddle",
+	    OptionalInt.empty(),
+	    1.11782,
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
+	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0))
+	);
+	public static final ChoreoTraj PositionLeftToPickupLeft = new ChoreoTraj(
+	    "PositionLeftToPickupLeft",
+	    OptionalInt.empty(),
+	    1.31823,
+	    new Pose2d(3.893, 7.432, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
+	);
+	public static final ChoreoTraj PositionLeftToShoot = new ChoreoTraj(
 	    "PositionLeftToShoot",
 	    OptionalInt.empty(),
-	    1.02575,
+	    1.25655,
 	    new Pose2d(3.55, 7.444, Rotation2d.fromRadians(0)),
 	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
+	);
+	public static final ChoreoTraj PositionMiddleToPickup = new ChoreoTraj(
+	    "PositionMiddleToPickup",
+	    OptionalInt.empty(),
+	    1.28411,
+	    new Pose2d(3.442, 4.033, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
 	);
 	public static final ChoreoTraj PositionMiddleToShoot = new ChoreoTraj(
 	    "PositionMiddleToShoot",
@@ -38,11 +73,18 @@ public record ChoreoTraj(
 	    new Pose2d(3.442, 4.033, Rotation2d.fromRadians(0)),
 	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0))
 	);
+	public static final ChoreoTraj PositionRightToHumanPlayerPickup = new ChoreoTraj(
+	    "PositionRightToHumanPlayerPickup",
+	    OptionalInt.empty(),
+	    1.24489,
+	    new Pose2d(3.431, 0.659, Rotation2d.fromRadians(0)),
+	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142))
+	);
 	public static final ChoreoTraj PositionRightToShoot = new ChoreoTraj(
 	    "PositionRightToShoot",
 	    OptionalInt.empty(),
-	    0.96481,
-	    new Pose2d(3.431, 0.659, Rotation2d.fromRadians(0)),
+	    1.21023,
+	    new Pose2d(3.729, 0.555, Rotation2d.fromRadians(0)),
 	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
 	);
 	public static final ChoreoTraj ShootPositionOneToClimb = new ChoreoTraj(
@@ -73,67 +115,25 @@ public record ChoreoTraj(
 	    new Pose2d(4, 6, Rotation2d.fromRadians(3.142)),
 	    new Pose2d(3, 5, Rotation2d.fromRadians(0))
 	);
-	public static final ChoreoTraj PositionLeftToPickupLeft = new ChoreoTraj(
-	    "PositionLeftToPickupLeft",
-	    OptionalInt.empty(),
-	    1.31823,
-	    new Pose2d(3.893, 7.432, Rotation2d.fromRadians(0)),
-	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
-	);
-	public static final ChoreoTraj PickupLeftToShootLeft = new ChoreoTraj(
-	    "PickupLeftToShootLeft",
-	    OptionalInt.empty(),
-	    0.93811,
-	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
-	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
-	);
-	public static final ChoreoTraj PositionMiddleToPickup = new ChoreoTraj(
-	    "PositionMiddleToPickup",
-	    OptionalInt.empty(),
-	    1.28411,
-	    new Pose2d(3.442, 4.033, Rotation2d.fromRadians(0)),
-	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142))
-	);
-	public static final ChoreoTraj PickupLeftToShootMiddle = new ChoreoTraj(
-	    "PickupLeftToShootMiddle",
-	    OptionalInt.empty(),
-	    1.11782,
-	    new Pose2d(0.9, 5.931, Rotation2d.fromRadians(3.142)),
-	    new Pose2d(2.356, 4.033, Rotation2d.fromRadians(0))
-	);
-	public static final ChoreoTraj PositionRightToHumanPlayerPickup = new ChoreoTraj(
-	    "PositionRightToHumanPlayerPickup",
-	    OptionalInt.empty(),
-	    1.24489,
-	    new Pose2d(3.431, 0.659, Rotation2d.fromRadians(0)),
-	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142))
-	);
-	public static final ChoreoTraj HumanPlayerToShootPositionThree = new ChoreoTraj(
-	    "HumanPlayerToShootPositionThree",
-	    OptionalInt.empty(),
-	    1.20169,
-	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142)),
-	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
-	);
 
     /**
      * A map between trajectory names and their corresponding data.
      * This allows for trajectory data to be looked up with strings during runtime.
      */
     public static final Map<String, ChoreoTraj> ALL_TRAJECTORIES = Map.ofEntries(
-    	Map.entry("PositionLeftToShoot", PositionLeftToShoot),
+    	Map.entry("HumanPlayerToShootPositionThree", HumanPlayerToShootPositionThree),
+		Map.entry("PickupLeftToShootLeft", PickupLeftToShootLeft),
+		Map.entry("PickupLeftToShootMiddle", PickupLeftToShootMiddle),
+		Map.entry("PositionLeftToPickupLeft", PositionLeftToPickupLeft),
+		Map.entry("PositionLeftToShoot", PositionLeftToShoot),
+		Map.entry("PositionMiddleToPickup", PositionMiddleToPickup),
 		Map.entry("PositionMiddleToShoot", PositionMiddleToShoot),
+		Map.entry("PositionRightToHumanPlayerPickup", PositionRightToHumanPlayerPickup),
 		Map.entry("PositionRightToShoot", PositionRightToShoot),
 		Map.entry("ShootPositionOneToClimb", ShootPositionOneToClimb),
 		Map.entry("ShootPositionThreeToClimb", ShootPositionThreeToClimb),
 		Map.entry("ShootPositionTwoToClimb", ShootPositionTwoToClimb),
-		Map.entry("TestPath", TestPath),
-		Map.entry("PositionLeftToPickupLeft", PositionLeftToPickupLeft),
-		Map.entry("PickupLeftToShootLeft", PickupLeftToShootLeft),
-		Map.entry("PositionMiddleToPickup", PositionMiddleToPickup),
-		Map.entry("PickupLeftToShootMiddle", PickupLeftToShootMiddle),
-		Map.entry("PositionRightToHumanPlayerPickup", PositionRightToHumanPlayerPickup),
-		Map.entry("HumanPlayerToShootPositionThree", HumanPlayerToShootPositionThree)
+		Map.entry("TestPath", TestPath)
     );
 
     /**

@@ -25,6 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkClosedLoopController m_shooterRightPID;
 
   private double shootSpeed;
+  private double targetShootSpeed = Constants.ShooterConstants.kInitialShootingSpeed;
 
   public ShooterSubsystem() {
     // Left is leader, right follows the leader
@@ -33,12 +34,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooterLeftPID = m_shooterLeftSparkMax.getClosedLoopController();
     m_shooterRightPID = m_shooterRightSparkMax.getClosedLoopController();
+
+    SmartDashboard.putNumber("Shooter Speed Adjuster", targetShootSpeed);
   }
 
   public void shoot(double shootSpeedRPM) {
     this.shootSpeed = shootSpeedRPM;
 
-    m_shooterLeftPID.setSetpoint(-this.shootSpeed, ControlType.kVelocity);
+    //m_shooterLeftPID.setSetpoint(-this.shootSpeed, ControlType.kVelocity);
+    m_shooterLeftPID.setSetpoint(targetShootSpeed, ControlType.kVelocity);
     //m_shooterRightPID.setSetpoint(this.shootSpeed, ControlType.kVelocity);
   }
 
@@ -70,7 +74,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("sparkmax encoder", m_shooterLeftSparkMax.getEncoder().getPosition());
     SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Target Speed", Constants.ShooterConstants.kInitialShootingSpeed);
-
+    targetShootSpeed = SmartDashboard.getNumber("Shooter Speed Adjuster", Constants.ShooterConstants.kInitialShootingSpeed);
+    SmartDashboard.putNumber("Shooter Speed Adjuster", targetShootSpeed);
   }
 }

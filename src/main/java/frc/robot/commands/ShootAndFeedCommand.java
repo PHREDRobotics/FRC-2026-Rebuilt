@@ -1,0 +1,44 @@
+package frc.robot.commands;
+
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.fuel.FuelSubsystem;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.swerve.SwerveSubsystem;
+import frc.robot.subsystems.vision.VisionSubsystem;
+
+/**
+ * Automatically aims and shoots at the hub based on the distance from the hub
+ */
+public class ShootAndFeedCommand extends Command {
+  private ShooterSubsystem m_shooterSubsystem;
+  private FuelSubsystem m_fuelSubsystem;
+  /**
+   * Initialize the feed and shoot command
+   * @param shooterSubsystem
+   * @param fuelSubsystem
+   */
+  public ShootAndFeedCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem) {
+    m_shooterSubsystem = shooterSubsystem;
+    m_fuelSubsystem = fuelSubsystem;
+
+    addRequirements(shooterSubsystem, fuelSubsystem);
+  }
+
+  @Override
+  public void initialize() {
+    m_shooterSubsystem.shoot(Constants.ShooterConstants.kInitialShootingSpeed);
+    m_fuelSubsystem.feed();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_fuelSubsystem.stop();
+    m_shooterSubsystem.stop();
+  }
+}

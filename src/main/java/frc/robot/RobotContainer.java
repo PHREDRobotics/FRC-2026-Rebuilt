@@ -4,9 +4,18 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
+import choreo.Choreo;
 import choreo.auto.AutoFactory;
+import choreo.auto.AutoRoutine;
+import choreo.auto.AutoChooser;
+import choreo.auto.AutoTrajectory;
+import choreo.trajectory.SwerveSample;
+import choreo.trajectory.Trajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -36,6 +45,10 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem;
 
   private final AutoFactory autoFactory;
+  private final AutoRoutines autoRoutines;
+  private final AutoChooser autoChooser = new AutoChooser();
+
+  private Optional<Trajectory<SwerveSample>> testTrajectory = Choreo.loadTrajectory("TestPath");
 
   LogitechPro joystick;
   CommandXboxController gamepad;
@@ -54,6 +67,10 @@ public class RobotContainer {
         m_swerveSubsystem::followTrajectory,
         true,
         m_swerveSubsystem);
+    autoRoutines = new AutoRoutines(autoFactory);
+
+    autoChooser.addRoutine("testPath", autoRoutines::testPathAuto);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     joystick = new LogitechPro(0);
     gamepad = new CommandXboxController(1);
@@ -66,6 +83,7 @@ public class RobotContainer {
 
     Trigger shooterButton = new Trigger(joystick.button(6));
     Trigger manShootButton = new Trigger(joystick.button(4));
+    Trigger feedButton = new Trigger(gamepad.x());
 
     Trigger intakeButton = new Trigger(gamepad.a());
 
@@ -78,33 +96,34 @@ public class RobotContainer {
 
     // -- Button Assignments --
 
-    shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem,
-        m_visionSubsystem, joystick::getX, joystick::getY));
-    // manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() ->
-    // Constants.ShooterConstants.kInitialShootingSpeed));
+    //shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, joystick::getX, joystick::getY));
 
-    // joystick.button(3).whileTrue(new RunCommand(m_fuelSubsystem::feed,
-    // m_fuelSubsystem));
+    manShootButton.whileTrue(m_shooterSubsystem.shootCommand(() -> Constants.ShooterConstants.kInitialShootingSpeed));
 
-    // intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
+    feedButton.toggleOnTrue(m_fuelSubsystem.feedCommand());
 
-    // armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
-    // armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
+    //joystick.button(3).whileTrue(new RunCommand(() -> m_swerveSubsystem.resetOdometry(new Pose2d()), m_swerveSubsystem));
 
-    // climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
-    // climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
-    // climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
+    intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
+
+    armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
+    armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
+
+    climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
+    climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
+    climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
 
     // -- Default commands --
 
-    joystick.button(1).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d()));
+    // joystick.button(1).onTrue(new GoToPoseCommand(m_swerveSubsystem,
+    // m_visionSubsystem, new Pose2d()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
-        joystick::getCoolerY,
+        joystick::getY,
         joystick::getX,
-        joystick::getCoolerZ,
+        joystick::getZ,
         joystick::getAdjustedThrottle,
-        joystick.button(1)));
+        joystick.button(2)));
   }
 
   // Autos
@@ -120,14 +139,29 @@ public class RobotContainer {
         autoFactory.trajectoryCmd("TestPath"));
   }
 
+  // public AutoRoutine testAutoRoutine() {
+  //   final AutoRoutine routine = autoFactory.newRoutine("TestPath");
+  //   final AutoTrajectory simplePath = routine.trajectory("TestPath");
+
+  //   routine.active().onTrue(
+  //     simplePath.resetOdometry()
+  //     .andThen(simplePath.cmd())
+  //   );
+  //   return routine;
+  // }
+
   /**
    * Shoots at the hub
    * 
    * @return
    */
   public Command shootHub() {
-    return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem,
-        m_visionSubsystem, () -> 0, () -> 0));
+    return m_shooterSubsystem.shootCommand(
+        () -> Constants.ShooterConstants.kInitialShootingSpeed);
+
+    // return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem,
+    // m_fuelSubsystem, m_swerveSubsystem,
+    // m_visionSubsystem, () -> 0, () -> 0));
   }
 
   public Command pickUpFuel() {
@@ -137,7 +171,11 @@ public class RobotContainer {
   }
 
   public enum AutoSwitcher { // enum to switch between different auto modes
+    EMPTY,
     TEST,
+    SHOOT_LEFT,
+    SHOOT_MIDDLE,
+    SHOOT_RIGHT,
     SHOOT_CLIMB_LEFT,
     SHOOT_CLIMB_MIDDLE,
     SHOOT_CLIMB_RIGHT,
@@ -147,6 +185,54 @@ public class RobotContainer {
     PICKUP_SHOOT_CLIMB_MIDDLE,
     PICKUP_SHOOT_RIGHT,
     PICKUP_SHOOT_CLIMB_RIGHT
+  }
+
+  /**
+   * An empty auto just in case
+   * 
+   * @return An empty command
+   */
+  public Command Empty() {
+    return new Command() {
+
+    };
+  }
+
+  /**
+   * Shoots starting from the left position relative to the drivers
+   * 
+   * @return
+   */
+  public Command ShootPositionLeft() {
+    return Commands.sequence(
+        autoFactory.resetOdometry("PositionLeftToShoot"),
+        autoFactory.trajectoryCmd("PositionLeftToShoot"),
+        shootHub()
+        );
+  }
+
+  /**
+   * Shoots starting from the middle position relative to the drivers
+   * 
+   * @return
+   */
+  public Command ShootPositionMiddle() {
+    return Commands.sequence(
+        autoFactory.resetOdometry("PositionMiddleToShoot"),
+        autoFactory.trajectoryCmd("PositionMiddleToShoot"),
+        shootHub());
+  }
+
+  /**
+   * Shoots starting from the left position relative to the drivers
+   * 
+   * @return
+   */
+  public Command ShootPositionRight() {
+    return Commands.sequence(
+        autoFactory.resetOdometry("PositionRightToShoot"),
+        autoFactory.trajectoryCmd("PositionRightToShoot"),
+        shootHub());
   }
 
   /**
@@ -318,37 +404,47 @@ public class RobotContainer {
    * @return Command
    */
   public Command getAutonomousCommand(AutoSwitcher autoMode) {
-    switch (autoMode) {
-      default:
-      case TEST:
-        return testAuto();
+    
+    return autoChooser.selectedCommand();
+    
+    // switch (autoMode) {
+    //   default:
+    //   case EMPTY:
+    //     return Empty();
+    //   case TEST:
+    //     return testAuto();
+    //   case SHOOT_LEFT:
+    //     return ShootPositionLeft();
+    //   case SHOOT_MIDDLE:
+    //     return ShootPositionMiddle();
+    //   case SHOOT_RIGHT:
+    //     return ShootClimbPositionRight();
+    //   case SHOOT_CLIMB_LEFT:
+    //     return ShootClimbPositionLeft();
 
-      case SHOOT_CLIMB_LEFT:
-        return ShootClimbPositionLeft();
+    //   case SHOOT_CLIMB_MIDDLE:
+    //     return ShootClimbPositionMiddle();
 
-      case SHOOT_CLIMB_MIDDLE:
-        return ShootClimbPositionMiddle();
+    //   case SHOOT_CLIMB_RIGHT:
+    //     return ShootClimbPositionRight();
 
-      case SHOOT_CLIMB_RIGHT:
-        return ShootClimbPositionRight();
+    //   case PICKUP_SHOOT_LEFT:
+    //     return PickupAndShootLeft();
 
-      case PICKUP_SHOOT_LEFT:
-        return PickupAndShootLeft();
+    //   case PICKUP_SHOOT_CLIMB_LEFT:
+    //     return PickupAndShootLeftAndClimb();
 
-      case PICKUP_SHOOT_CLIMB_LEFT:
-        return PickupAndShootLeftAndClimb();
+    //   case PICKUP_SHOOT_MIDDLE:
+    //     return PickupAndShootMiddle();
 
-      case PICKUP_SHOOT_MIDDLE:
-        return PickupAndShootMiddle();
+    //   case PICKUP_SHOOT_CLIMB_MIDDLE:
+    //     return PickupAndShootMiddleAndClimb();
 
-      case PICKUP_SHOOT_CLIMB_MIDDLE:
-        return PickupAndShootMiddleAndClimb();
+    //   case PICKUP_SHOOT_RIGHT:
+    //     return PickupAndShootRight();
 
-      case PICKUP_SHOOT_RIGHT:
-        return PickupAndShootRight();
-
-      case PICKUP_SHOOT_CLIMB_RIGHT:
-        return PickupAndShootRightAndClimb();
-    }
+    //   case PICKUP_SHOOT_CLIMB_RIGHT:
+    //     return PickupAndShootRightAndClimb();
+    // }
   }
 }

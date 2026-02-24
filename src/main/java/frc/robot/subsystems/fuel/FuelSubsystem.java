@@ -41,9 +41,11 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts intake, hopper, and vector motors
    */
   public void intake() {
-    m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
-    m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
-    m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
+    m_intakeMotor.set(-Constants.FuelConstants.kIntakeSpeed);
+    // m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
+    // m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
+    // m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
+    // m_feederRightMotor.set(Constants.FuelConstants.kFeederSpeed);
 
     m_fuelState = FuelState.Intaking;
   }
@@ -52,9 +54,9 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts intake, hopper, and vector motors in reverse to spit out and stuck fuel
    */
   public void outtake() {
-    m_intakeMotor.set(-Constants.FuelConstants.kIntakeSpeed);
-    m_hopperMotor.set(-Constants.FuelConstants.kHopperSpeed);
-    m_vectorMotor.set(-Constants.FuelConstants.kVectorSpeed);
+    m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
+    // m_hopperMotor.set(-Constants.FuelConstants.kHopperSpeed);
+    // m_vectorMotor.set(-Constants.FuelConstants.kVectorSpeed);
 
     m_fuelState = FuelState.Outtaking;
   }
@@ -63,8 +65,8 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts hopper, vector and feeder motors
    */
   public void feed() {
-    //m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
-    //m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
+    m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
+    m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
     m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
     m_feederRightMotor.set(Constants.FuelConstants.kFeederSpeed);
 
@@ -72,9 +74,9 @@ public class FuelSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    //m_intakeMotor.stopMotor();
-    //m_hopperMotor.stopMotor();    
-    //m_vectorMotor.stopMotor();
+    m_intakeMotor.stopMotor();
+    m_hopperMotor.stopMotor();    
+    m_vectorMotor.stopMotor();
     m_feederLeftMotor.stopMotor();
     m_feederRightMotor.stopMotor();
 
@@ -87,6 +89,10 @@ public class FuelSubsystem extends SubsystemBase {
 
   public Command outtakeCommand() {
     return Commands.startEnd(() -> this.outtake(), () -> this.stop());
+  }
+
+  public Command feedCommand() {
+    return Commands.startEnd(() -> this.feed(), () -> this.stop());
   }
 
   @Override

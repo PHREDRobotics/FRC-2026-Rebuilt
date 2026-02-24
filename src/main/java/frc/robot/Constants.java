@@ -63,14 +63,14 @@ public class Constants {
   // Intake, Hopper, and Vector
   public static final class FuelConstants {
     public static final int kHopperMotorCANId = 32;
-    public static final int kIntakeMotorCANId = 31;
+    public static final int kIntakeMotorCANId = 33;
     public static final int kFeederLeftMotorCANId = 36;
     public static final int kFeederRightMotorCANId = 37;
-    public static final int kVectorMotorCANId = 33;
+    public static final int kVectorMotorCANId = 8;
 
     public static final double kFeederSpeed = 50;
 
-    public static final double kIntakeSpeed = 800; /* TODO determine speeds (RPM) of fuel movers*/
+    public static final double kIntakeSpeed = 1600; /* TODO determine speeds (RPM) of fuel movers*/
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
@@ -104,7 +104,7 @@ public class Constants {
     public static final double kArmDownEncoderValue = 99; 
     public static final double kArmDrivingEncoderValue = 99;
 
-    public static final double kArmP = 0.0; /* TODO determine arm pid values */
+    public static final double kArmP = 0.001; /* TODO determine arm pid values */
     public static final double kArmI = 0.0; 
     public static final double kArmD = 0.0;
 
