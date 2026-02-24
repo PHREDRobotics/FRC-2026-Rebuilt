@@ -29,29 +29,28 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    
-    // autoChooser.setDefaultOption("Empty-Auto", RobotContainer.AutoSwitcher.EMPTY);
+    autoChooser.setDefaultOption("Empty-Auto", RobotContainer.AutoSwitcher.EMPTY);
 
-    // autoChooser.addOption("Test-Auto", RobotContainer.AutoSwitcher.TEST);
+    autoChooser.addOption("Test-Auto", RobotContainer.AutoSwitcher.TEST);
 
-    // autoChooser.addOption("Left-Shoot", RobotContainer.AutoSwitcher.SHOOT_LEFT);
-    // autoChooser.addOption("Middle-Shoot", RobotContainer.AutoSwitcher.SHOOT_MIDDLE);
-    // autoChooser.addOption("Right-Shoot", RobotContainer.AutoSwitcher.SHOOT_RIGHT);
+    autoChooser.addOption("Left-Shoot", RobotContainer.AutoSwitcher.SHOOT_LEFT);
+    autoChooser.addOption("Middle-Shoot", RobotContainer.AutoSwitcher.SHOOT_MIDDLE);
+    autoChooser.addOption("Right-Shoot", RobotContainer.AutoSwitcher.SHOOT_RIGHT);
 
-    // autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
-    // autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);
-    // autoChooser.addOption("Right-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_RIGHT);
+    autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
+    autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);
+    autoChooser.addOption("Right-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_RIGHT);
 
-    // autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
-    // autoChooser.addOption("Left-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_LEFT);
+    autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
+    autoChooser.addOption("Left-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_LEFT);
 
-    // autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
-    // autoChooser.addOption("Middle-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_MIDDLE);
+    autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
+    autoChooser.addOption("Middle-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_MIDDLE);
 
-    // autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
-    // autoChooser.addOption("Right-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_RIGHT);
+    autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
+    autoChooser.addOption("Right-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_RIGHT);
 
-    // SmartDashboard.putData("Auto mode", autoChooser);
+    SmartDashboard.putData("Auto mode", autoChooser);
   }
 
   @Override

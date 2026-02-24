@@ -47,8 +47,6 @@ public class RobotContainer {
   private final ClimberSubsystem m_climberSubsystem;
 
   private final AutoFactory autoFactory;
-  private final AutoRoutines autoRoutines;
-  private final AutoChooser autoChooser = new AutoChooser();
 
   LogitechPro joystick;
   CommandXboxController gamepad;
@@ -67,10 +65,6 @@ public class RobotContainer {
         m_swerveSubsystem::followTrajectory,
         true,
         m_swerveSubsystem);
-    autoRoutines = new AutoRoutines(autoFactory);
-
-    autoChooser.addRoutine("testPath", autoRoutines::testPathAuto);
-    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     joystick = new LogitechPro(0);
     gamepad = new CommandXboxController(1);
@@ -106,7 +100,8 @@ public class RobotContainer {
 
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
-    joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 2, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
+    //joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 5, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
+    joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(15, 3.7, new Rotation2d())));
 
     joystick.button(8).onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
 
@@ -127,7 +122,7 @@ public class RobotContainer {
         joystick::getX,
         joystick::getZ,
         joystick::getAdjustedThrottle,
-        fieldOrientedButton));
+        fieldOrientedButton.negate()));
   }
 
   // Autos
@@ -143,29 +138,15 @@ public class RobotContainer {
         autoFactory.trajectoryCmd("TestPath"));
   }
 
-  // public AutoRoutine testAutoRoutine() {
-  //   final AutoRoutine routine = autoFactory.newRoutine("TestPath");
-  //   final AutoTrajectory simplePath = routine.trajectory("TestPath");
-
-  //   routine.active().onTrue(
-  //     simplePath.resetOdometry()
-  //     .andThen(simplePath.cmd())
-  //   );
-  //   return routine;
-  // }
-
   /**
    * Shoots at the hub
    * 
    * @return
    */
   public Command shootHub() {
-    return m_shooterSubsystem.shootCommand(
-        () -> Constants.ShooterConstants.kInitialShootingSpeed);
-
-    // return new WaitCommand(2).raceWith(new AutoShootCommand(m_shooterSubsystem,
-    // m_fuelSubsystem, m_swerveSubsystem,
-    // m_visionSubsystem, () -> 0, () -> 0));
+    return new WaitCommand(3).raceWith(new AutoShootCommand(m_shooterSubsystem,
+    m_fuelSubsystem, m_swerveSubsystem,
+    m_visionSubsystem, () -> 0, () -> 0));
   }
 
   public Command pickUpFuel() {
@@ -211,6 +192,7 @@ public class RobotContainer {
     return Commands.sequence(
         autoFactory.resetOdometry("PositionLeftToShoot"),
         autoFactory.trajectoryCmd("PositionLeftToShoot"),
+
         shootHub()
         );
   }
@@ -408,47 +390,44 @@ public class RobotContainer {
    * @return Command
    */
   public Command getAutonomousCommand(AutoSwitcher autoMode) {
-    
-    return autoChooser.selectedCommand();
-    
-    // switch (autoMode) {
-    //   default:
-    //   case EMPTY:
-    //     return Empty();
-    //   case TEST:
-    //     return testAuto();
-    //   case SHOOT_LEFT:
-    //     return ShootPositionLeft();
-    //   case SHOOT_MIDDLE:
-    //     return ShootPositionMiddle();
-    //   case SHOOT_RIGHT:
-    //     return ShootClimbPositionRight();
-    //   case SHOOT_CLIMB_LEFT:
-    //     return ShootClimbPositionLeft();
+    switch (autoMode) {
+      default:
+      case EMPTY:
+        return Empty();
+      case TEST:
+        return testAuto();
+      case SHOOT_LEFT:
+        return ShootPositionLeft();
+      case SHOOT_MIDDLE:
+        return ShootPositionMiddle();
+      case SHOOT_RIGHT:
+        return ShootClimbPositionRight();
+      case SHOOT_CLIMB_LEFT:
+        return ShootClimbPositionLeft();
 
-    //   case SHOOT_CLIMB_MIDDLE:
-    //     return ShootClimbPositionMiddle();
+      case SHOOT_CLIMB_MIDDLE:
+        return ShootClimbPositionMiddle();
 
-    //   case SHOOT_CLIMB_RIGHT:
-    //     return ShootClimbPositionRight();
+      case SHOOT_CLIMB_RIGHT:
+        return ShootClimbPositionRight();
 
-    //   case PICKUP_SHOOT_LEFT:
-    //     return PickupAndShootLeft();
+      case PICKUP_SHOOT_LEFT:
+        return PickupAndShootLeft();
 
-    //   case PICKUP_SHOOT_CLIMB_LEFT:
-    //     return PickupAndShootLeftAndClimb();
+      case PICKUP_SHOOT_CLIMB_LEFT:
+        return PickupAndShootLeftAndClimb();
 
-    //   case PICKUP_SHOOT_MIDDLE:
-    //     return PickupAndShootMiddle();
+      case PICKUP_SHOOT_MIDDLE:
+        return PickupAndShootMiddle();
 
-    //   case PICKUP_SHOOT_CLIMB_MIDDLE:
-    //     return PickupAndShootMiddleAndClimb();
+      case PICKUP_SHOOT_CLIMB_MIDDLE:
+        return PickupAndShootMiddleAndClimb();
 
-    //   case PICKUP_SHOOT_RIGHT:
-    //     return PickupAndShootRight();
+      case PICKUP_SHOOT_RIGHT:
+        return PickupAndShootRight();
 
-    //   case PICKUP_SHOOT_CLIMB_RIGHT:
-    //     return PickupAndShootRightAndClimb();
-    // }
+      case PICKUP_SHOOT_CLIMB_RIGHT:
+        return PickupAndShootRightAndClimb();
+    }
   }
 }

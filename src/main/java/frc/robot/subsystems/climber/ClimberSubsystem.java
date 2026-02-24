@@ -24,11 +24,11 @@ public class ClimberSubsystem extends SubsystemBase {
   private SparkClosedLoopController m_climberPID;
 
   public ClimberSubsystem() {
-    m_climberMotor = new SparkMax(Constants.ClimberConstants.kClimberMotorCANId, MotorType.kBrushless);
-    m_climberEncoder = m_climberMotor.getEncoder();
-    m_climberPID = m_climberMotor.getClosedLoopController();
+    m_climberMotor = null;//new SparkMax(Constants.ClimberConstants.kClimberMotorCANId, MotorType.kBrushless);
+    //m_climberEncoder = m_climberMotor.getEncoder();
+    //m_climberPID = m_climberMotor.getClosedLoopController();
 
-    m_climberMotor.configure(Configs.ClimberConfig.climberConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    //m_climberMotor.configure(Configs.ClimberConfig.climberConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void resetEncoders() {
@@ -73,8 +73,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("climb Power", m_climberMotor.get());
-    SmartDashboard.putNumber("climb Encoder", m_climberEncoder.getPosition());
+    //SmartDashboard.putNumber("climb Power", m_climberMotor.get());
+    //SmartDashboard.putNumber("climb Encoder", m_climberEncoder.getPosition());
 
 
   }

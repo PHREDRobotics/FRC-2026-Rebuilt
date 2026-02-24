@@ -195,8 +195,8 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param pose
    */
   public void driveTo(Pose2d pose) {
-    double xOutput = -m_xPID.calculate(getPose().getX(), pose.getX());
-    double yOutput = -m_yPID.calculate(getPose().getY(), pose.getY());
+    double xOutput = m_xPID.calculate(getPose().getX(), pose.getX());
+    double yOutput = m_yPID.calculate(getPose().getY(), pose.getY());
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians(),
         pose.getRotation().getRadians());
 

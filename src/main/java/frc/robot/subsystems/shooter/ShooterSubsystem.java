@@ -42,7 +42,7 @@ public class ShooterSubsystem extends SubsystemBase {
     this.shootSpeed = shootSpeedRPM;
 
     //m_shooterLeftPID.setSetpoint(-this.shootSpeed, ControlType.kVelocity);
-    m_shooterLeftPID.setSetpoint(targetShootSpeed, ControlType.kVelocity);
+    m_shooterLeftPID.setSetpoint(shootSpeedRPM, ControlType.kVelocity);
     //m_shooterRightPID.setSetpoint(this.shootSpeed, ControlType.kVelocity);
   }
 

@@ -35,8 +35,10 @@ public class GoToPoseCommand extends Command {
     if (m_visionSubsystem.hasValidTarget()) {
       // Send vision measurements
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
+
+      System.out.println("Added measurement");
     }
     
-    //m_swerveSubsystem.driveTo(pose);
+    m_swerveSubsystem.driveTo(pose);
   }
 }

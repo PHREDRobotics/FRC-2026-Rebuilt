@@ -196,7 +196,7 @@ public class Constants {
     public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.2, 0.2, 0.2);
     public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.8, 0.8, 0.8);
 
-    public static final double kDriveP = 0.4;
+    public static final double kDriveP = 0.4; // FOR MODULE MOTORS SPARK
     public static final double kDriveI = 0.0;
     public static final double kDriveD = 0.0;
     public static final double kDriveFF = 0.0;
@@ -243,12 +243,12 @@ public class Constants {
 
     public static final double kMetersFromAprilTag = 2;
 
-    public static final double kXYPosP = 0.4; /* TODO determine swerve pid values*/
+    public static final double kXYPosP = 0.2; // VISION going to a pose
     public static final double kXYPosI = 0;
-    public static final double kXYPosD = 0.005;
+    public static final double kXYPosD = 0.0;
     public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
-        0.5,
-        0.5);
+        0.1,
+        0.2);
 
     public static final double kRotP = 0.4;
     public static final double kRotI = 0;
