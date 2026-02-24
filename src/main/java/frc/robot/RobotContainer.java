@@ -14,6 +14,7 @@ import choreo.auto.AutoTrajectory;
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.GoToPoseCommand;
+import frc.robot.commands.OdometryResetCommand;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.fuel.FuelSubsystem;
@@ -47,8 +49,6 @@ public class RobotContainer {
   private final AutoFactory autoFactory;
   private final AutoRoutines autoRoutines;
   private final AutoChooser autoChooser = new AutoChooser();
-
-  private Optional<Trajectory<SwerveSample>> testTrajectory = Choreo.loadTrajectory("TestPath");
 
   LogitechPro joystick;
   CommandXboxController gamepad;
@@ -81,6 +81,8 @@ public class RobotContainer {
   private void configureBindings() {
     // -- Triggers --
 
+    Trigger fieldOrientedButton = new Trigger(joystick.button(2));
+
     Trigger shooterButton = new Trigger(joystick.button(6));
     Trigger manShootButton = new Trigger(joystick.button(4));
     Trigger feedButton = new Trigger(gamepad.x());
@@ -102,16 +104,18 @@ public class RobotContainer {
 
     feedButton.toggleOnTrue(m_fuelSubsystem.feedCommand());
 
-    //joystick.button(3).whileTrue(new RunCommand(() -> m_swerveSubsystem.resetOdometry(new Pose2d()), m_swerveSubsystem));
-
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
-    armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
-    armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
+    joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 2, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
 
-    climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
-    climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
-    climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
+    joystick.button(8).onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
+
+    //armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
+    //armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
+
+    //climberClimbButton.onTrue(m_climberSubsystem.climbCommand());
+    //climberExtendButton.onTrue(m_climberSubsystem.extendCommand());
+    //climberRetractButton.onTrue(m_climberSubsystem.retractCommand());
 
     // -- Default commands --
 
@@ -123,7 +127,7 @@ public class RobotContainer {
         joystick::getX,
         joystick::getZ,
         joystick::getAdjustedThrottle,
-        joystick.button(2)));
+        fieldOrientedButton));
   }
 
   // Autos

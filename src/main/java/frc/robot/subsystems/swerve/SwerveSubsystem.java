@@ -366,7 +366,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * Resets the gyro on the swerve
    * @return
    */
-  public Command swerveResetCommand() {
+  public Command swerveGyroResetCommand() {
     return Commands.runOnce(() -> this.resetGyro(), this);
   }
 
