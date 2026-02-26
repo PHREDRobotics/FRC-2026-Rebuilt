@@ -114,7 +114,7 @@ public class Constants {
 
   /* -------------------- Physical Constants --------------------- */
   public static final class PhysicalConstants {
-    public static final double kRobotMassPounds = 120;
+    public static final double kRobotMassPounds = 130;
 
     public static final double kBumperLength = 35.5;
     public static final double kTrackLength = 24;
@@ -141,7 +141,7 @@ public class Constants {
     public static final double kAutoShooterDistanceMultiplier = 660; // TODO determine shooter multiplier and exponent
     public static final double kAutoShooterDistanceExponent = 1.37;
     
-    public static final double kP = 0.0;
+    public static final double kP = 0.00006;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFFV = 0.0023;
@@ -250,9 +250,9 @@ public class Constants {
         0.01,
         0.1);
 
-    public static final double kRotP = 0.4;
+    public static final double kRotP = 0.005;
     public static final double kRotI = 0;
-    public static final double kRotD = 0.025;
+    public static final double kRotD = 0.0;
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);

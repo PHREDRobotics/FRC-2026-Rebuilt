@@ -240,7 +240,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     System.out.println(xOutput);
 
-    driveAbsoluteCoordinates(xOutput, yOutput, 0);//rotOutput);
+    driveAbsoluteCoordinates(xOutput, yOutput, rotOutput);
   }
 
   /**
@@ -446,6 +446,9 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("States/BR", getModuleStates()[3].toString());
 
     SmartDashboard.putString("CurrentPose", getPose().toString());
+
+    SmartDashboard.putNumber("Hub Distance", getHubDistance());
+    SmartDashboard.putString("Hub Pose", Constants.VisionConstants.kHubPos.toString());
 
     m_field.setRobotPose(getPose());
 
