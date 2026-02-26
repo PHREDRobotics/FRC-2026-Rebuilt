@@ -36,7 +36,7 @@ public class FollowTagCommand extends Command {
 
   @Override
   public void initialize() {
-    m_swerveSubsystem.resetPIDs(offset);
+    // m_swerveSubsystem.resetPIDs(offset);
   }
 
   @Override

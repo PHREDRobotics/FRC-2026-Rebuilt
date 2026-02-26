@@ -45,6 +45,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
+
   /**
    * Gets the estimated pose of the robot relative to the field
    * 
@@ -75,17 +76,23 @@ public class VisionSubsystem extends SubsystemBase {
   public void periodic() {
     var results = m_camera.getAllUnreadResults();
     if (!results.isEmpty()) {
+      for (int i = 0; i > results.size(); i++) {
+        if (results.get(i).getBestTarget().getPoseAmbiguity() > 0.5) {
+          results.remove(i);
+        }
+      }
+
       result = results.get(results.size() - 1);
       SmartDashboard.putBoolean("Has valid target?", result.hasTargets());
       //SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
       if (result.hasTargets()) {
         m_robotToTarget = VisionConstants.kRobotToCamera1.plus(result.getBestTarget().getBestCameraToTarget());
+
         SmartDashboard.putNumber("robotToTarget/X", m_robotToTarget.getX());
         SmartDashboard.putNumber("robotToTarget/Y", m_robotToTarget.getY());
         SmartDashboard.putNumber("robotToTarget/Z", m_robotToTarget.getZ());
         SmartDashboard.putNumber("robotToTarget/Rot", m_robotToTarget.getRotation().toRotation2d().getRadians());
 
-        
         SmartDashboard.putNumber("Estimated pose/X", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getX());
         SmartDashboard.putNumber("Estimated pose/Y", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getY());
       }

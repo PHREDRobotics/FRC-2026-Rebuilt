@@ -7,6 +7,7 @@ import java.util.function.DoubleSupplier;
 import com.studica.frc.AHRS;
 
 import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,6 +20,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,16 +46,21 @@ public class SwerveSubsystem extends SubsystemBase {
   private final StructArrayPublisher<SwerveModuleState> publisher;
   private final Field2d m_field;
 
-  private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
-      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
-      Constants.VisionConstants.kXYControllerConstraints);
-  private final ProfiledPIDController m_yPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
-      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
-      Constants.VisionConstants.kXYControllerConstraints);
-  private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.VisionConstants.kRotP,
-      Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD,
-      Constants.VisionConstants.kRotControllerConstraints);
-
+  // private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
+  //     Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
+  //     Constants.VisionConstants.kXYControllerConstraints);
+  // private final ProfiledPIDController m_yPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
+  //     Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
+  //     Constants.VisionConstants.kXYControllerConstraints);
+  // private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.VisionConstants.kRotP,
+  //     Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD,
+  //     Constants.VisionConstants.kRotControllerConstraints);
+    private final PIDController m_xPID = new PIDController(Constants.VisionConstants.kXYPosP,
+      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD);
+  private final PIDController m_yPID = new PIDController(Constants.VisionConstants.kXYPosP,
+      Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD);
+  private final PIDController m_rotPID = new PIDController(Constants.VisionConstants.kRotP,
+      Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD);
   /**
    * Creates a new swerve subsystem
    * 
@@ -109,6 +117,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void drive(double xSpeed, double ySpeed, double rot,
       boolean fieldOriented) {
+
     var swerveModuleStates = Constants.SwerveConstants.kKinematics.toSwerveModuleStates(
         ChassisSpeeds.discretize(
             fieldOriented
@@ -119,7 +128,11 @@ public class SwerveSubsystem extends SubsystemBase {
                         * Constants.PhysicalConstants.kMaxSpeed,
                     rot
                         * Constants.PhysicalConstants.kMaxAngularSpeed,
-                    m_gyro.getRotation2d())
+                    (DriverStation.getAlliance().isPresent() // Don't question it, lambdaseption
+                        ? DriverStation.getAlliance().get() == Alliance.Red
+                        : false)
+                            ? m_gyro.getRotation2d().rotateBy(new Rotation2d(Math.PI))
+                            : m_gyro.getRotation2d())
                 : new ChassisSpeeds(
                     xSpeed
                         * Constants.PhysicalConstants.kMaxSpeed,
@@ -164,16 +177,36 @@ public class SwerveSubsystem extends SubsystemBase {
     publisher.set(swerveModuleStates);
   }
 
-  /**
-   * Resets the pids
-   * 
-   * @param setPose
-   */
-  public void resetPIDs(Pose2d setPose) {
-    m_xPID.reset(setPose.getX());
-    m_yPID.reset(setPose.getY());
-    m_rotPID.reset(setPose.getRotation().getRadians());
+  public void driveAbsoluteCoordinates(double xSpeed, double ySpeed, double rot) {
+    var swerveModuleStates = Constants.SwerveConstants.kKinematics.toSwerveModuleStates(
+        ChassisSpeeds.discretize(
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSpeed
+                    * Constants.PhysicalConstants.kMaxSpeed,
+                ySpeed
+                    * Constants.PhysicalConstants.kMaxSpeed,
+                rot
+                    * Constants.PhysicalConstants.kMaxAngularSpeed,
+                m_gyro.getRotation2d()),
+            Constants.SwerveConstants.kDtSeconds));
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.PhysicalConstants.kMaxSpeed);
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_backLeft.setDesiredState(swerveModuleStates[2]);
+    m_backRight.setDesiredState(swerveModuleStates[3]);
   }
+
+  // /**
+  //  * Resets the pids
+  //  * 
+  //  * @param setPose
+  //  */
+  // public void resetPIDs(Pose2d setPose) {
+  //   m_xPID.reset(setPose.getX());
+  //   m_yPID.reset(setPose.getY());
+  //   m_rotPID.reset(setPose.getRotation().getRadians());
+  // }
 
   /**
    * Drives to a pose not based off of the field
@@ -195,12 +228,19 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param pose
    */
   public void driveTo(Pose2d pose) {
+    double relX = pose.getX() - getPose().getX();
     double xOutput = m_xPID.calculate(getPose().getX(), pose.getX());
     double yOutput = m_yPID.calculate(getPose().getY(), pose.getY());
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians(),
         pose.getRotation().getRadians());
 
-    drive(xOutput, yOutput, rotOutput, true);
+    System.out.println(getPose().getX());
+
+    System.out.println(pose.getX());
+
+    System.out.println(xOutput);
+
+    driveAbsoluteCoordinates(xOutput, yOutput, 0);//rotOutput);
   }
 
   /**
@@ -226,7 +266,7 @@ public class SwerveSubsystem extends SubsystemBase {
         sample.vy + m_yPID.calculate(pose.getY(), sample.y),
         sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
 
-        SmartDashboard.putString("Auto follow trajectory speeds", speeds.toString());
+    SmartDashboard.putString("Auto follow trajectory speeds", speeds.toString());
 
     drive(speeds, true);
   }
@@ -295,7 +335,8 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public boolean isAlignedWithHub() {
     return Math.abs(getPose().getRotation().getDegrees()
-        - getPointAngleDegrees(Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+        - getPointAngleDegrees(
+            Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
   }
 
   /**
@@ -364,6 +405,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Resets the gyro on the swerve
+   * 
    * @return
    */
   public Command swerveGyroResetCommand() {
@@ -387,7 +429,7 @@ public class SwerveSubsystem extends SubsystemBase {
       DoubleSupplier throttle,
       BooleanSupplier fieldOriented) {
 
-        SmartDashboard.putString("Throttle", throttle.toString());
+    SmartDashboard.putString("Throttle", throttle.toString());
     return Commands.runEnd(
         () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
             rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
@@ -406,9 +448,10 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("CurrentPose", getPose().toString());
 
     m_field.setRobotPose(getPose());
-    
+
     if (SmartDashboard.getBoolean("Estimated pose/hasTarget", false)) {
-      // addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X", 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
+      // addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X",
+      // 0), SmartDashboard.getNumber("Estimated pose/Y", 0)));
     }
 
     SmartDashboard.updateValues();

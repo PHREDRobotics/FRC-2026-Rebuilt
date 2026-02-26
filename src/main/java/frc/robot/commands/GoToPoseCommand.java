@@ -27,7 +27,7 @@ public class GoToPoseCommand extends Command {
 
   @Override
   public void initialize() {
-    m_swerveSubsystem.resetPIDs(new Pose2d());
+    // m_swerveSubsystem.resetPIDs(new Pose2d());
   }
 
   @Override
