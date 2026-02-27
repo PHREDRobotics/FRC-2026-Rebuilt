@@ -88,6 +88,12 @@ public class RobotContainer {
 
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
+    shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem,
+    m_fuelSubsystem, m_swerveSubsystem,
+    m_visionSubsystem, () -> 0, () -> 0));
+    
+    // shooterButton.whileTrue(shootHub());
+
     //joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 5, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
     joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(15, 3.7, new Rotation2d())));
 

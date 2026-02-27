@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shoot(double shootSpeedRPM) {
     this.shootSpeed = shootSpeedRPM;
 
-    m_shooterLeftPID.setSetpoint(-targetShootSpeed, ControlType.kVelocity);
+    m_shooterLeftPID.setSetpoint(shootSpeedRPM, ControlType.kVelocity);
   }
 
   public void stop() {
@@ -55,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return
    */
   public double getShootPower(double distance) {
-    return Constants.ShooterConstants.kAutoShooterDistanceMultiplier * Math.pow(1.0876, distance);
+    return Constants.ShooterConstants.kAutoShooterDistanceMultiplier * Math.pow(Constants.ShooterConstants.kAutoShooterDistanceExponent, distance);
   }
 
   public Command shootCommand(DoubleSupplier speed) {
