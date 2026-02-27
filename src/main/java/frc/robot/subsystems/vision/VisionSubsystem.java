@@ -8,6 +8,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -24,6 +25,8 @@ public class VisionSubsystem extends SubsystemBase {
   private Transform3d m_robotToTarget;
 
   private PhotonPipelineResult result = new PhotonPipelineResult();
+
+  private LinearFilter m_measurementFilter = LinearFilter.movingAverage(20);
 
   private PhotonPoseEstimator m_photonPoseEstimator;
 
@@ -58,6 +61,17 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     return visionEst;
+  }
+
+  public Pose2d getAverageGlobalPose() {
+    if (getEstimatedGlobalPose().isPresent()) {
+      double x = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
+      double y = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
+
+      return new Pose2d(x, y, getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d());
+    }
+
+    return 
   }
 
   public Optional<Pose2d> getEstimatedRelativePose() {

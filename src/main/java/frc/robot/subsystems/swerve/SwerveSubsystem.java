@@ -90,7 +90,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_xPID.setTolerance(0.05, .01);
     m_yPID.setTolerance(0.05, .01);
-    m_rotPID.setTolerance(0.031415926535897932384626433832795028841971693993, .05);
+    m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians, .05);
 
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -311,9 +311,12 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isAlignedWithHub() {
-    return Math.abs(getPose().getRotation().getDegrees()
-        - getPointAngleDegrees(
-            Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeDegrees;
+    SmartDashboard.putNumber("Current Rotation", getPose().getRotation().getRadians());
+    SmartDashboard.putNumber("Current Hub Angle", getPointAngleRadians(Constants.VisionConstants.kRedHubPos)); /* TODO make sure this hub thing gets updated */
+
+    return Math.abs(getPose().getRotation().rotateBy(new Rotation2d(Math.PI)).getRadians()
+        - getPointAngleRadians(
+            Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
   }
 
   /**

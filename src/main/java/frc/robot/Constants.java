@@ -209,7 +209,7 @@ public class Constants {
     public static final double kYDeadband = 0.03;
     public static final double kRotDeadband = 0.05;
 
-    public static final double kAlignedWithHubRangeDegrees = 3;
+    public static final double kAlignedWithHubRangeRadians = Units.degreesToRadians(3);
   }
 
   /* -------------------- Vision Constants ----------------------- */
@@ -249,9 +249,9 @@ public class Constants {
         0.01,
         0.1);
 
-    public static final double kRotP = 0.005;
+    public static final double kRotP = 0.02;
     public static final double kRotI = 0;
-    public static final double kRotD = 0.0;
+    public static final double kRotD = 0.01;
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);
