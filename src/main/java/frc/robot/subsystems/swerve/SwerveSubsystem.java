@@ -44,15 +44,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private final StructArrayPublisher<SwerveModuleState> publisher;
   private final Field2d m_field;
 
-  // private final ProfiledPIDController m_xPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
-  //     Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
-  //     Constants.VisionConstants.kXYControllerConstraints);
-  // private final ProfiledPIDController m_yPID = new ProfiledPIDController(Constants.VisionConstants.kXYPosP,
-  //     Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD,
-  //     Constants.VisionConstants.kXYControllerConstraints);
-  // private final ProfiledPIDController m_rotPID = new ProfiledPIDController(Constants.VisionConstants.kRotP,
-  //     Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD,
-  //     Constants.VisionConstants.kRotControllerConstraints);
     private final PIDController m_xPID = new PIDController(Constants.VisionConstants.kXYPosP,
       Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD);
   private final PIDController m_yPID = new PIDController(Constants.VisionConstants.kXYPosP,
@@ -97,9 +88,9 @@ public class SwerveSubsystem extends SubsystemBase {
         getModulePositions(), new Pose2d(), Constants.SwerveConstants.kStateStdDevs,
         Constants.SwerveConstants.kVisionStdDevs);
 
-    m_xPID.setTolerance(0, .01);
-    m_yPID.setTolerance(0, .01);
-    m_rotPID.setTolerance(0, .05);
+    m_xPID.setTolerance(0.05, .01);
+    m_yPID.setTolerance(0.05, .01);
+    m_rotPID.setTolerance(0.031415926535897932384626433832795028841971693993, .05);
 
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -194,17 +185,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setDesiredState(swerveModuleStates[2]);
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
-
-  // /**
-  //  * Resets the pids
-  //  * 
-  //  * @param setPose
-  //  */
-  // public void resetPIDs(Pose2d setPose) {
-  //   m_xPID.reset(setPose.getX());
-  //   m_yPID.reset(setPose.getY());
-  //   m_rotPID.reset(setPose.getRotation().getRadians());
-  // }
 
   /**
    * Drives to a pose not based off of the field

@@ -128,8 +128,7 @@ public class Constants {
 
   /* -------------------- Shooter Constants ---------------------- */
   public static final class ShooterConstants {
-    public static final double kAutoShooterFactor = 0.1 * (Math.floor(Math.PI) / Math.round(Math.E));
-
+    public static final double kAutoShooterFactor = 0.1 * (Math.floor(Math.PI) / Math.round(Math.E)); // No comment
 
     public static final int kShooterLeftMotorCANId = 41;
     public static final int kShooterRightMotorCANId = 42;
