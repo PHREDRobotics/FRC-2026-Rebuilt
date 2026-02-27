@@ -3,7 +3,6 @@ package frc.robot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.SwerveConstants;
 
 import com.revrobotics.spark.config.SparkMaxConfig;

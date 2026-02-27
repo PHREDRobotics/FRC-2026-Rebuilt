@@ -22,7 +22,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkMax m_shooterRightSparkMax = new SparkMax(ShooterConstants.kShooterRightMotorCANId, MotorType.kBrushless);
 
   private SparkClosedLoopController m_shooterLeftPID;
-  private SparkClosedLoopController m_shooterRightPID;
 
   private double shootSpeed;
   private double targetShootSpeed = Constants.ShooterConstants.kInitialShootingSpeed;
@@ -33,7 +32,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterRightSparkMax.configure(Configs.ShooterRightConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     m_shooterLeftPID = m_shooterLeftSparkMax.getClosedLoopController();
-    m_shooterRightPID = m_shooterRightSparkMax.getClosedLoopController();
 
     SmartDashboard.putNumber("Shooter Speed Adjuster", targetShootSpeed);
   }
@@ -41,15 +39,11 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shoot(double shootSpeedRPM) {
     this.shootSpeed = shootSpeedRPM;
 
-    //m_shooterLeftPID.setSetpoint(-this.shootSpeed, ControlType.kVelocity);
-    //m_shooterLeftPID.setSetpoint(shootSpeedRPM, ControlType.kVelocity);
     m_shooterLeftPID.setSetpoint(-targetShootSpeed, ControlType.kVelocity);
-    //m_shooterRightPID.setSetpoint(this.shootSpeed, ControlType.kVelocity);
   }
 
   public void stop() {
     m_shooterLeftSparkMax.stopMotor();
-    //m_shooterRightSparkMax.stopMotor();
   }
 
   public boolean isAtSpeed() {

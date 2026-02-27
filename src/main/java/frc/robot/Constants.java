@@ -30,11 +30,11 @@ public class Constants {
   public static final class ClimberConstants {
     public static final int kClimberMotorCANId = 6;
 
-    public static final double kClimberRaisedEncoderValue = 99; /* TODO determine climber encoder values */
+    public static final double kClimberRaisedEncoderValue = 99;
     public static final double kClimberClimbedEncoderValue = 99;
     public static final double kClimberLoweredEncoderValue = 0;
 
-    public static final double kP = 0.847; /* TODO determine climber pid values */
+    public static final double kP = 0.847;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
@@ -70,11 +70,11 @@ public class Constants {
 
     public static final double kFeederSpeed = 50;
 
-    public static final double kIntakeSpeed = 1600; /* TODO determine speeds (RPM) of fuel movers*/
+    public static final double kIntakeSpeed = 1600;
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
-    public static final double kIntakeP = 1.0; /* TODO determine fuel movers pid values */
+    public static final double kIntakeP = 1.0;
     public static final double kIntakeI = 0.0;
     public static final double kIntakeD = 0.0;
 

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.swerve;
 
-import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -8,7 +7,6 @@ import com.studica.frc.AHRS;
 
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -228,7 +226,6 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param pose
    */
   public void driveTo(Pose2d pose) {
-    double relX = pose.getX() - getPose().getX();
     double xOutput = m_xPID.calculate(getPose().getX(), pose.getX());
     double yOutput = m_yPID.calculate(getPose().getY(), pose.getY());
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians(),
