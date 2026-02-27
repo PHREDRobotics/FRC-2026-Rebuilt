@@ -61,8 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return
    */
   public double getShootPower(double distance) {
-    return Constants.ShooterConstants.kAutoShooterDistanceMultiplier
-        * Math.pow(distance, Constants.ShooterConstants.kAutoShooterDistanceExponent);
+    return Constants.ShooterConstants.kAutoShooterDistanceMultiplier * Math.pow(1.0876, distance);
   }
 
   public Command shootCommand(DoubleSupplier speed) {
