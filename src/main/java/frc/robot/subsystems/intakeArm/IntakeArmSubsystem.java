@@ -52,6 +52,10 @@ public class IntakeArmSubsystem extends SubsystemBase {
     m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmDownEncoderValue, ControlType.kPosition);
   }
 
+  public void intakeArmMiddle() {
+    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmDrivingEncoderValue, ControlType.kPosition);
+  }
+
   public void intakeArmRaise() {
     m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmUpEncoderValue, ControlType.kPosition);
   }
@@ -74,6 +78,10 @@ public class IntakeArmSubsystem extends SubsystemBase {
 
   public Command lowerIntakeCommand() {
     return Commands.runOnce(() -> this.intakeArmLower(), this);
+  }
+  
+  public Command middleIntakeCommand() {
+    return Commands.runOnce(() -> this.intakeArmMiddle(), this);
   }
 
   public Command raiseIntakeCommand() {

@@ -104,7 +104,7 @@ public class Constants {
     public static final double kArmDownEncoderValue = 99; 
     public static final double kArmDrivingEncoderValue = 99;
 
-    public static final double kArmP = 0.001; /* TODO determine arm pid values */
+    public static final double kArmP = 0.0; /* TODO determine arm pid values */
     public static final double kArmI = 0.0; 
     public static final double kArmD = 0.0;
 
@@ -139,6 +139,7 @@ public class Constants {
 
     public static final double kAutoShooterDistanceMultiplier = 2307; 
     public static final double kAutoShooterDistanceExponent = 1.0876;
+    public static final double kMinimumShootDistanceMeters = 2;
     
     public static final double kP = 0.00006;
     public static final double kI = 0.0;

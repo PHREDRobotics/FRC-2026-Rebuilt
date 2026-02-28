@@ -55,8 +55,8 @@ public record ChoreoTraj(
 	public static final ChoreoTraj PositionLeftToShoot = new ChoreoTraj(
 	    "PositionLeftToShoot",
 	    OptionalInt.empty(),
-	    1.2905,
-	    new Pose2d(3.678, 7.492, Rotation2d.fromRadians(0)),
+	    1.29652,
+	    new Pose2d(3.678, 7.419, Rotation2d.fromRadians(0)),
 	    new Pose2d(2.555, 5.305, Rotation2d.fromRadians(-0.549))
 	);
 	public static final ChoreoTraj PositionMiddleToPickup = new ChoreoTraj(

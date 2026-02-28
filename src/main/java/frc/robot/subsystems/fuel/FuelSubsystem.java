@@ -35,13 +35,14 @@ public class FuelSubsystem extends SubsystemBase {
   public FuelSubsystem() {
     m_feederLeftMotor.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     m_feederRightMotor.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_intakeMotor.configure(Configs.FeederConfig.intakeMotorConfig,  ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   /**
    * Starts intake, hopper, and vector motors
    */
   public void intake() {
-    m_intakeMotor.set(-Constants.FuelConstants.kIntakeSpeed);
+    m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
     // m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
     // m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
     // m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
@@ -54,9 +55,10 @@ public class FuelSubsystem extends SubsystemBase {
    * Starts intake, hopper, and vector motors in reverse to spit out and stuck fuel
    */
   public void outtake() {
-    m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
-    // m_hopperMotor.set(-Constants.FuelConstants.kHopperSpeed);
-    // m_vectorMotor.set(-Constants.FuelConstants.kVectorSpeed);
+    m_intakeMotor.set(-Constants.FuelConstants.kIntakeSpeed);
+    m_hopperMotor.set(-Constants.FuelConstants.kHopperSpeed);
+    m_vectorMotor.set(-Constants.FuelConstants.kVectorSpeed);
+    m_feederLeftMotor.set(-Constants.FuelConstants.kFeederSpeed);
 
     m_fuelState = FuelState.Outtaking;
   }

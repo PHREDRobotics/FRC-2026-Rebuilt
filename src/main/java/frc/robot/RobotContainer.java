@@ -65,18 +65,23 @@ public class RobotContainer {
 
     Trigger fieldOrientedButton = new Trigger(joystick.button(2));
 
-    Trigger shooterButton = new Trigger(joystick.button(6));
+    Trigger shooterButton = new Trigger(joystick.button(1));
     Trigger manShootButton = new Trigger(joystick.button(4));
+
+    Trigger resetOdometryButton = new Trigger(joystick.button(11));
+
     Trigger feedButton = new Trigger(gamepad.x());
 
     Trigger intakeButton = new Trigger(gamepad.a());
+    Trigger outtakeButton = new Trigger(gamepad.b());
 
-    Trigger armUpButton = new Trigger(gamepad.start());
-    Trigger armDownButton = new Trigger(gamepad.back());
+    Trigger armUpButton = new Trigger(gamepad.povUp());
+    Trigger armDownButton = new Trigger(gamepad.povDown());
+    Trigger armMiddleButton = new Trigger(gamepad.povRight());
 
-    Trigger climberClimbButton = new Trigger(gamepad.povLeft());
-    Trigger climberExtendButton = new Trigger(gamepad.povUp());
-    Trigger climberRetractButton = new Trigger(gamepad.povDown());
+    // Trigger climberClimbButton = new Trigger(gamepad.povLeft());
+    // Trigger climberExtendButton = new Trigger(gamepad.povUp());
+    // Trigger climberRetractButton = new Trigger(gamepad.povDown());
 
     // -- Button Assignments --
 
@@ -87,6 +92,7 @@ public class RobotContainer {
     feedButton.toggleOnTrue(m_fuelSubsystem.feedCommand());
 
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
+    outtakeButton.toggleOnTrue(m_fuelSubsystem.outtakeCommand());
 
     shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem,
     m_fuelSubsystem, m_swerveSubsystem,
@@ -97,7 +103,11 @@ public class RobotContainer {
     //joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 5, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
     joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(15, 3.7, new Rotation2d())));
 
-    joystick.button(8).onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
+    resetOdometryButton.onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
+
+    armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
+    armMiddleButton.onTrue(m_intakeArmSubsystem.middleIntakeCommand());
+    armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());
 
     //armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
     //armDownButton.onTrue(m_intakeArmSubsystem.lowerIntakeCommand());

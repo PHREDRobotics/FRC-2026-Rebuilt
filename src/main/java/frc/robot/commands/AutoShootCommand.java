@@ -48,7 +48,7 @@ public class AutoShootCommand extends Command {
   private boolean canShoot() {
     SmartDashboard.putBoolean("Is aligned", m_swerveSubsystem.isAlignedWithHub());
     SmartDashboard.putBoolean("Is at speed", m_shooterSubsystem.isAtSpeed());
-    return m_swerveSubsystem.isAlignedWithHub() && m_shooterSubsystem.isAtSpeed();
+    return m_swerveSubsystem.isAlignedWithHub() && m_shooterSubsystem.isAtSpeed() && m_swerveSubsystem.getHubDistance() > Constants.ShooterConstants.kMinimumShootDistanceMeters;
   }
 
   @Override
@@ -74,6 +74,8 @@ public class AutoShootCommand extends Command {
 
     SmartDashboard.putBoolean("Can Shoot", canShoot());
     SmartDashboard.putNumber("shoot power", m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
+    SmartDashboard.putNumber("Shoot Power Linear", m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
+    SmartDashboard.putNumber("Shoot Power Root", m_shooterSubsystem.getShootPowerRoot(m_swerveSubsystem.getHubDistance()));
   }
 
   @Override

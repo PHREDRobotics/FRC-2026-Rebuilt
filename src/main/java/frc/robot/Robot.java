@@ -110,6 +110,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Amps/leftFeeder", m_pdh.getCurrent(13));
     SmartDashboard.putNumber("Amps/rightFeeder", m_pdh.getCurrent(15));
 
+    SmartDashboard.putNumber("Amps/Arm", m_pdh.getCurrent(10));
+
     SmartDashboard.putNumber("Amps/hopperFloor", m_pdh.getCurrent(12));
   }
 

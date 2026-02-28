@@ -84,8 +84,18 @@ public final class Configs {
           .smartCurrentLimit(40)
           .inverted(true);
     }
+    
+    public static final SparkMaxConfig intakeMotorConfig = new SparkMaxConfig();
+    static {
+      intakeMotorConfig
+          .idleMode(IdleMode.kCoast)
+          .smartCurrentLimit(40)
+          .inverted(true);
+    }
   }
+  
 
+   
   public static final class ShooterLeftConfig {
     public static final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
     static {
