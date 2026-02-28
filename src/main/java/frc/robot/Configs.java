@@ -92,7 +92,7 @@ public final class Configs {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
-          .inverted(true);
+          .inverted(false);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -108,7 +108,7 @@ public final class Configs {
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
           .follow(41, true)
-          .inverted(true);
+          .inverted(false);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)

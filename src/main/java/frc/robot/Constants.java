@@ -249,9 +249,9 @@ public class Constants {
         0.01,
         0.1);
 
-    public static final double kRotP = 0.02;
+    public static final double kRotP = 0.02; /*TODO */
     public static final double kRotI = 0;
-    public static final double kRotD = 0.01;
+    public static final double kRotD = 0.01; /*TODO */
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);

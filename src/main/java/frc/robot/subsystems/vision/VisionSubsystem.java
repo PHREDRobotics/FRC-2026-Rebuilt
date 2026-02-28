@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,16 +64,16 @@ public class VisionSubsystem extends SubsystemBase {
     return visionEst;
   }
 
-  public Pose2d getAverageGlobalPose() {
+  public Optional<Pose2d> getAverageGlobalPose() {
     if (getEstimatedGlobalPose().isPresent()) {
-      double x = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
-      double y = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
+      var estimatePos = getEstimatedGlobalPose().get().estimatedPose;
+      double x = m_measurementFilter.calculate(estimatePos.getX());
+      double y = m_measurementFilter.calculate(estimatePos.getY());
 
-      return new Pose2d(x, y, getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d());
+      return Optional.of(new Pose2d(x, y, getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d()));
     }
-
-    return 
-  }
+        return null;
+}
 
   public Optional<Pose2d> getEstimatedRelativePose() {
     PhotonTrackedTarget target = result.getBestTarget();
