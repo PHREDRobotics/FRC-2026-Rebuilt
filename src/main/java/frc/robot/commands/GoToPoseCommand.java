@@ -27,8 +27,10 @@ public class GoToPoseCommand extends Command {
 
   @Override
   public void initialize() {
-    // m_swerveSubsystem.resetPIDs(new Pose2d());
-    m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
+    //m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
+    if (m_visionSubsystem.hasValidTarget()) {
+      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
+    }
   }
 
   @Override
