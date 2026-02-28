@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,7 +27,9 @@ public class VisionSubsystem extends SubsystemBase {
 
   private PhotonPipelineResult result = new PhotonPipelineResult();
 
-  private LinearFilter m_measurementFilter = LinearFilter.movingAverage(20);
+  private LinearFilter m_xMeasurementFilter = LinearFilter.movingAverage(20);
+  private LinearFilter m_yMeasurementFilter = LinearFilter.movingAverage(20);
+  private LinearFilter m_rotMeasurementFilter = LinearFilter.movingAverage(20);
 
   private PhotonPoseEstimator m_photonPoseEstimator;
 
@@ -63,15 +66,14 @@ public class VisionSubsystem extends SubsystemBase {
     return visionEst;
   }
 
-  public Pose2d getAverageGlobalPose() {
+  public Pose2d getLastAverageGlobalPose() {
     if (getEstimatedGlobalPose().isPresent()) {
-      double x = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
-      double y = m_measurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
-
-      return new Pose2d(x, y, getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d());
+      m_xMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
+      m_yMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
+      m_rotMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d().getRadians());
     }
 
-    return 
+    return new Pose2d(m_xMeasurementFilter.lastValue(), m_yMeasurementFilter.lastValue(), new Rotation2d(m_rotMeasurementFilter.lastValue()));
   }
 
   public Optional<Pose2d> getEstimatedRelativePose() {
