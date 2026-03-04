@@ -95,21 +95,32 @@ public class Constants {
   /* -------------------- Intake Arm Constants ------------------- */
   public static final class IntakeArmConstants {
 
+    public static final double kIntakeArmManualVolts = 1.2;
+
+    public static final double kArmStallAmps = 4;
+
     public static final int kIntakeArmMotorCANId = 51;
 
     public static final double kIntakeArmExtendPower = 0.5;
     public static final double kIntakeArmRetractPower = 0.5;
 
-    public static final double kArmUpEncoderValue = 99; /* TODO determine arm encoder values */
-    public static final double kArmDownEncoderValue = 99; 
-    public static final double kArmDrivingEncoderValue = 99;
+    public static final double kArmUpToHorizontalEncoderValue = 6.6;/* TODO determine arm encoder values */
+    
+    public static final double kArmHorizontalToUpEncoderValue = -kArmUpToHorizontalEncoderValue; 
+    public static final double kArmHorizontalToDownEncoderValue = 1.76; 
+    public static final double kArmHorizontalToDrivingEncoderValue = 8 - kArmUpToHorizontalEncoderValue;
+
 
     public static final double kArmP = 0.0; /* TODO determine arm pid values */
     public static final double kArmI = 0.0; 
     public static final double kArmD = 0.0;
 
-    public static final double kArmFFCos = 0.1; /* TODO determine arm feedforward */
-    public static final double kArmFFRatio = 1/60;
+    public static final double kArmFFCos = 0.01; /* TODO determine arm feedforward */
+    public static final double kArmFFRatio = 1/30;
+
+    public static final double kArmCruiseVelocity = .5; /* TODO determine actual good cruise vel */
+
+    public static final double kArmMaxAcceleration = 0.25; /* TODO determine good max accel */
   }
 
   /* -------------------- Physical Constants --------------------- */
@@ -146,7 +157,7 @@ public class Constants {
     public static final double kD = 0.0;
     public static final double kFFV = 0.0023;
 
-    public static final double kShootThreshold = 200;
+    public static final double kShootThreshold = 100;
   }
 
   /* -------------------- Swerve Constants ----------------------- */
@@ -166,7 +177,7 @@ public class Constants {
     public static final int kBackLeftTurnMotorCANId = 22;
     public static final int kBackRightTurnMotorCANId = 27;
 
-    public static final double kDrivingMotorReduction = 8;
+    public static final double kDrivingMotorReduction = 6.75;
     public static final double kTurningMotorReduction = 21;
 
     public static final Translation2d kFrontLeftLocationInches = new Translation2d(11.036, 11.036);
@@ -193,8 +204,8 @@ public class Constants {
         Constants.SwerveConstants.kBackLeftLocationMeters,
         Constants.SwerveConstants.kBackRightLocationMeters);
 
-    public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.4, 0.4, 0.9);
-    public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.8, 0.8, 0.1);
+    public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.2, 0.2, 1.0);
+    public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.8, 0.8, 0.0);
 
     public static final double kDriveP = 0.4; // FOR MODULE MOTORS SPARK
     public static final double kDriveI = 0.0;
@@ -210,7 +221,7 @@ public class Constants {
     public static final double kYDeadband = 0.03;
     public static final double kRotDeadband = 0.05;
 
-    public static final double kAlignedWithHubRangeRadians = Units.degreesToRadians(3);
+    public static final double kAlignedWithHubRangeRadians = 0.02;
   }
 
   /* -------------------- Vision Constants ----------------------- */
@@ -250,9 +261,9 @@ public class Constants {
         0.01,
         0.1);
 
-    public static final double kRotP = 0.02; /*TODO */
+    public static final double kRotP = 0.1; /*TODO */
     public static final double kRotI = 0;
-    public static final double kRotD = 0.01; /*TODO */
+    public static final double kRotD = 0.05; /*TODO */
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);

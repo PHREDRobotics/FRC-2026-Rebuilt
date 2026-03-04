@@ -1,5 +1,7 @@
 package frc.robot.subsystems.intakeArm;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -23,10 +25,13 @@ public class IntakeArmSubsystem extends SubsystemBase {
   private RelativeEncoder m_intakeArmEncoder;
   private SparkClosedLoopController m_intakeArmPIDController;
   private double m_encoderValue;
+  private double m_manualVolts;
 
   public IntakeArmSubsystem() {
     m_intakeArmMotor = new SparkMax(Constants.IntakeArmConstants.kIntakeArmMotorCANId, MotorType.kBrushless);
     m_intakeArmEncoder = m_intakeArmMotor.getEncoder();
+
+    m_manualVolts = Constants.IntakeArmConstants.kIntakeArmManualVolts;
 
     // Initialize the closed loop controller
     m_intakeArmPIDController = m_intakeArmMotor.getClosedLoopController();
@@ -43,21 +48,29 @@ public class IntakeArmSubsystem extends SubsystemBase {
   public void resetEncoder() {
     m_intakeArmEncoder.setPosition(0);
   }
+  
+  public void resetEncoderUp() {
+    m_intakeArmEncoder.setPosition(Constants.IntakeArmConstants.kArmHorizontalToUpEncoderValue);
+  }
+
+  public void resetEncoderDown() {
+    m_intakeArmEncoder.setPosition(Constants.IntakeArmConstants.kArmHorizontalToDownEncoderValue);
+  }
 
   public double getIntakeArmEncoder() {
     return m_encoderValue;
   }
 
   public void intakeArmLower() {
-    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmDownEncoderValue, ControlType.kPosition);
+    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmHorizontalToUpEncoderValue, ControlType.kPosition);
   }
 
   public void intakeArmMiddle() {
-    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmDrivingEncoderValue, ControlType.kPosition);
+    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmHorizontalToDrivingEncoderValue, ControlType.kPosition);
   }
 
   public void intakeArmRaise() {
-    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmUpEncoderValue, ControlType.kPosition);
+    m_intakeArmPIDController.setSetpoint(Constants.IntakeArmConstants.kArmHorizontalToUpEncoderValue, ControlType.kPosition);
   }
 
   public void setIntakeArmToPosition(double position) {
@@ -68,12 +81,20 @@ public class IntakeArmSubsystem extends SubsystemBase {
     m_intakeArmMotor.set(0);
   }
 
+  public void setIntakeArm(double volt) {
+    m_intakeArmMotor.setVoltage(volt);
+  }
+
   public boolean isIntakeArmExtended() {
-    return m_encoderValue <= Constants.IntakeArmConstants.kArmUpEncoderValue;
+    return m_encoderValue <= Constants.IntakeArmConstants.kArmHorizontalToUpEncoderValue;
   }
 
   public boolean isIntakeArmRetracted() {
-    return m_encoderValue >= Constants.IntakeArmConstants.kArmDownEncoderValue;
+    return m_encoderValue >= Constants.IntakeArmConstants.kArmHorizontalToDownEncoderValue;
+  }
+
+  public double getVoltageMult() {
+    return m_manualVolts;
   }
 
   public Command lowerIntakeCommand() {
@@ -88,11 +109,32 @@ public class IntakeArmSubsystem extends SubsystemBase {
     return Commands.runOnce(() -> this.intakeArmRaise(), this);
   }
 
+  public Command resetArmCommand() {
+    return Commands.runOnce(() -> this.resetEncoder(), this);
+  }
+
+  public Command resetArmUpCommand() {
+    return Commands.runOnce(() -> this.resetEncoderUp(), this);
+  }
+
+  public Command resetArmDownCommand() {
+    return Commands.runOnce(() -> this.resetEncoderDown(), this);
+  }
+  // if current ever goes above .625 its joever
+  public Command setArmCommand(DoubleSupplier analogInput) {
+    return Commands.runEnd(() -> setIntakeArm(analogInput.getAsDouble()*m_manualVolts), () -> stopIntakeArm(), this);
+  }
+
   @Override
   public void periodic() {
     m_encoderValue = m_intakeArmEncoder.getPosition();
+    SmartDashboard.setDefaultNumber("Target Position", m_intakeArmPIDController.getMAXMotionSetpointPosition());
+    SmartDashboard.setDefaultNumber("Target Velocity", m_intakeArmPIDController.getMAXMotionSetpointVelocity());
     SmartDashboard.putNumber("intakeArm Power", m_intakeArmMotor.get());
     SmartDashboard.putNumber("intakeArm Encoder", m_encoderValue);
+    m_manualVolts = SmartDashboard.getNumber("Arm Voltage", Constants.IntakeArmConstants.kIntakeArmManualVolts);
+    SmartDashboard.putNumber("Arm Voltage", m_manualVolts);
+
     // Display encoder position and velocity
 
     if (SmartDashboard.getBoolean("Reset Encoder", false)) {

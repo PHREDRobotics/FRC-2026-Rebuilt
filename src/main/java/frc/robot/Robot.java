@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    m_pdh = new PowerDistribution(1, ModuleType.kRev);
+    m_pdh = new PowerDistribution(3, ModuleType.kRev);
   }
 
   @Override
@@ -37,20 +37,25 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Middle-Shoot", RobotContainer.AutoSwitcher.SHOOT_MIDDLE);
     autoChooser.addOption("Right-Shoot", RobotContainer.AutoSwitcher.SHOOT_RIGHT);
 
+    autoChooser.addOption("owen", RobotContainer.AutoSwitcher.OWEN);
     // autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
     // autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);
     // autoChooser.addOption("Right-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_RIGHT);
 
-    autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
+    // autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
     // autoChooser.addOption("Left-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_LEFT);
 
-    autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
+    // autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
     // autoChooser.addOption("Middle-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_MIDDLE);
 
-    autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
+    // autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
     // autoChooser.addOption("Right-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_RIGHT);
 
     SmartDashboard.putData("Auto mode", autoChooser);
+  }
+
+  public double getAmps (int channel){
+    return m_pdh.getCurrent(channel);
   }
 
   @Override
@@ -110,7 +115,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Amps/leftFeeder", m_pdh.getCurrent(13));
     SmartDashboard.putNumber("Amps/rightFeeder", m_pdh.getCurrent(15));
 
-    SmartDashboard.putNumber("Amps/Arm", m_pdh.getCurrent(10));
+    SmartDashboard.putNumber("Amps/Arm", m_pdh.getCurrent(11));
 
     SmartDashboard.putNumber("Amps/hopperFloor", m_pdh.getCurrent(12));
   }

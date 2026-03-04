@@ -6,6 +6,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import frc.robot.Constants.SwerveConstants;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 
 /**
  * Configs for the spark maxes
@@ -60,16 +61,19 @@ public final class Configs {
       drivingConfig.inverted(false);
     }
   }
+
   public static final class FrontRightConfig extends SwerveConfig {
     static {
       drivingConfig.inverted(false);
     }
   }
+
   public static final class BackLeftConfig extends SwerveConfig {
     static {
       drivingConfig.inverted(false);
     }
   }
+
   public static final class BackRightConfig extends SwerveConfig {
     static {
       drivingConfig.inverted(false);
@@ -84,7 +88,7 @@ public final class Configs {
           .smartCurrentLimit(40)
           .inverted(true);
     }
-    
+
     public static final SparkMaxConfig intakeMotorConfig = new SparkMaxConfig();
     static {
       intakeMotorConfig
@@ -93,16 +97,14 @@ public final class Configs {
           .inverted(true);
     }
   }
-  
 
-   
   public static final class ShooterLeftConfig {
     public static final SparkMaxConfig shooterMotorConfig = new SparkMaxConfig();
     static {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
-          .inverted(false);
+          .inverted(true);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -118,7 +120,7 @@ public final class Configs {
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
           .follow(41, true)
-          .inverted(false);
+          .inverted(true);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -130,6 +132,9 @@ public final class Configs {
   public static final class IntakeArmConfig {
     public static final SparkMaxConfig intakeArmMotorConfig = new SparkMaxConfig();
     static {
+      intakeArmMotorConfig
+          .inverted(true);
+
       intakeArmMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
           // Set PID values for position control. We don't need to pass a closed loop
@@ -137,11 +142,16 @@ public final class Configs {
           .p(Constants.IntakeArmConstants.kArmP)
           .i(Constants.IntakeArmConstants.kArmI)
           .d(Constants.IntakeArmConstants.kArmD)
-          .outputRange(Constants.IntakeArmConstants.kArmDownEncoderValue, Constants.IntakeArmConstants.kArmUpEncoderValue);
+          .outputRange(0.01, 0.01);
 
       intakeArmMotorConfig.closedLoop.feedForward
           .kCos(Constants.IntakeArmConstants.kArmFFCos)
           .kCosRatio(Constants.IntakeArmConstants.kArmFFRatio);
+
+      intakeArmMotorConfig.closedLoop.maxMotion
+        .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal)
+        .cruiseVelocity(Constants.IntakeArmConstants.kArmCruiseVelocity)
+        .maxAcceleration(Constants.IntakeArmConstants.kArmMaxAcceleration);
     }
   }
 
@@ -149,38 +159,38 @@ public final class Configs {
     public static final SparkMaxConfig fuelIntakeConfig = new SparkMaxConfig();
     static {
       fuelIntakeConfig
-        .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(40)
-        .inverted(false);
+          .idleMode(IdleMode.kCoast)
+          .smartCurrentLimit(40)
+          .inverted(false);
       fuelIntakeConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
     }
   }
 
-  public static final class HopperConfig{
+  public static final class HopperConfig {
     public static final SparkMaxConfig hopperConfig = new SparkMaxConfig();
     static {
       hopperConfig
-        .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(40)
-        .inverted(false);
+          .idleMode(IdleMode.kCoast)
+          .smartCurrentLimit(40)
+          .inverted(false);
       hopperConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
     }
   }
 
   public static final class VectorConfig {
     public static final SparkMaxConfig vectorConfig = new SparkMaxConfig();
     static {
-      vectorConfig 
-        .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(40)
-        .inverted(false);
+      vectorConfig
+          .idleMode(IdleMode.kCoast)
+          .smartCurrentLimit(40)
+          .inverted(false);
       vectorConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          .pid(Constants.FuelConstants.kIntakeP, Constants.FuelConstants.kIntakeI, Constants.FuelConstants.kIntakeD);
     }
   }
 
@@ -188,13 +198,13 @@ public final class Configs {
     public static final SparkMaxConfig climberConfig = new SparkMaxConfig();
     static {
       climberConfig
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(40)
-        .inverted(false);
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(40)
+          .inverted(false);
       climberConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(Constants.ClimberConstants.kP, Constants.ClimberConstants.kI, Constants.ClimberConstants.kD)
-        .feedForward.kG(Constants.ClimberConstants.kG);
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          .pid(Constants.ClimberConstants.kP, Constants.ClimberConstants.kI, Constants.ClimberConstants.kD).feedForward
+          .kG(Constants.ClimberConstants.kG);
     }
   }
 }

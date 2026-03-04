@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import frc.robot.Configs;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -47,7 +48,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSpeed() {
-    return (m_shooterLeftSparkMax.getEncoder().getVelocity() > shootSpeed - Constants.ShooterConstants.kShootThreshold) && (m_shooterLeftSparkMax.getEncoder().getVelocity() < shootSpeed + Constants.ShooterConstants.kShootThreshold); 
+    return MathUtil.isNear(shootSpeed+ 100, m_shooterLeftSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
+    //return (m_shooterLeftSparkMax.getEncoder().getVelocity() > shootSpeed - Constants.ShooterConstants.kShootThreshold) && (m_shooterLeftSparkMax.getEncoder().getVelocity() < shootSpeed + Constants.ShooterConstants.kShootThreshold); 
   }
 
   /**
@@ -59,7 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getShootPowerLinear(double distance) {
-    return 277.433 * distance + 2112.01;
+    return 277.501 * distance + 2175.02;
   }
 
   public double getShootPowerRoot(double distance) {

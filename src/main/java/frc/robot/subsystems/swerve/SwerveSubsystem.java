@@ -44,12 +44,13 @@ public class SwerveSubsystem extends SubsystemBase {
   private final StructArrayPublisher<SwerveModuleState> publisher;
   private final Field2d m_field;
 
-    private final PIDController m_xPID = new PIDController(Constants.VisionConstants.kXYPosP,
+  private final PIDController m_xPID = new PIDController(Constants.VisionConstants.kXYPosP,
       Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD);
   private final PIDController m_yPID = new PIDController(Constants.VisionConstants.kXYPosP,
       Constants.VisionConstants.kXYPosI, Constants.VisionConstants.kXYPosD);
   private final PIDController m_rotPID = new PIDController(Constants.VisionConstants.kRotP,
       Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD);
+
   /**
    * Creates a new swerve subsystem
    * 
@@ -88,12 +89,11 @@ public class SwerveSubsystem extends SubsystemBase {
         getModulePositions(), new Pose2d(), Constants.SwerveConstants.kStateStdDevs,
         Constants.SwerveConstants.kVisionStdDevs);
 
-    m_xPID.setTolerance(0.05, .01);
-    m_yPID.setTolerance(0.05, .01);
-    m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians, .05);
+    m_xPID.setTolerance(0.05, 0.01);
+    m_yPID.setTolerance(0.05, 0.01);
+    m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians, 1);
 
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
-
   }
 
   /**
@@ -117,11 +117,12 @@ public class SwerveSubsystem extends SubsystemBase {
                         * Constants.PhysicalConstants.kMaxSpeed,
                     rot
                         * Constants.PhysicalConstants.kMaxAngularSpeed,
-                    (DriverStation.getAlliance().isPresent() // Don't question it, lambdaseption
-                        ? DriverStation.getAlliance().get() == Alliance.Red
-                        : false)
-                            ? m_gyro.getRotation2d().rotateBy(new Rotation2d(Math.PI))
-                            : m_gyro.getRotation2d())
+                    // m_gyro.getRotation2d())
+                (DriverStation.getAlliance().isPresent() // Don't question it, lambdaseption
+                ? DriverStation.getAlliance().get() == Alliance.Red
+                : false)
+                ? m_gyro.getRotation2d().rotateBy(new Rotation2d(Math.PI))
+                : m_gyro.getRotation2d())
                 : new ChassisSpeeds(
                     xSpeed
                         * Constants.PhysicalConstants.kMaxSpeed,
@@ -231,6 +232,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public void alignToAndDrive(double x, double y, Rotation2d rot, boolean fieldOriented) {
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians());
 
+    SmartDashboard.putNumber("Rotation output", rotOutput);
+
     drive(0, 0, rotOutput, fieldOriented);
   }
 
@@ -239,13 +242,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // Generate the next speeds for the robot
     ChassisSpeeds speeds = new ChassisSpeeds(
-        sample.vx + m_xPID.calculate(pose.getX(), sample.x),
-        sample.vy + m_yPID.calculate(pose.getY(), sample.y),
-        sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading));
+        -(sample.vx + m_xPID.calculate(pose.getX(), sample.x)),
+        -(sample.vy + m_yPID.calculate(pose.getY(), sample.y)),
+        -(sample.omega + m_rotPID.calculate(pose.getRotation().getRadians(), sample.heading)));
 
     SmartDashboard.putString("Auto follow trajectory speeds", speeds.toString());
 
-    drive(speeds, true);
+    driveAbsoluteCoordinates(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond);
+    // drive(speeds, true);
   }
 
   /**
@@ -263,6 +267,25 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void resetGyro() {
     m_gyro.reset();
+    if (DriverStation.getAlliance().isPresent()){
+      if (DriverStation.getAlliance().get() == Alliance.Red){
+            m_gyro.setAngleAdjustment(180);
+
+      } else {
+            m_gyro.setAngleAdjustment(0);
+      }
+    }
+      
+    // if (DriverStation.getAlliance().isPresent()){
+    // if (DriverStation.getAlliance().get() == Alliance.Red) {
+
+    // }
+    // }
+    // ( // Don't question it, lambdaseption
+    // ? DriverStation.getAlliance().get() == Alliance.Red
+    // : false)
+    // ? m_gyro.reset(new Rotation2d(Math.PI))
+    // : m_gyro.reset();
   }
 
   /**
@@ -272,6 +295,12 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param timestamp   the time that the measurement was taken
    */
   public void addVisionMeasurement(Pose2d measurement, double timestamp) {
+    if (DriverStation.getAlliance().isEmpty()) {
+      return;
+    }
+    measurement = new Pose2d(measurement.getX(), measurement.getY(),
+        DriverStation.getAlliance().get() == Alliance.Red ? getRotation().rotateBy(new Rotation2d(Math.PI))
+            : getRotation());
     m_poseEstimator.addVisionMeasurement(measurement, timestamp);
   }
 
@@ -280,8 +309,13 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public double getHubDistance() {
     double distance = -1;
-    distance = Constants.VisionConstants.kHubPos.getDistance(getPose().getTranslation());
-
+    if (DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().get() == Alliance.Red) {
+        distance = Constants.VisionConstants.kRedHubPos.getDistance(getPose().getTranslation());
+      } else {
+        distance = Constants.VisionConstants.kBlueHubPos.getDistance(getPose().getTranslation());
+      }
+    }
     return distance;
   }
 
@@ -312,11 +346,22 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public boolean isAlignedWithHub() {
     SmartDashboard.putNumber("Current Rotation", getPose().getRotation().getRadians());
-    SmartDashboard.putNumber("Current Hub Angle", getPointAngleRadians(Constants.VisionConstants.kRedHubPos)); /* TODO make sure this hub thing gets updated */
+    SmartDashboard.putNumber("Current Hub Angle", getPointAngleRadians(Constants.VisionConstants.kRedHubPos));
 
-    return Math.abs(getPose().getRotation().rotateBy(new Rotation2d(Math.PI)).getRadians()
-        - getPointAngleRadians(
-            Constants.VisionConstants.kHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
+    // if (DriverStation.getAlliance().isPresent()) {
+    //   if (DriverStation.getAlliance().get() == Alliance.Blue) {
+    //     return Math.abs(getPose().getRotation().rotateBy(new Rotation2d(Math.PI)).getRadians()
+    //         - getPointAngleRadians(
+    //             Constants.VisionConstants.kRedHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
+    //   } else {
+    //     return Math.abs(getPose().getRotation().getRadians()
+    //         - getPointAngleRadians(
+    //             Constants.VisionConstants.kBlueHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
+      
+    //   }
+    // }
+
+    return true;
   }
 
   /**
@@ -431,6 +476,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Hub Pose", Constants.VisionConstants.kHubPos.toString());
 
     m_field.setRobotPose(getPose());
+
+    SmartDashboard.putNumber("gyro", getRotation().getDegrees());
 
     if (SmartDashboard.getBoolean("Estimated pose/hasTarget", false)) {
       // addVisionMeasurement(new Pose2d(SmartDashboard.getNumber("Estimated pose/X",

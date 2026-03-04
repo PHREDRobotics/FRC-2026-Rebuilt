@@ -7,11 +7,14 @@ package frc.robot;
 import choreo.auto.AutoFactory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutoManArmLowerCommand;
+import frc.robot.commands.AutoManArmRaiseCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.GoToPoseCommand;
 import frc.robot.commands.OdometryResetCommand;
@@ -69,6 +72,7 @@ public class RobotContainer {
     Trigger manShootButton = new Trigger(joystick.button(4));
 
     Trigger resetOdometryButton = new Trigger(joystick.button(11));
+    Trigger resetGyroButton = new Trigger(joystick.button(12));
 
     Trigger feedButton = new Trigger(gamepad.x());
 
@@ -78,6 +82,10 @@ public class RobotContainer {
     Trigger armUpButton = new Trigger(gamepad.povUp());
     Trigger armDownButton = new Trigger(gamepad.povDown());
     Trigger armMiddleButton = new Trigger(gamepad.povRight());
+
+    Trigger armResetButton = new Trigger(gamepad.y());
+    Trigger armUpResetButton = new Trigger(gamepad.start());
+    Trigger armDownResetButton = new Trigger(gamepad.back());
 
     // Trigger climberClimbButton = new Trigger(gamepad.povLeft());
     // Trigger climberExtendButton = new Trigger(gamepad.povUp());
@@ -96,14 +104,21 @@ public class RobotContainer {
 
     shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem,
     m_fuelSubsystem, m_swerveSubsystem,
-    m_visionSubsystem, () -> 0, () -> 0));
+    m_visionSubsystem, joystick::getY,
+        joystick::getX,
+        joystick::getZ));
     
+    armResetButton.onTrue(m_intakeArmSubsystem.resetArmCommand());
+    armUpResetButton.onTrue(m_intakeArmSubsystem.resetArmUpCommand());
+    armDownResetButton.onTrue(m_intakeArmSubsystem.resetArmDownCommand());
+
     // shooterButton.whileTrue(shootHub());
 
     //joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(Constants.VisionConstants.kRedHubPos.getX() + 5, Constants.VisionConstants.kRedHubPos.getY(), new Rotation2d())));
     joystick.button(7).onTrue(new GoToPoseCommand(m_swerveSubsystem, m_visionSubsystem, new Pose2d(15, 3.7, new Rotation2d())));
 
     resetOdometryButton.onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
+    resetGyroButton.onTrue(m_swerveSubsystem.swerveGyroResetCommand());
 
     armUpButton.onTrue(m_intakeArmSubsystem.raiseIntakeCommand());
     armMiddleButton.onTrue(m_intakeArmSubsystem.middleIntakeCommand());
@@ -120,6 +135,8 @@ public class RobotContainer {
 
     // joystick.button(1).onTrue(new GoToPoseCommand(m_swerveSubsystem,
     // m_visionSubsystem, new Pose2d()));
+
+    m_intakeArmSubsystem.setDefaultCommand(m_intakeArmSubsystem.setArmCommand(() -> gamepad.getLeftY()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
         joystick::getY,
@@ -148,9 +165,23 @@ public class RobotContainer {
    * @return
    */
   public Command shootHub() {
-    return new WaitCommand(3).raceWith(new AutoShootCommand(m_shooterSubsystem,
+    return new WaitCommand(5).raceWith(new AutoShootCommand(m_shooterSubsystem,
     m_fuelSubsystem, m_swerveSubsystem,
-    m_visionSubsystem, () -> 0, () -> 0));
+    m_visionSubsystem, () -> 0, () -> 0, () -> 0));
+  }
+
+  public Command resetGyroCommand() {
+    return m_swerveSubsystem.swerveGyroResetCommand();
+  }
+
+  // just added these arm commands:
+
+  public Command lowerArm(){
+    return new AutoManArmLowerCommand(m_intakeArmSubsystem);
+  }
+
+  public Command RaiseArm(){
+    return new AutoManArmRaiseCommand(m_intakeArmSubsystem);
   }
 
   public Command pickUpFuel() {
@@ -164,15 +195,16 @@ public class RobotContainer {
     TEST,
     SHOOT_LEFT,
     SHOOT_MIDDLE,
-    SHOOT_RIGHT,
+    SHOOT_RIGHT, 
+    OWEN,
     // SHOOT_CLIMB_LEFT,
     // SHOOT_CLIMB_MIDDLE,
     // SHOOT_CLIMB_RIGHT,
-    PICKUP_SHOOT_LEFT,
+    // PICKUP_SHOOT_LEFT,
     // PICKUP_SHOOT_CLIMB_LEFT,
-    PICKUP_SHOOT_MIDDLE,
+    // PICKUP_SHOOT_MIDDLE,
     // PICKUP_SHOOT_CLIMB_MIDDLE,
-    PICKUP_SHOOT_RIGHT,
+    // PICKUP_SHOOT_RIGHT,
     // PICKUP_SHOOT_CLIMB_RIGHT
   }
 
@@ -187,6 +219,17 @@ public class RobotContainer {
     };
   }
 
+
+  /**
+   * Shoots starting from the left position relative to the drivers
+   * 
+   * @return
+   */
+  public Command OwenCommand() {
+    return lowerArm();
+  }
+
+
   /**
    * Shoots starting from the left position relative to the drivers
    * 
@@ -194,6 +237,8 @@ public class RobotContainer {
    */
   public Command ShootPositionLeft() {
     return Commands.sequence(
+        resetGyroCommand(),
+
         autoFactory.resetOdometry("PositionLeftToShoot"),
         autoFactory.trajectoryCmd("PositionLeftToShoot"),
 
@@ -208,9 +253,12 @@ public class RobotContainer {
    */
   public Command ShootPositionMiddle() {
     return Commands.sequence(
+              resetGyroCommand(),
+
         autoFactory.resetOdometry("PositionMiddleToShoot"),
-        autoFactory.trajectoryCmd("PositionMiddleToShoot"),
-        shootHub());
+        autoFactory.trajectoryCmd("PositionMiddleToShoot")//,
+        //shootHub()
+        );
   }
 
   /**
@@ -220,6 +268,7 @@ public class RobotContainer {
    */
   public Command ShootPositionRight() {
     return Commands.sequence(
+        resetGyroCommand(),
         autoFactory.resetOdometry("PositionRightToShoot"),
         autoFactory.trajectoryCmd("PositionRightToShoot"),
         shootHub());
@@ -282,15 +331,15 @@ public class RobotContainer {
    * 
    * @return
    */
-  public Command PickupAndShootLeft() {
-    return Commands.sequence(
-        autoFactory.resetOdometry("PositionLeftToPickupLeft"),
-        autoFactory.trajectoryCmd("PositionLeftToPickupLeft"),
-        pickUpFuel(),
-        autoFactory.resetOdometry("PickupLeftToShootLeft"),
-        autoFactory.trajectoryCmd("PickupLeftToShootLeft"),
-        shootHub());
-  }
+  // public Command PickupAndShootLeft() {
+  //   return Commands.sequence(
+  //       autoFactory.resetOdometry("PositionLeftToPickupLeft"),
+  //       autoFactory.trajectoryCmd("PositionLeftToPickupLeft"),
+  //       pickUpFuel(),
+  //       autoFactory.resetOdometry("PickupLeftToShootLeft"),
+  //       autoFactory.trajectoryCmd("PickupLeftToShootLeft"),
+  //       shootHub());
+  // }
 
   /**
    * Starts on the left then gets more fuel from the spot to the left of driver's
@@ -319,15 +368,15 @@ public class RobotContainer {
    * 
    * @return
    */
-  public Command PickupAndShootMiddle() {
-    return Commands.sequence(
-        autoFactory.resetOdometry("PositionMiddleToPickup"),
-        autoFactory.trajectoryCmd("PositionMiddleToPickup"),
-        pickUpFuel(),
-        autoFactory.resetOdometry("PickupLeftToShootMiddle"),
-        autoFactory.trajectoryCmd("PickupLeftToShootMiddle"),
-        shootHub());
-  }
+  // public Command PickupAndShootMiddle() {
+  //   return Commands.sequence(
+  //       autoFactory.resetOdometry("PositionMiddleToPickup"),
+  //       autoFactory.trajectoryCmd("PositionMiddleToPickup"),
+  //       pickUpFuel(),
+  //       autoFactory.resetOdometry("PickupLeftToShootMiddle"),
+  //       autoFactory.trajectoryCmd("PickupLeftToShootMiddle"),
+  //       shootHub());
+  // }
 
   /**
    * Starts in the middle then gets more fuel from the spot to the left of
@@ -356,15 +405,15 @@ public class RobotContainer {
    * 
    * @return
    */
-  public Command PickupAndShootRight() {
-    return Commands.sequence(
-        autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
-        autoFactory.trajectoryCmd("PositionRightToHumanPlayerPickup"),
-        pickUpFuel(),
-        autoFactory.resetOdometry("HumanPlayerToShootPositionThree"),
-        autoFactory.trajectoryCmd("HumanPlayerToShootPositionThree"),
-        shootHub());
-  }
+  // public Command PickupAndShootRight() {
+  //   return Commands.sequence(
+  //       autoFactory.resetOdometry("PositionRightToHumanPlayerPickup"),
+  //       autoFactory.trajectoryCmd("PositionRightToHumanPlayerPickup"),
+  //       pickUpFuel(),
+  //       autoFactory.resetOdometry("HumanPlayerToShootPositionThree"),
+  //       autoFactory.trajectoryCmd("HumanPlayerToShootPositionThree"),
+  //       shootHub());
+  // }
 
   /**
    * Starts on the right then gets more fuel from the human player station then
@@ -404,8 +453,10 @@ public class RobotContainer {
         return ShootPositionLeft();
       case SHOOT_MIDDLE:
         return ShootPositionMiddle();
-      // case SHOOT_RIGHT:
-      //   return ShootClimbPositionRight();
+      case SHOOT_RIGHT:
+        return ShootPositionRight();
+      case OWEN:
+        return OwenCommand();
       // case SHOOT_CLIMB_LEFT:
       //   return ShootClimbPositionLeft();
 
@@ -421,14 +472,14 @@ public class RobotContainer {
       // case PICKUP_SHOOT_CLIMB_LEFT:
       //   return PickupAndShootLeftAndClimb();
 
-      case PICKUP_SHOOT_MIDDLE:
-        return PickupAndShootMiddle();
+      // case PICKUP_SHOOT_MIDDLE:
+      //   return PickupAndShootMiddle();
 
       // case PICKUP_SHOOT_CLIMB_MIDDLE:
       //   return PickupAndShootMiddleAndClimb();
 
-      case PICKUP_SHOOT_RIGHT:
-        return PickupAndShootRight();
+      // case PICKUP_SHOOT_RIGHT:
+      //   return PickupAndShootRight();
 
       // case PICKUP_SHOOT_CLIMB_RIGHT:
       //   return PickupAndShootRightAndClimb();
