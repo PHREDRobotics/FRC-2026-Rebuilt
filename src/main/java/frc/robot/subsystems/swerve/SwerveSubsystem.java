@@ -230,6 +230,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param fieldOriented
    */
   public void alignToAndDrive(double x, double y, Rotation2d rot, boolean fieldOriented) {
+    // Need to add a setpoint that is based on the alliance
     double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians());
 
     SmartDashboard.putNumber("Rotation output", rotOutput);

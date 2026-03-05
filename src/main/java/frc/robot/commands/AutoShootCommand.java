@@ -78,7 +78,7 @@ public class AutoShootCommand extends Command {
     //m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
     m_swerveSubsystem.drive(m_x, m_y, m_rot, true);
 
-    //m_swerveSubsystem.driveRelativeTo(m_visionSubsystem.getEstimatedRelativePose().get(), new Pose2d(m_visionSubsystem.getEstimatedRelativePose().get().getX(), m_visionSubsystem.getEstimatedRelativePose().get().getY(), new Rotation2d(0)));
+    // m_swerveSubsystem.driveRelativeTo(m_visionSubsystem.getEstimatedRelativePose().get(), new Pose2d(m_visionSubsystem.getEstimatedRelativePose().get().getX(), m_visionSubsystem.getEstimatedRelativePose().get().getY(), new Rotation2d(0)));
     if (m_visionSubsystem.hasValidTarget()) {
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
     }

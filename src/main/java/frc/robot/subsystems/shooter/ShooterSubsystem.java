@@ -48,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSpeed() {
-    return MathUtil.isNear(shootSpeed+ 100, m_shooterLeftSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
+    return MathUtil.isNear(shootSpeed + 100, m_shooterLeftSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
     //return (m_shooterLeftSparkMax.getEncoder().getVelocity() > shootSpeed - Constants.ShooterConstants.kShootThreshold) && (m_shooterLeftSparkMax.getEncoder().getVelocity() < shootSpeed + Constants.ShooterConstants.kShootThreshold); 
   }
 
