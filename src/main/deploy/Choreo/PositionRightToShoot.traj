@@ -16,7 +16,7 @@
   "waypoints":[
     {"x":{"exp":"StartPositionThree.x", "val":3.7046403884887695}, "y":{"exp":"0.42545 m", "val":0.42545}, "heading":{"exp":"StartPositionThree.heading", "val":0.0}, "intervals":17, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"2.75559401512146 m", "val":2.75559401512146}, "y":{"exp":"1.0040911436080933 m", "val":1.0040911436080933}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":20, "split":false, "fixTranslation":true, "fixHeading":false, "overrideIntervals":false},
-    {"x":{"exp":"1.7139126062393188 m", "val":1.7139126062393188}, "y":{"exp":"2.2152175903320312 m", "val":2.2152175903320312}, "heading":{"exp":"0.5392734561920332 rad", "val":0.5392734561920332}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"ShootPositionThree.x", "val":1.7139126062393188}, "y":{"exp":"ShootPositionThree.y", "val":2.2152175903320312}, "heading":{"exp":"ShootPositionThree.heading", "val":0.5392734561920332}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},

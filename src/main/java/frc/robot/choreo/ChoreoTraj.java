@@ -122,6 +122,13 @@ public record ChoreoTraj(
 	    new Pose2d(4, 6, Rotation2d.fromRadians(3.142)),
 	    new Pose2d(3, 5, Rotation2d.fromRadians(0))
 	);
+	public static final ChoreoTraj ShootPositionThreeToHumanPlayerStation = new ChoreoTraj(
+	    "ShootPositionThreeToHumanPlayerStation",
+	    OptionalInt.empty(),
+	    0.88109,
+	    new Pose2d(1.714, 2.215, Rotation2d.fromRadians(0.539)),
+	    new Pose2d(0.891, 0.683, Rotation2d.fromRadians(3.142))
+	);
 
     /**
      * A map between trajectory names and their corresponding data.
@@ -141,7 +148,8 @@ public record ChoreoTraj(
 		Map.entry("ShootPositionOneToClimb", ShootPositionOneToClimb),
 		Map.entry("ShootPositionThreeToClimb", ShootPositionThreeToClimb),
 		Map.entry("ShootPositionTwoToClimb", ShootPositionTwoToClimb),
-		Map.entry("TestPath", TestPath)
+		Map.entry("TestPath", TestPath),
+		Map.entry("ShootPositionThreeToHumanPlayerStation", ShootPositionThreeToHumanPlayerStation)
     );
 
     /**

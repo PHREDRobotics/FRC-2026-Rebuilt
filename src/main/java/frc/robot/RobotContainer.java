@@ -196,7 +196,8 @@ public class RobotContainer {
     SHOOT_LEFT,
     SHOOT_MIDDLE,
     SHOOT_RIGHT, 
-    OWEN,
+    SHOOT_RIGHT_THEN_PARK
+    // OWEN,
     // SHOOT_CLIMB_LEFT,
     // SHOOT_CLIMB_MIDDLE,
     // SHOOT_CLIMB_RIGHT,
@@ -244,6 +245,21 @@ public class RobotContainer {
 
         shootHub()
         );
+  }
+
+
+  public Command ShootPositionRightThenPark() {
+    return Commands.sequence(
+    resetGyroCommand(),  
+    autoFactory.resetOdometry("PositionRightToShoot"),
+    autoFactory.trajectoryCmd("PositionRightToShoot"),
+
+    shootHub(),
+
+    autoFactory.resetOdometry("ShootPositionThreeToHumanPlayerStation"),
+    autoFactory.trajectoryCmd("ShootPositionThreeToHumanPlayerStation")
+    );
+
   }
 
   /**
@@ -455,8 +471,10 @@ public class RobotContainer {
         return ShootPositionMiddle();
       case SHOOT_RIGHT:
         return ShootPositionRight();
-      case OWEN:
-        return OwenCommand();
+      case SHOOT_RIGHT_THEN_PARK:
+        return ShootPositionRightThenPark();
+      // case OWEN:
+      //   return OwenCommand();
       // case SHOOT_CLIMB_LEFT:
       //   return ShootClimbPositionLeft();
 

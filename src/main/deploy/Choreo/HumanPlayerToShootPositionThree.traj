@@ -14,7 +14,7 @@
  "params":{
   "waypoints":[
     {"x":{"exp":"HumanPlayerPickup.x", "val":0.380125492811203}, "y":{"exp":"HumanPlayerPickup.y", "val":0.6713869571685791}, "heading":{"exp":"HumanPlayerPickup.heading", "val":3.141592653589793}, "intervals":34, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"ShootPositionThree.x", "val":2.6402792930603027}, "y":{"exp":"ShootPositionThree.y", "val":2.586468458175659}, "heading":{"exp":"ShootPositionThree.heading", "val":0.6584252204722901}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"ShootPositionThree.x", "val":1.7139126062393188}, "y":{"exp":"ShootPositionThree.y", "val":2.2152175903320312}, "heading":{"exp":"ShootPositionThree.heading", "val":0.5392734561920332}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
