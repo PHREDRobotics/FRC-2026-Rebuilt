@@ -23,7 +23,6 @@ public class AutoShootCommand extends Command {
 
   private DoubleSupplier m_x;
   private DoubleSupplier m_y;
-  private DoubleSupplier m_rot;
   private DoubleSupplier m_throttle;
 
   private Timer m_timer;
@@ -37,7 +36,7 @@ public class AutoShootCommand extends Command {
    * @param x The x input of the controller (You can still drive!)
    * @param y The y input of the controller (You can still strafe!)
    */
-  public AutoShootCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem, SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot, DoubleSupplier throttle) {
+  public AutoShootCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem, SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier throttle) {
     m_shooterSubsystem = shooterSubsystem;
     m_fuelSubsystem = fuelSubsystem;
     m_swerveSubsystem = swerveSubsystem;
@@ -45,7 +44,6 @@ public class AutoShootCommand extends Command {
 
     m_x = x;
     m_y = y;
-    m_rot = rot;
     m_throttle = throttle;
 
     m_timer = new Timer();
@@ -72,27 +70,26 @@ public class AutoShootCommand extends Command {
 
   @Override
   public void execute() {
-    if (m_timer.hasElapsed(2)) {
+    if (canShoot()) {
       m_fuelSubsystem.feed();
       m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
     }
 
-    //m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
-    m_swerveSubsystem.drive(m_x.getAsDouble() * m_throttle.getAsDouble(), m_y.getAsDouble() * m_throttle.getAsDouble(), m_rot.getAsDouble() * m_throttle.getAsDouble(), false);
+    m_swerveSubsystem.alignToAndDrive(
+      m_x.getAsDouble() * m_throttle.getAsDouble(),
+      m_y.getAsDouble() * m_throttle.getAsDouble(),
+      new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.getHubPos())),
+      false);
 
-    // m_swerveSubsystem.driveRelativeTo(m_visionSubsystem.getEstimatedRelativePose().get(), new Pose2d(m_visionSubsystem.getEstimatedRelativePose().get().getX(), m_visionSubsystem.getEstimatedRelativePose().get().getY(), new Rotation2d(0)));
     if (m_visionSubsystem.hasValidTarget()) {
-      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
+      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
     }
 
     SmartDashboard.putBoolean("Can Shoot", canShoot());
 
-    SmartDashboard.putBoolean("Is at speed shooter", m_shooterSubsystem.isAtSpeed());
-
     SmartDashboard.putNumber("shoot power", m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
     SmartDashboard.putNumber("Shoot Power Linear", m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
     SmartDashboard.putNumber("Shoot Power Root", m_shooterSubsystem.getShootPowerRoot(m_swerveSubsystem.getHubDistance()));
-    //SmartDashboard.putNumber("Get point angle degrees", m_swerveSubsystem.getPointAngleDegrees(Constants.VisionConstants.kHubPos));
   }
 
   @Override

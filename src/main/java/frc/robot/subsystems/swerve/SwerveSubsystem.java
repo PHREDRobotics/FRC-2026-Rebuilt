@@ -231,9 +231,11 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void alignToAndDrive(double x, double y, Rotation2d rot, boolean fieldOriented) {
     // Need to add a setpoint that is based on the alliance
-    double rotOutput = m_rotPID.calculate(getPose().getRotation().getRadians());
+    double rotOutput = -m_rotPID.calculate(getPose().getRotation().getRadians(), rot.getRadians());
 
     SmartDashboard.putNumber("Rotation output", rotOutput);
+
+
 
     drive(0, 0, rotOutput, fieldOriented);
   }
@@ -326,7 +328,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param point
    * @return
    */
-  public double getPointAngleDegrees(Translation2d point) {
+  public double getPointAngleRadians(Translation2d point) {
     return Math.atan2(point.getY() - getPose().getY(), point.getX() - getPose().getX());
   }
 
@@ -336,8 +338,8 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param point
    * @return
    */
-  public double getPointAngleRadians(Translation2d point) {
-    return Units.degreesToRadians(getPointAngleDegrees(point));
+  public double getPointAngleDegrees(Translation2d point) {
+    return Units.radiansToDegrees(getPointAngleRadians(point));
   }
 
   /**

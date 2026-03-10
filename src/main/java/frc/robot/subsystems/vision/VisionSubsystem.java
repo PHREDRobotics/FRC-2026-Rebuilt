@@ -111,6 +111,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Estimated pose/X", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getX());
         SmartDashboard.putNumber("Estimated pose/Y", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getY());
+        SmartDashboard.putNumber("Estimated pose/Z", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getRotation().getDegrees());
       }
     } else {
       SmartDashboard.putBoolean("Has valid target?", result.hasTargets());

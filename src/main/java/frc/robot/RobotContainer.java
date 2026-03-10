@@ -108,7 +108,6 @@ public class RobotContainer {
     m_fuelSubsystem, m_swerveSubsystem,
     m_visionSubsystem, joystick::getY,
         joystick::getX,
-        joystick::getZ,
         joystick::getAdjustedThrottle));
     
     // armResetButton.onTrue(m_intakeArmSubsystem.resetArmCommand());
@@ -170,7 +169,7 @@ public class RobotContainer {
   public Command shootHub() {
     return new WaitCommand(10).raceWith(new AutoShootCommand(m_shooterSubsystem,
     m_fuelSubsystem, m_swerveSubsystem,
-    m_visionSubsystem, () -> 0, () -> 0, () -> 0, () -> 0));
+    m_visionSubsystem, () -> 0, () -> 0, () -> 0));
   }
 
   public Command resetGyroCommand() {
