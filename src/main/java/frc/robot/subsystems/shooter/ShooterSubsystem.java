@@ -61,7 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getShootPowerLinear(double distance) {
-    return 277.501 * distance + 2175.02;
+    return 277.501 * distance + 2038.52;
   }
 
   public double getShootPowerRoot(double distance) {
@@ -70,6 +70,10 @@ public class ShooterSubsystem extends SubsystemBase {
   
   public Command shootCommand(DoubleSupplier speed) {
     return Commands.startEnd(() -> this.shoot(speed.getAsDouble()), () -> this.stop());
+  }
+
+  public Command adjustedSpeedShootCommand() {
+        return Commands.startEnd(() -> this.shoot(targetShootSpeed), () -> this.stop());
   }
 
   @Override

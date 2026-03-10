@@ -14,7 +14,7 @@
  "params":{
   "waypoints":[
     {"x":{"exp":"PickupPositionLeft.x", "val":0.9002523422241211}, "y":{"exp":"PickupPositionLeft.y", "val":5.930617809295654}, "heading":{"exp":"PickupPositionLeft.heading", "val":3.141592653589793}, "intervals":29, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
-    {"x":{"exp":"ShootPositionOne.x", "val":2.5552444458007812}, "y":{"exp":"ShootPositionOne.y", "val":5.304870128631592}, "heading":{"exp":"ShootPositionOne.heading", "val":-0.548840313166297}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"ShootPositionOne.x", "val":1.642953872680664}, "y":{"exp":"ShootPositionOne.y", "val":5.905072212219238}, "heading":{"exp":"ShootPositionOne.heading", "val":-0.555134596706472}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},

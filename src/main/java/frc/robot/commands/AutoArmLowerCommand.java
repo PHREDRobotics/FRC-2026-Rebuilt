@@ -5,22 +5,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.intakeArm.IntakeArmSubsystem;
 
-public class AutoManArmLowerCommand extends Command {
+public class AutoArmLowerCommand extends Command {
     IntakeArmSubsystem m_intakeSubsystem;
 
-    public AutoManArmLowerCommand(IntakeArmSubsystem intakeSubsystem) {
+    public AutoArmLowerCommand(IntakeArmSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
 
     @Override
     public void execute() {
-        m_intakeSubsystem.setIntakeArm(-Constants.IntakeArmConstants.kIntakeArmManualVolts);
+        m_intakeSubsystem.setIntakeArm(-Constants.IntakeArmConstants.kIntakeArmAutoVolts);
     }
 
     @Override
     public boolean isFinished(){
-        return SmartDashboard.getNumber("Amps/Arm", Constants.IntakeArmConstants.kArmStallAmps) < Constants.IntakeArmConstants.kArmStallAmps;
+        return SmartDashboard.getNumber("Amps/Arm", Constants.IntakeArmConstants.kAutoArmStallAmps) < Constants.IntakeArmConstants.kAutoArmStallAmps;
     }
 
     @Override

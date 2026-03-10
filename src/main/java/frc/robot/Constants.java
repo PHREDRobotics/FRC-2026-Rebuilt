@@ -95,9 +95,11 @@ public class Constants {
   /* -------------------- Intake Arm Constants ------------------- */
   public static final class IntakeArmConstants {
 
-    public static final double kIntakeArmManualVolts = 1.2;
+    public static final double kIntakeArmManualVolts = 1.5;
 
     public static final double kArmStallAmps = 4;
+
+    public static final double kAutoArmStallAmps = 5;
 
     public static final int kIntakeArmMotorCANId = 51;
 
@@ -121,6 +123,8 @@ public class Constants {
     public static final double kArmCruiseVelocity = .5; /* TODO determine actual good cruise vel */
 
     public static final double kArmMaxAcceleration = 0.25; /* TODO determine good max accel */
+
+    public static final double kIntakeArmAutoVolts = 1.5;
   }
 
   /* -------------------- Physical Constants --------------------- */
@@ -237,6 +241,7 @@ public class Constants {
 
     public static final Translation2d kRedHubPos = new Translation2d(11.6741194, 4.0346376);
     public static final Translation2d kBlueHubPos = new Translation2d(4.6187614, 4.0346376);
+    /*
     public static Translation2d kHubPos;
 
     static {
@@ -248,7 +253,7 @@ public class Constants {
           kHubPos = Constants.VisionConstants.kBlueHubPos;
         }
       }
-    }
+    }*/
 
     public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
 

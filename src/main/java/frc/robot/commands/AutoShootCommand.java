@@ -21,9 +21,10 @@ public class AutoShootCommand extends Command {
   private SwerveSubsystem m_swerveSubsystem;
   private VisionSubsystem m_visionSubsystem;
 
-  private double m_x;
-  private double m_y;
-  private double m_rot;
+  private DoubleSupplier m_x;
+  private DoubleSupplier m_y;
+  private DoubleSupplier m_rot;
+  private DoubleSupplier m_throttle;
 
   private Timer m_timer;
 
@@ -36,15 +37,16 @@ public class AutoShootCommand extends Command {
    * @param x The x input of the controller (You can still drive!)
    * @param y The y input of the controller (You can still strafe!)
    */
-  public AutoShootCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem, SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot) {
+  public AutoShootCommand(ShooterSubsystem shooterSubsystem, FuelSubsystem fuelSubsystem, SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot, DoubleSupplier throttle) {
     m_shooterSubsystem = shooterSubsystem;
     m_fuelSubsystem = fuelSubsystem;
     m_swerveSubsystem = swerveSubsystem;
     m_visionSubsystem = visionSubsystem;
 
-    m_x = x.getAsDouble();
-    m_y = y.getAsDouble();
-    m_rot = rot.getAsDouble();
+    m_x = x;
+    m_y = y;
+    m_rot = rot;
+    m_throttle = throttle;
 
     m_timer = new Timer();
 
@@ -72,11 +74,11 @@ public class AutoShootCommand extends Command {
   public void execute() {
     if (m_timer.hasElapsed(2)) {
       m_fuelSubsystem.feed();
-      m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
+      m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
     }
 
     //m_swerveSubsystem.alignToAndDrive(m_x, m_y, new Rotation2d(m_swerveSubsystem.getPointAngleRadians(Constants.VisionConstants.kHubPos)), false);
-    m_swerveSubsystem.drive(m_x, m_y, m_rot, true);
+    m_swerveSubsystem.drive(m_x.getAsDouble() * m_throttle.getAsDouble(), m_y.getAsDouble() * m_throttle.getAsDouble(), m_rot.getAsDouble() * m_throttle.getAsDouble(), false);
 
     // m_swerveSubsystem.driveRelativeTo(m_visionSubsystem.getEstimatedRelativePose().get(), new Pose2d(m_visionSubsystem.getEstimatedRelativePose().get().getX(), m_visionSubsystem.getEstimatedRelativePose().get().getY(), new Rotation2d(0)));
     if (m_visionSubsystem.hasValidTarget()) {
@@ -90,7 +92,7 @@ public class AutoShootCommand extends Command {
     SmartDashboard.putNumber("shoot power", m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
     SmartDashboard.putNumber("Shoot Power Linear", m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
     SmartDashboard.putNumber("Shoot Power Root", m_shooterSubsystem.getShootPowerRoot(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Get point angle degrees", m_swerveSubsystem.getPointAngleDegrees(Constants.VisionConstants.kHubPos));
+    //SmartDashboard.putNumber("Get point angle degrees", m_swerveSubsystem.getPointAngleDegrees(Constants.VisionConstants.kHubPos));
   }
 
   @Override

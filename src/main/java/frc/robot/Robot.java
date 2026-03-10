@@ -29,12 +29,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    autoChooser.setDefaultOption("Empty-Auto", RobotContainer.AutoSwitcher.EMPTY);
+    autoChooser.setDefaultOption("Empty-Left-Auto", RobotContainer.AutoSwitcher.EMPTY_LEFT);
+        autoChooser.addOption("Empty-Middle-Auto", RobotContainer.AutoSwitcher.EMPTY_MIDDLE);
+
+            autoChooser.addOption("Empty-Right-Auto", RobotContainer.AutoSwitcher.EMPTY_RIGHT);
+
 
     autoChooser.addOption("Test-Auto", RobotContainer.AutoSwitcher.TEST);
 
     autoChooser.addOption("Left-Shoot", RobotContainer.AutoSwitcher.SHOOT_LEFT);
-    autoChooser.addOption("Middle-Shoot", RobotContainer.AutoSwitcher.SHOOT_MIDDLE);
+    autoChooser.addOption("Middle-Shoot-Left", RobotContainer.AutoSwitcher.SHOOT_MIDDLE_LEFT);
+
+    autoChooser.addOption("Middle-Shoot-Right", RobotContainer.AutoSwitcher.SHOOT_MIDDLE_RIGHT);
     autoChooser.addOption("Right-Shoot", RobotContainer.AutoSwitcher.SHOOT_RIGHT);
     autoChooser.addOption("Right-Shoot-Then-Park", RobotContainer.AutoSwitcher.SHOOT_RIGHT_THEN_PARK);
     // autoChooser.addOption("owen", RobotContainer.AutoSwitcher.OWEN);

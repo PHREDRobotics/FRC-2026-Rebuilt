@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.intakeArm.IntakeArmSubsystem;
 
-public class AutoManArmRaiseCommand extends Command {
+public class AutoArmRaiseCommand extends Command {
     IntakeArmSubsystem m_intakeSubsystem;
 
-    public AutoManArmRaiseCommand(IntakeArmSubsystem intakeSubsystem) {
+    public AutoArmRaiseCommand(IntakeArmSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }

@@ -91,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_xPID.setTolerance(0.05, 0.01);
     m_yPID.setTolerance(0.05, 0.01);
-    m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians, 1);
+    m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians);
 
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
   }
@@ -474,7 +474,6 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("CurrentPose", getPose().toString());
 
     SmartDashboard.putNumber("Hub Distance", getHubDistance());
-    SmartDashboard.putString("Hub Pose", Constants.VisionConstants.kHubPos.toString());
 
     m_field.setRobotPose(getPose());
 

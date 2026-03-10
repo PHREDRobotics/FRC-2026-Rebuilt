@@ -40,7 +40,7 @@ public final class Configs {
 
       turningConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(10)
           .inverted(true);
       turningConfig.absoluteEncoder
           .inverted(true)
@@ -173,7 +173,7 @@ public final class Configs {
     static {
       hopperConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(10)
           .inverted(false);
       hopperConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -186,7 +186,7 @@ public final class Configs {
     static {
       vectorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(10)
           .inverted(false);
       vectorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
