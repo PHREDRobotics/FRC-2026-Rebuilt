@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 import com.studica.frc.AHRS;
 
 import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -233,11 +234,11 @@ public class SwerveSubsystem extends SubsystemBase {
     // Need to add a setpoint that is based on the alliance
     double rotOutput = -m_rotPID.calculate(getPose().getRotation().getRadians(), rot.getRadians());
 
+    SmartDashboard.putNumber("Align Pid/Rotation", getPose().getRotation().getRadians());
+    SmartDashboard.putNumber("Align Pid/Setpoint", rot.getRadians());
     SmartDashboard.putNumber("Rotation output", rotOutput);
 
-
-
-    drive(0, 0, rotOutput, fieldOriented);
+    drive(x, y, rotOutput, fieldOriented);
   }
 
   public void followTrajectory(SwerveSample sample) {
@@ -278,17 +279,6 @@ public class SwerveSubsystem extends SubsystemBase {
             m_gyro.setAngleAdjustment(0);
       }
     }
-      
-    // if (DriverStation.getAlliance().isPresent()){
-    // if (DriverStation.getAlliance().get() == Alliance.Red) {
-
-    // }
-    // }
-    // ( // Don't question it, lambdaseption
-    // ? DriverStation.getAlliance().get() == Alliance.Red
-    // : false)
-    // ? m_gyro.reset(new Rotation2d(Math.PI))
-    // : m_gyro.reset();
   }
 
   /**
@@ -351,20 +341,10 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Current Rotation", getPose().getRotation().getRadians());
     SmartDashboard.putNumber("Current Hub Angle", getPointAngleRadians(Constants.VisionConstants.kRedHubPos));
 
-    // if (DriverStation.getAlliance().isPresent()) {
-    //   if (DriverStation.getAlliance().get() == Alliance.Blue) {
-    //     return Math.abs(getPose().getRotation().rotateBy(new Rotation2d(Math.PI)).getRadians()
-    //         - getPointAngleRadians(
-    //             Constants.VisionConstants.kRedHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
-    //   } else {
-    //     return Math.abs(getPose().getRotation().getRadians()
-    //         - getPointAngleRadians(
-    //             Constants.VisionConstants.kBlueHubPos)) < Constants.SwerveConstants.kAlignedWithHubRangeRadians;
-      
-    //   }
-    // }
-
-    return true;
+    if (DriverStation.getAlliance().isPresent()) {
+      return MathUtil.isNear(getPointAngleRadians(Constants.VisionConstants.getHubPos()), getPose().getRotation().getRadians(), 0.05);
+    }
+    return false;
   }
 
   /**

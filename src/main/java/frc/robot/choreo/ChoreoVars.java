@@ -21,10 +21,10 @@ public final class ChoreoVars {
         public static final Pose2d SetUpToClimbPositionRight = new Pose2d(1.787, 3.029, Rotation2d.fromRadians(3.142));
         public static final Pose2d ShootPositionOne = new Pose2d(1.643, 5.905, Rotation2d.fromRadians(-0.555));
         public static final Pose2d ShootPositionThree = new Pose2d(1.714, 2.215, Rotation2d.fromRadians(0.539));
-        public static final Pose2d ShootPositionTwo = new Pose2d(2.56, 4.023, Rotation2d.kZero);
-        public static final Pose2d StartPositionOne = new Pose2d(3.678, 7.419, Rotation2d.kZero);
+        public static final Pose2d ShootPositionTwo = new Pose2d(2.105, 4.023, Rotation2d.kZero);
+        public static final Pose2d StartPositionOne = new Pose2d(3.685, 7.257, Rotation2d.kZero);
         public static final Pose2d StartPositionThree = new Pose2d(3.705, 0.645, Rotation2d.kZero);
-        public static final Pose2d StartPositionTwo = new Pose2d(3.664, 4.029, Rotation2d.kZero);
+        public static final Pose2d StartPositionTwo = new Pose2d(3.582, 4.029, Rotation2d.kZero);
 
         private Poses() {}
     }

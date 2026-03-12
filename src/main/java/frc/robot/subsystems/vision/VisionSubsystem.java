@@ -67,12 +67,6 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public Pose2d getLastAverageGlobalPose() {
-    if (getEstimatedGlobalPose().isPresent()) {
-      m_xMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
-      m_yMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
-      m_rotMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d().getRadians());
-    }
-
     return new Pose2d(m_xMeasurementFilter.lastValue(), m_yMeasurementFilter.lastValue(), new Rotation2d(m_rotMeasurementFilter.lastValue()));
   }
 
@@ -103,6 +97,10 @@ public class VisionSubsystem extends SubsystemBase {
       //SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
       if (result.hasTargets()) {
         m_robotToTarget = VisionConstants.kRobotToCamera1.plus(result.getBestTarget().getBestCameraToTarget());
+
+        m_xMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
+        m_yMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
+        m_rotMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d().getRadians());
 
         SmartDashboard.putNumber("robotToTarget/X", m_robotToTarget.getX());
         SmartDashboard.putNumber("robotToTarget/Y", m_robotToTarget.getY());

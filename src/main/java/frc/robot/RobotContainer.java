@@ -5,6 +5,8 @@
 package frc.robot;
 
 import choreo.auto.AutoFactory;
+import choreo.auto.AutoRoutine;
+import choreo.auto.AutoTrajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,11 +14,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandStadiaController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoArmRaiseCommand;
 import frc.robot.commands.AutoArmLowerCommand;
 import frc.robot.commands.AutoShootCommand;
+import frc.robot.commands.FollowTrajectoryCommand;
 import frc.robot.commands.GoToPoseCommand;
 import frc.robot.commands.OdometryResetCommand;
 import frc.robot.controls.LogitechPro;
@@ -104,11 +108,13 @@ public class RobotContainer {
     outtakeButton.toggleOnTrue(m_fuelSubsystem.outtakeCommand());
     //outtakeButton.toggleOnTrue(new ParallelCommandGroup(m_fuelSubsystem.outtakeCommand(), m_shooterSubsystem.shootCommand(() -> -3000)));
 
-    shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem,
-    m_fuelSubsystem, m_swerveSubsystem,
-    m_visionSubsystem, joystick::getY,
-        joystick::getX,
-        joystick::getAdjustedThrottle));
+    shooterButton.whileTrue(new AutoShootCommand(
+      m_shooterSubsystem,
+      m_fuelSubsystem, m_swerveSubsystem,
+      m_visionSubsystem, 
+      joystick::getY,
+      joystick::getX,
+      joystick::getAdjustedThrottle));
     
     // armResetButton.onTrue(m_intakeArmSubsystem.resetArmCommand());
     // armUpResetButton.onTrue(m_intakeArmSubsystem.resetArmUpCommand());
@@ -167,7 +173,7 @@ public class RobotContainer {
    * @return
    */
   public Command shootHub() {
-    return new WaitCommand(10).raceWith(new AutoShootCommand(m_shooterSubsystem,
+    return new WaitCommand(5).raceWith(new AutoShootCommand(m_shooterSubsystem,
     m_fuelSubsystem, m_swerveSubsystem,
     m_visionSubsystem, () -> 0, () -> 0, () -> 0));
   }
@@ -198,6 +204,7 @@ public class RobotContainer {
     EMPTY_RIGHT,
     TEST,
     SHOOT_LEFT,
+    SHOOT_MIDDLE,
     SHOOT_MIDDLE_LEFT,
     SHOOT_MIDDLE_RIGHT,
     SHOOT_RIGHT, 
@@ -271,12 +278,25 @@ public class RobotContainer {
         resetGyroCommand(),
 
         autoFactory.resetOdometry("PositionLeftToShoot"),
-        autoFactory.trajectoryCmd("PositionLeftToShoot"),
+        new FollowTrajectoryCommand(m_swerveSubsystem, m_visionSubsystem, "PositionLeftToShoot"),
 
         shootHub()
         );
   }
-
+  
+    /**
+   * Shoots starting from the left position relative to the drivers
+   * 
+   * @return
+   */
+  public Command ShootPositionMiddle() {
+    return Commands.sequence(
+        resetGyroCommand(),
+        autoFactory.resetOdometry("PositionMiddleToShoot"),
+        //autoFactory.trajectoryCmd("PositionMiddleToShoot"),
+        new FollowTrajectoryCommand(m_swerveSubsystem, m_visionSubsystem, "PositionMiddleToShoot"),
+        shootHub());
+  }
 
   public Command ShootPositionRightThenPark() {
     return Commands.sequence(
@@ -302,7 +322,7 @@ public class RobotContainer {
               resetGyroCommand(),
 
         autoFactory.resetOdometry("PositionMiddleToShootLeft"),
-        autoFactory.trajectoryCmd("PositionMiddleToShootLeft"),
+         new FollowTrajectoryCommand(m_swerveSubsystem, m_visionSubsystem, "PositionMiddleToShootLeft"),
         shootHub()
         );
   }
@@ -316,7 +336,7 @@ public class RobotContainer {
               resetGyroCommand(),
 
         autoFactory.resetOdometry("PositionMiddleToShootRight"),
-        autoFactory.trajectoryCmd("PositionMiddleToShootRight"),
+         new FollowTrajectoryCommand(m_swerveSubsystem, m_visionSubsystem, "PositionMiddleToShootRight"),
         shootHub()
         );
   }
@@ -330,7 +350,7 @@ public class RobotContainer {
     return Commands.sequence(
         resetGyroCommand(),
         autoFactory.resetOdometry("PositionRightToShoot"),
-        autoFactory.trajectoryCmd("PositionRightToShoot"),
+         new FollowTrajectoryCommand(m_swerveSubsystem, m_visionSubsystem, "PositionRightToShoot"),
         shootHub());
   }
 
@@ -516,6 +536,8 @@ public class RobotContainer {
         return testAuto();
       case SHOOT_LEFT:
         return ShootPositionLeft();
+      case SHOOT_MIDDLE:
+        return ShootPositionMiddle();
       case SHOOT_MIDDLE_LEFT:
         return ShootLeftPositionMiddle();
       case SHOOT_MIDDLE_RIGHT:

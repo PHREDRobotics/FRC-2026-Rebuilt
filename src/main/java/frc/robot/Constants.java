@@ -208,8 +208,8 @@ public class Constants {
         Constants.SwerveConstants.kBackLeftLocationMeters,
         Constants.SwerveConstants.kBackRightLocationMeters);
 
-    public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.8, 0.8, 0.0);
-    public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.2, 0.2, 1.0);
+    public static final Matrix<N3, N1> kStateStdDevs = VecBuilder.fill(0.2, 0.2, 0.0);
+    public static final Matrix<N3, N1> kVisionStdDevs = VecBuilder.fill(0.1, 0.1, 1.0);
 
     public static final double kDriveP = 0.4; // FOR MODULE MOTORS SPARK
     public static final double kDriveI = 0.0;
@@ -266,9 +266,9 @@ public class Constants {
         0.01,
         0.1);
 
-    public static final double kRotP = 1;
+    public static final double kRotP = 1.5;
     public static final double kRotI = 0.0;
-    public static final double kRotD = 0.01;
+    public static final double kRotD = 0.05;
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);

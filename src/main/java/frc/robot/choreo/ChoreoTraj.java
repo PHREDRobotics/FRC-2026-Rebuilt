@@ -27,9 +27,9 @@ public record ChoreoTraj(
     public static final ChoreoTraj HumanPlayerToShootPositionThree = new ChoreoTraj(
 	    "HumanPlayerToShootPositionThree",
 	    OptionalInt.empty(),
-	    1.13461,
+	    0.87613,
 	    new Pose2d(0.38, 0.671, Rotation2d.fromRadians(3.142)),
-	    new Pose2d(2.64, 2.586, Rotation2d.fromRadians(0.658))
+	    new Pose2d(1.714, 2.215, Rotation2d.fromRadians(0.539))
 	);
 	public static final ChoreoTraj PickupLeftToShootLeft = new ChoreoTraj(
 	    "PickupLeftToShootLeft",
@@ -55,8 +55,8 @@ public record ChoreoTraj(
 	public static final ChoreoTraj PositionLeftToShoot = new ChoreoTraj(
 	    "PositionLeftToShoot",
 	    OptionalInt.empty(),
-	    1.12591,
-	    new Pose2d(3.678, 7.419, Rotation2d.fromRadians(0)),
+	    1.12626,
+	    new Pose2d(3.685, 7.257, Rotation2d.fromRadians(0)),
 	    new Pose2d(1.85, 5.108, Rotation2d.fromRadians(-0.369))
 	);
 	public static final ChoreoTraj PositionMiddleToPickup = new ChoreoTraj(
@@ -97,8 +97,8 @@ public record ChoreoTraj(
 	public static final ChoreoTraj PositionRightToShoot = new ChoreoTraj(
 	    "PositionRightToShoot",
 	    OptionalInt.empty(),
-	    1.02483,
-	    new Pose2d(3.705, 0.425, Rotation2d.fromRadians(0)),
+	    0.97972,
+	    new Pose2d(3.705, 0.76, Rotation2d.fromRadians(0)),
 	    new Pose2d(1.714, 2.215, Rotation2d.fromRadians(0.539))
 	);
 	public static final ChoreoTraj ShootPositionOneToClimb = new ChoreoTraj(
@@ -136,6 +136,13 @@ public record ChoreoTraj(
 	    new Pose2d(4, 6, Rotation2d.fromRadians(3.142)),
 	    new Pose2d(3, 5, Rotation2d.fromRadians(0))
 	);
+	public static final ChoreoTraj PositionMiddleToShoot = new ChoreoTraj(
+	    "PositionMiddleToShoot",
+	    OptionalInt.empty(),
+	    0.74668,
+	    new Pose2d(3.582, 4.029, Rotation2d.fromRadians(0)),
+	    new Pose2d(2.105, 4.023, Rotation2d.fromRadians(0))
+	);
 
     /**
      * A map between trajectory names and their corresponding data.
@@ -157,7 +164,8 @@ public record ChoreoTraj(
 		Map.entry("ShootPositionThreeToClimb", ShootPositionThreeToClimb),
 		Map.entry("ShootPositionThreeToHumanPlayerStation", ShootPositionThreeToHumanPlayerStation),
 		Map.entry("ShootPositionTwoToClimb", ShootPositionTwoToClimb),
-		Map.entry("TestPath", TestPath)
+		Map.entry("TestPath", TestPath),
+		Map.entry("PositionMiddleToShoot", PositionMiddleToShoot)
     );
 
     /**

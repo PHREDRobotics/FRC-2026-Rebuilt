@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Test-Auto", RobotContainer.AutoSwitcher.TEST);
 
     autoChooser.addOption("Left-Shoot", RobotContainer.AutoSwitcher.SHOOT_LEFT);
+    autoChooser.addOption("Middle-Shoot", RobotContainer.AutoSwitcher.SHOOT_MIDDLE);
     autoChooser.addOption("Middle-Shoot-Left", RobotContainer.AutoSwitcher.SHOOT_MIDDLE_LEFT);
 
     autoChooser.addOption("Middle-Shoot-Right", RobotContainer.AutoSwitcher.SHOOT_MIDDLE_RIGHT);
