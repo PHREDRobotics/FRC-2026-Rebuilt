@@ -24,6 +24,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private SparkClosedLoopController m_shooterLeftPID;
 
+private double shootslope = Constants.ShooterConstants.kAutoShootSlope;
+private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
+
   private double shootSpeed;
   private double targetShootSpeed = Constants.ShooterConstants.kInitialShootingSpeed;
 
@@ -62,7 +65,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getShootPowerLinear(double distance) {
-    return 277.501 * distance + 2038.52;
+    return shootslope * distance + shootintercept;
   }
 
   public double getShootPowerRoot(double distance) {
@@ -85,5 +88,12 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("velocity", m_shooterLeftSparkMax.getEncoder().getVelocity());
     targetShootSpeed = SmartDashboard.getNumber("Shooter Speed Adjuster", Constants.ShooterConstants.kInitialShootingSpeed);
     SmartDashboard.putNumber("Shooter Speed Adjuster", targetShootSpeed);
+
+    shootslope = SmartDashboard.getNumber("Shooter Slope", shootslope);
+    shootintercept = SmartDashboard.getNumber("Shooter Intercept", shootintercept);
+        SmartDashboard.putNumber("Shooter Slope", shootslope);
+
+            SmartDashboard.putNumber("Shooter Intercept", shootintercept);
+
   }
 }

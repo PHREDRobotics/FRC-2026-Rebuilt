@@ -48,7 +48,7 @@ public class FollowTagCommand extends Command {
     // Step 5: Drive the robot
     Pose2d currentPose = offset;
     if (m_visionSubsystem.hasValidTarget()) {
-      currentPose = m_visionSubsystem.getEstimatedRelativePose().get();
+      currentPose = m_visionSubsystem.getLastAverageGlobalPose();
 
       m_swerveSubsystem.driveRelativeTo(currentPose, VisionConstants.kOffset);
     } else {

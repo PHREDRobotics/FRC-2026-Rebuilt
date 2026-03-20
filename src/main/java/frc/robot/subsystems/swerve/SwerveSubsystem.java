@@ -274,7 +274,6 @@ public class SwerveSubsystem extends SubsystemBase {
     if (DriverStation.getAlliance().isPresent()){
       if (DriverStation.getAlliance().get() == Alliance.Red){
             m_gyro.setAngleAdjustment(180);
-
       } else {
             m_gyro.setAngleAdjustment(0);
       }

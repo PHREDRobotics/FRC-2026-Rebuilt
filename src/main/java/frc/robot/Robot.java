@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Middle-Shoot-Right", RobotContainer.AutoSwitcher.SHOOT_MIDDLE_RIGHT);
     autoChooser.addOption("Right-Shoot", RobotContainer.AutoSwitcher.SHOOT_RIGHT);
     autoChooser.addOption("Right-Shoot-Then-Park", RobotContainer.AutoSwitcher.SHOOT_RIGHT_THEN_PARK);
+    autoChooser.addOption("Right-Then-Intake-Shoot", RobotContainer.AutoSwitcher.RIGHT_THEN_INTAKE_SHOOT);
     // autoChooser.addOption("owen", RobotContainer.AutoSwitcher.OWEN);
     // autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
     // autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);

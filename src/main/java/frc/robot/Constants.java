@@ -95,7 +95,7 @@ public class Constants {
   /* -------------------- Intake Arm Constants ------------------- */
   public static final class IntakeArmConstants {
 
-    public static final double kIntakeArmManualVolts = 1.5;
+    public static final double kIntakeArmManualVolts = 1.7;
 
     public static final double kArmStallAmps = 4;
 
@@ -161,6 +161,9 @@ public class Constants {
     public static final double kD = 0.0;
     public static final double kFFV = 0.0023;
 
+    public static final double kAutoShootSlope = 227.501;
+    public static final double kAutoShootYIntercept = 1838.52;
+
     public static final double kShootThreshold = 100;
   }
 
@@ -225,12 +228,12 @@ public class Constants {
     public static final double kYDeadband = 0.03;
     public static final double kRotDeadband = 0.05;
 
-    public static final double kAlignedWithHubRangeRadians = 0.02;
+    public static final double kAlignedWithHubRangeRadians = Units.degreesToRadians(5);
   }
 
   /* -------------------- Vision Constants ----------------------- */
   public static final class VisionConstants {
-    public static final String kCameraName = "ArducamOV9872 1";
+    public static final String kCameraName = "cam4";
 
     public static final AprilTagFieldLayout kAprilTagLayout = AprilTagFieldLayout
         .loadField(AprilTagFields.k2026RebuiltWelded);
@@ -257,7 +260,7 @@ public class Constants {
 
     public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
 
-    public static final double kMetersFromAprilTag = 2;
+    public static final double kMetersFromAprilTag = 3;
 
     public static final double kXYPosP = 0.4; // VISION going to a pose
     public static final double kXYPosI = 0.0;
@@ -268,7 +271,7 @@ public class Constants {
 
     public static final double kRotP = 1.5;
     public static final double kRotI = 0.0;
-    public static final double kRotD = 0.05;
+    public static final double kRotD = 0.07;
     public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
         0.25,
         0.5);

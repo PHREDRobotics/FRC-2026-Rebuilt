@@ -17,6 +17,8 @@ public class FollowTrajectoryCommand extends Command {
     SwerveSubsystem m_swerveSubsystem;
     VisionSubsystem m_visionSubsystem;
 
+    int split;
+
     Optional<Trajectory<SwerveSample>> m_trajectory;
     Timer m_timer = new Timer();
 
@@ -24,7 +26,24 @@ public class FollowTrajectoryCommand extends Command {
         m_swerveSubsystem = swerveSubsystem;
         m_visionSubsystem = visionSubsystem;
 
+        this.split = 0;
+
         m_trajectory = Choreo.loadTrajectory(trajectory);
+
+        m_timer.reset();
+        m_timer.start();
+
+        addRequirements(swerveSubsystem, visionSubsystem);
+    }
+
+    public FollowTrajectoryCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, String trajectory, int split) {
+        m_swerveSubsystem = swerveSubsystem;
+        m_visionSubsystem = visionSubsystem;
+
+        this.split = split;
+
+        m_trajectory = Choreo.loadTrajectory(trajectory);
+
         m_timer.reset();
         m_timer.start();
 
@@ -34,6 +53,8 @@ public class FollowTrajectoryCommand extends Command {
     @Override
     public void initialize() {
         if (m_trajectory.isPresent() && DriverStation.getAlliance().isPresent()) {
+            m_trajectory = m_trajectory.get().getSplit(split);
+
             Optional<Pose2d> initialPose = m_trajectory.get().getInitialPose(DriverStation.getAlliance().get() == Alliance.Red);
         
             if (initialPose.isPresent()) {

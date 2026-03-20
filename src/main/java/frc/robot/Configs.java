@@ -133,7 +133,8 @@ public final class Configs {
     public static final SparkMaxConfig intakeArmMotorConfig = new SparkMaxConfig();
     static {
       intakeArmMotorConfig
-          .inverted(true);
+          .inverted(true)
+          .idleMode(IdleMode.kBrake);
 
       intakeArmMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
