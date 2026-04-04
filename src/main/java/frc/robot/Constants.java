@@ -244,19 +244,6 @@ public class Constants {
 
     public static final Translation2d kRedHubPos = new Translation2d(11.6741194, 4.0346376);
     public static final Translation2d kBlueHubPos = new Translation2d(4.6187614, 4.0346376);
-    /*
-    public static Translation2d kHubPos;
-
-    static {
-      Optional<Alliance> alliance = DriverStation.getAlliance();
-      if (alliance.isPresent()) {
-        if (alliance.get() == Alliance.Red) {
-          kHubPos = Constants.VisionConstants.kRedHubPos;
-        } else if (alliance.get() == Alliance.Blue) {
-          kHubPos = Constants.VisionConstants.kBlueHubPos;
-        }
-      }
-    }*/
 
     public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
 

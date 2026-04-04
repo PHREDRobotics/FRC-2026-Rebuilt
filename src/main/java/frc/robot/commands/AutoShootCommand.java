@@ -66,12 +66,6 @@ public class AutoShootCommand extends Command {
   public void initialize() {
     m_timer.reset();
     m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Get Shoot Power ChatGPT",
-        m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Get Shoot Power Linear",
-        m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Get Shoot Power Root",
-        m_shooterSubsystem.getShootPowerRoot(m_swerveSubsystem.getHubDistance()));
     m_timer.start();
 
   }
@@ -80,7 +74,7 @@ public class AutoShootCommand extends Command {
   public void execute() {
     if (canShoot()) {
       m_fuelSubsystem.feed();
-      m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
+      m_shooterSubsystem.shoot(m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
     }
 
     m_swerveSubsystem.alignToAndDrive(
@@ -90,18 +84,10 @@ public class AutoShootCommand extends Command {
         false);
 
     if (m_visionSubsystem.hasValidTarget()) {
-      // m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(),
-      // Timer.getFPGATimestamp());
       m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
     }
 
     SmartDashboard.putBoolean("Can Shoot", canShoot());
-
-    SmartDashboard.putNumber("shoot power", m_shooterSubsystem.getShootPower(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Shoot Power Linear",
-        m_shooterSubsystem.getShootPowerLinear(m_swerveSubsystem.getHubDistance()));
-    SmartDashboard.putNumber("Shoot Power Root",
-        m_shooterSubsystem.getShootPowerRoot(m_swerveSubsystem.getHubDistance()));
   }
 
   @Override

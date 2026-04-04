@@ -52,24 +52,14 @@ private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
 
   public boolean isAtSpeed() {
     return MathUtil.isNear(shootSpeed + 100, m_shooterLeftSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
-    //return (m_shooterLeftSparkMax.getEncoder().getVelocity() > shootSpeed - Constants.ShooterConstants.kShootThreshold) && (m_shooterLeftSparkMax.getEncoder().getVelocity() < shootSpeed + Constants.ShooterConstants.kShootThreshold); 
   }
 
   /**
    * Gets the power for the shooter to shoot at the hub based on a distance in meters
    * @return
    */
-  public double getShootPower(double distance) {
-    return 440 * distance + 1395;
-    // return Constants.ShooterConstants.kAutoShooterDistanceMultiplier * Math.pow(Constants.ShooterConstants.kAutoShooterDistanceExponent, distance);
-  }
-
   public double getShootPowerLinear(double distance) {
     return shootslope * distance + shootintercept;
-  }
-
-  public double getShootPowerRoot(double distance) {
-    return 1000 * (Math.sqrt(distance) + 1.25);
   }
   
   public Command shootCommand(DoubleSupplier speed) {

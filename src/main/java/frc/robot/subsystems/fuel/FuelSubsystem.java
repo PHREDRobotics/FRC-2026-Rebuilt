@@ -44,9 +44,6 @@ public class FuelSubsystem extends SubsystemBase {
   public void intake() {
     m_intakeMotor.set(Constants.FuelConstants.kIntakeSpeed);
     m_hopperMotor.set(Constants.FuelConstants.kHopperSpeed);
-    //m_vectorMotor.set(Constants.FuelConstants.kVectorSpeed);
-    // m_feederLeftMotor.set(Constants.FuelConstants.kFeederSpeed);
-    // m_feederRightMotor.set(Constants.FuelConstants.kFeederSpeed);
 
     m_fuelState = FuelState.Intaking;
   }

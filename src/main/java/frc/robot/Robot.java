@@ -46,19 +46,6 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Right-Shoot-Then-Park", RobotContainer.AutoSwitcher.SHOOT_RIGHT_THEN_PARK);
     autoChooser.addOption("Right-Then-Intake-Shoot", RobotContainer.AutoSwitcher.RIGHT_THEN_INTAKE_SHOOT);
     // autoChooser.addOption("owen", RobotContainer.AutoSwitcher.OWEN);
-    // autoChooser.addOption("Left-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_LEFT);
-    // autoChooser.addOption("Middle-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_MIDDLE);
-    // autoChooser.addOption("Right-Shoot-Then-Climb", RobotContainer.AutoSwitcher.SHOOT_CLIMB_RIGHT);
-
-    // autoChooser.addOption("Left-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_LEFT);
-    // autoChooser.addOption("Left-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_LEFT);
-
-    // autoChooser.addOption("Middle-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_MIDDLE);
-    // autoChooser.addOption("Middle-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_MIDDLE);
-
-    // autoChooser.addOption("Right-Pickup-Then-Shoot", RobotContainer.AutoSwitcher.PICKUP_SHOOT_RIGHT);
-    // autoChooser.addOption("Right-Pickup-Then-Shoot-Then-Climb", RobotContainer.AutoSwitcher.PICKUP_SHOOT_CLIMB_RIGHT);
-
     SmartDashboard.putData("Auto mode", autoChooser);
   }
 

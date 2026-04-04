@@ -94,7 +94,6 @@ public class VisionSubsystem extends SubsystemBase {
 
       result = results.get(results.size() - 1);
       SmartDashboard.putBoolean("Has valid target?", result.hasTargets());
-      //SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
       if (result.hasTargets()) {
         m_robotToTarget = VisionConstants.kRobotToCamera1.plus(result.getBestTarget().getBestCameraToTarget());
 
