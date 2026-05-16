@@ -2,34 +2,20 @@ package frc.robot.controls;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 /**
  * Class to adjust controls for the Logitech Pro joystick
  */
-public class LogitechPro extends CommandJoystick {
-  public LogitechPro(int port) {
+public class Xbox extends CommandXboxController {
+  public Xbox(int port) {
     super(port);
   } 
-  /**
-   * 
-   */
-  public double getThrottleLever() { // have to turn 1 -> -1 to 0 -> 1
-    return (1 + (-1 * super.getThrottle())) / 2;
-  }
 
-  public double getAdjustedThrottle() {
-    return ((getThrottleLever() * (Constants.ControllerConstants.kMaxThrottle - Constants.ControllerConstants.kMinThrottle)) + Constants.ControllerConstants.kMinThrottle);
-  }
-
-  // 0 -> .1
-  // 1 -> 1
-  // (throttle * (max - min)) + min
-  // .5 -> .55
-  // 
   @Override
-  public double getX() {
-    double input = super.getX();
+  public double getLeftX() {
+    double input = super.getLeftX();
   
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
@@ -38,9 +24,9 @@ public class LogitechPro extends CommandJoystick {
   }
 
   @Override
-  public double getY() {
-    double input = super.getY();
-
+  public double getLeftY() {
+    double input = super.getLeftY();
+  
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 
@@ -48,9 +34,19 @@ public class LogitechPro extends CommandJoystick {
   }
 
   @Override
-  public double getZ() {
-    double input = super.getZ();
+  public double getRightX() {
+    double input = super.getRightX();
+  
+    input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kDeadband); // Deadband
+    input = input * Math.abs(input); // Square for better control
 
+    return input;
+  }
+
+  @Override
+  public double getRightY() {
+    double input = super.getRightY();
+  
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 

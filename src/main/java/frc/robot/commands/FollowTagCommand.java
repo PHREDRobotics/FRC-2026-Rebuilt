@@ -14,24 +14,12 @@ public class FollowTagCommand extends Command {
 
   private SwerveSubsystem m_swerveSubsystem;
   private VisionSubsystem m_visionSubsystem;
-  private Pose2d offset;
 
   public FollowTagCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem) {
     this.m_swerveSubsystem = swerveSubsystem;
     this.m_visionSubsystem = visionSubsystem;
     addRequirements(swerveSubsystem);
     addRequirements(visionSubsystem);
-
-    this.offset = VisionConstants.kOffset;
-  }
-
-  public FollowTagCommand(SwerveSubsystem swerveSubsystem, VisionSubsystem visionSubsystem, Pose2d offset) {
-    this.m_swerveSubsystem = swerveSubsystem;
-    this.m_visionSubsystem = visionSubsystem;
-    addRequirements(swerveSubsystem);
-    addRequirements(visionSubsystem);
-
-    this.offset = offset;
   }
 
   @Override
@@ -41,18 +29,6 @@ public class FollowTagCommand extends Command {
 
   @Override
   public void execute() {
-    // Step 1: Get tag transform
-    // Step 2: Get target position off of tag transform
-    // Step 3: Get current pose off of tag, passing target pose if null
-    // Step 4: Set speeds using PIDs with current pose and target pose
-    // Step 5: Drive the robot
-    Pose2d currentPose = offset;
-    if (m_visionSubsystem.hasValidTarget()) {
-      currentPose = m_visionSubsystem.getLastAverageGlobalPose();
-
-      m_swerveSubsystem.driveRelativeTo(currentPose, VisionConstants.kOffset);
-    } else {
-      m_swerveSubsystem.driveRelativeTo(VisionConstants.kOffset, VisionConstants.kOffset);
-    }
+    m_swerveSubsystem.driveRelativeTo(m_visionSubsystem.getLastAverageRelativePose(), VisionConstants.kOffset);
   }
 }

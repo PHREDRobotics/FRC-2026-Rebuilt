@@ -31,6 +31,18 @@ public class VisionSubsystem extends SubsystemBase {
   private LinearFilter m_yMeasurementFilter = LinearFilter.movingAverage(20);
   private LinearFilter m_rotMeasurementFilter = LinearFilter.movingAverage(20);
 
+  private double m_xFilterValue = 0;
+  private double m_yFilterValue = 0;
+  private double m_rotFilterValue = 0;
+
+  private LinearFilter m_xRelativeMeasurementFilter= LinearFilter.singlePoleIIR(0.4, 0.02);
+  private LinearFilter m_yRelativeMeasurementFilter = LinearFilter.singlePoleIIR(0.4, 0.02);
+  private LinearFilter m_rotRelativeMeasurementFilter = LinearFilter.singlePoleIIR(0.4, 0.02);
+
+  private double m_xRelativeFilterValue = 0;
+  private double m_yRelativeFilterValue = 0;
+  private double m_rotRelativeFilterValue = 0;
+
   private PhotonPoseEstimator m_photonPoseEstimator;
 
   public VisionSubsystem() {
@@ -67,7 +79,11 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public Pose2d getLastAverageGlobalPose() {
-    return new Pose2d(m_xMeasurementFilter.lastValue(), m_yMeasurementFilter.lastValue(), new Rotation2d(m_rotMeasurementFilter.lastValue()));
+    return new Pose2d(m_xFilterValue, m_yFilterValue, new Rotation2d(m_rotFilterValue));
+  }
+
+  public Pose2d getLastAverageRelativePose() {
+    return new Pose2d(m_xRelativeFilterValue, m_yRelativeFilterValue, new Rotation2d(m_rotRelativeFilterValue));
   }
 
   public Optional<Pose2d> getEstimatedRelativePose() {
@@ -85,22 +101,26 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     var results = m_camera.getAllUnreadResults();
-    if (!results.isEmpty()) {
-      for (int i = 0; i > results.size(); i++) {
-        if (results.get(i).getBestTarget().getPoseAmbiguity() > 0.5) {
-          results.remove(i);
-        }
-      }
 
+    if (!results.isEmpty()) {
       result = results.get(results.size() - 1);
       SmartDashboard.putBoolean("Has valid target?", result.hasTargets());
       //SmartDashboard.putBoolean("Estimated pose/hasTargets", result.hasTargets());
       if (result.hasTargets()) {
+        /*for (int i = 0; i < results.size(); i++) {
+          if (results.get(i).getBestTarget().getPoseAmbiguity() > 0.5) {
+            results.remove(i);
+          }
+        } */
         m_robotToTarget = VisionConstants.kRobotToCamera1.plus(result.getBestTarget().getBestCameraToTarget());
 
-        m_xMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
-        m_yMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
-        m_rotMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d().getRadians());
+        m_xFilterValue = m_xMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getX());
+        m_yFilterValue = m_yMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getY());
+        m_rotFilterValue = m_rotMeasurementFilter.calculate(getEstimatedGlobalPose().get().estimatedPose.getRotation().toRotation2d().getRadians());
+
+        m_xRelativeFilterValue = m_xRelativeMeasurementFilter.calculate(getEstimatedRelativePose().get().getX());
+        m_yRelativeFilterValue = m_yRelativeMeasurementFilter.calculate(getEstimatedRelativePose().get().getY());
+        m_rotRelativeFilterValue = m_rotRelativeMeasurementFilter.calculate(getEstimatedRelativePose().get().getRotation().getRadians());
 
         SmartDashboard.putNumber("robotToTarget/X", m_robotToTarget.getX());
         SmartDashboard.putNumber("robotToTarget/Y", m_robotToTarget.getY());
@@ -110,6 +130,14 @@ public class VisionSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Estimated pose/X", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getX());
         SmartDashboard.putNumber("Estimated pose/Y", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getY());
         SmartDashboard.putNumber("Estimated pose/Z", getEstimatedGlobalPose().get().estimatedPose.toPose2d().getRotation().getDegrees());
+      } else {
+        m_xFilterValue = m_xMeasurementFilter.calculate(0);
+        m_yFilterValue = m_yMeasurementFilter.calculate(0);
+        m_rotFilterValue = m_rotMeasurementFilter.calculate(0);
+
+        m_xRelativeFilterValue = m_xRelativeMeasurementFilter.calculate(0);
+        m_yRelativeFilterValue = m_yRelativeMeasurementFilter.calculate(0);
+        m_rotRelativeFilterValue = m_rotRelativeMeasurementFilter.calculate(0);
       }
     } else {
       SmartDashboard.putBoolean("Has valid target?", result.hasTargets());

@@ -10,6 +10,8 @@ import choreo.auto.AutoTrajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -25,6 +27,7 @@ import frc.robot.commands.FollowTrajectoryCommand;
 import frc.robot.commands.GoToPoseCommand;
 import frc.robot.commands.OdometryResetCommand;
 import frc.robot.controls.LogitechPro;
+import frc.robot.controls.Xbox;
 //import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.fuel.FuelSubsystem;
 import frc.robot.subsystems.intakeArm.IntakeArmSubsystem;
@@ -64,18 +67,67 @@ public class RobotContainer {
         m_swerveSubsystem);
 
     joystick = new LogitechPro(0);
-    gamepad = new CommandXboxController(1);
-
-    configureBindings();
+    gamepad = new Xbox(1);
+    
+    configureOnePlayerBindings();
   }
 
-  private void configureBindings() {
+  private void configureOnePlayerBindings() {
+     // -- Triggers --
+
+    Trigger fieldOrientedButton = new Trigger(gamepad.rightBumper());
+
+    Trigger shooterButton = new Trigger(gamepad.y());
+
+    Trigger followTagButton = new Trigger(gamepad.b());
+
+    Trigger resetOdometryButton = new Trigger(gamepad.start());
+    Trigger resetGyroButton = new Trigger(gamepad.back());
+
+    Trigger feedButton = new Trigger(gamepad.x());
+
+    Trigger intakeButton = new Trigger(gamepad.a());
+
+    // -- Button Assignments --
+
+    feedButton.toggleOnTrue(m_fuelSubsystem.feedCommand());
+
+    intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
+
+    followTagButton.toggleOnTrue(new FollowTagCommand(m_swerveSubsystem, m_visionSubsystem));
+
+    shooterButton.whileTrue(new AutoShootCommand(
+        m_shooterSubsystem,
+        m_fuelSubsystem, m_swerveSubsystem,
+        m_visionSubsystem,
+        gamepad::getLeftY,
+        gamepad::getLeftX,
+        () -> 0.5));
+
+    resetOdometryButton.onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
+    resetGyroButton.onTrue(m_swerveSubsystem.swerveGyroResetCommand());
+
+    // -- Default commands --
+
+    m_intakeArmSubsystem.setDefaultCommand(m_intakeArmSubsystem.setArmCommand(() -> gamepad.getRightY()));
+
+    m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
+        () -> gamepad.getLeftY(),
+        () -> gamepad.getLeftX(),
+        () -> gamepad.getRightX(),
+        () -> 0.75,
+        fieldOrientedButton));
+  }
+
+  private void configureTwoPlayerBindings() {
     // -- Triggers --
 
     Trigger fieldOrientedButton = new Trigger(joystick.button(2));
 
     Trigger shooterButton = new Trigger(joystick.button(3));
     Trigger manShootButton = new Trigger(joystick.button(4));
+
+    Trigger followTagButton = new Trigger(joystick.button(7));
 
     Trigger resetOdometryButton = new Trigger(joystick.button(11));
     Trigger resetGyroButton = new Trigger(joystick.button(12));
@@ -111,6 +163,8 @@ public class RobotContainer {
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
     intakeOnlyButton.toggleOnTrue(m_fuelSubsystem.intakeOnlyCommand());
     outtakeButton.toggleOnTrue(m_fuelSubsystem.outtakeCommand());
+
+    followTagButton.toggleOnTrue(new FollowTagCommand(m_swerveSubsystem, m_visionSubsystem));
     // outtakeButton.toggleOnTrue(new
     // ParallelCommandGroup(m_fuelSubsystem.outtakeCommand(),
     // m_shooterSubsystem.shootCommand(() -> -3000)));
@@ -155,8 +209,6 @@ public class RobotContainer {
     // m_visionSubsystem, new Pose2d()));
 
     m_intakeArmSubsystem.setDefaultCommand(m_intakeArmSubsystem.setArmCommand(() -> gamepad.getLeftY()));
-
-    joystick.button(10).toggleOnTrue(new FollowTagCommand(m_swerveSubsystem, m_visionSubsystem));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
         joystick::getY,

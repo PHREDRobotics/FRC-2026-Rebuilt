@@ -43,15 +43,11 @@ public class Constants {
 
   /* -------------------- Controller Constants ------------------- */
   public static final class ControllerConstants {
-    public static final double kFlightStickXDeadband = 0.2;
-    public static final double kFlightStickYDeadband = 0.15;
-    public static final double kFlightStickZDeadband = 0.15;
-
     public static final double kXRateLimit = 20;
     public static final double kYRateLimit = 20;
     public static final double kZRateLimit = 20;
 
-    public static final double kXboxDeadband = 0.15;
+    public static final double kDeadband = 0.15;
 
     public static final double kThrottleMultiplier = 1;
 
@@ -258,7 +254,7 @@ public class Constants {
       }
     }*/
 
-    public static final Pose2d kOffset = new Pose2d(1, 0, new Rotation2d(Math.PI));
+    public static final Pose2d kOffset = new Pose2d(2, 0, new Rotation2d(Math.PI));
 
     public static final double kMetersFromAprilTag = 3;
 

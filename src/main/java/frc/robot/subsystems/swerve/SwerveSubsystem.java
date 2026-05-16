@@ -195,11 +195,11 @@ public class SwerveSubsystem extends SubsystemBase {
    * @param newPose
    */
   public void driveRelativeTo(Pose2d currentPose, Pose2d newPose) {
-    double xOutput = -m_xPID.calculate(currentPose.getX(), newPose.getX());
-    double yOutput = -m_yPID.calculate(currentPose.getY(), newPose.getY());
-    double rotOutput = m_rotPID.calculate(currentPose.getRotation().getRadians(), newPose.getRotation().getRadians());
+    double xOutput = m_xPID.calculate(currentPose.getX(), newPose.getX());
+    double yOutput = m_yPID.calculate(currentPose.getY(), newPose.getY());
+    double rotOutput = -m_rotPID.calculate(currentPose.getRotation().getRadians(), newPose.getRotation().getRadians());
 
-    drive(xOutput, yOutput, rotOutput, false);
+    drive(0, 0, rotOutput, false);
   }
 
   /**
@@ -437,9 +437,13 @@ public class SwerveSubsystem extends SubsystemBase {
       BooleanSupplier fieldOriented) {
 
     SmartDashboard.putString("Throttle", throttle.toString());
+
     return Commands.runEnd(
-        () -> this.drive(drive.getAsDouble() * throttle.getAsDouble(), strafe.getAsDouble() * throttle.getAsDouble(),
-            rot.getAsDouble() * throttle.getAsDouble(), fieldOriented.getAsBoolean()),
+        () -> this.drive(
+          drive.getAsDouble() * throttle.getAsDouble(), 
+          strafe.getAsDouble() * throttle.getAsDouble(),
+          rot.getAsDouble() * throttle.getAsDouble(), 
+          fieldOriented.getAsBoolean()),
         () -> drive(0, 0, 0, true), this);
   }
 
