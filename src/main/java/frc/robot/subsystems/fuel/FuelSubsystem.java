@@ -35,7 +35,9 @@ public class FuelSubsystem extends SubsystemBase {
   public FuelSubsystem() {
     m_feederLeftMotor.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     m_feederRightMotor.configure(Configs.FeederConfig.feederMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    m_intakeMotor.configure(Configs.FeederConfig.intakeMotorConfig,  ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_intakeMotor.configure(Configs.IntakeConfig.intakeMotorConfig,  ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_hopperMotor.configure(Configs.HopperConfig.hopperConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_vectorMotor.configure(Configs.VectorConfig.vectorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   /**

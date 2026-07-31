@@ -9,6 +9,7 @@ import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -52,6 +53,10 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController m_rotPID = new PIDController(Constants.VisionConstants.kRotP,
       Constants.VisionConstants.kRotI, Constants.VisionConstants.kRotD);
 
+  private SlewRateLimiter x_limiter = new SlewRateLimiter(1);
+  private SlewRateLimiter y_limiter = new SlewRateLimiter(1);
+  private SlewRateLimiter rot_limiter = new SlewRateLimiter(1);
+
   /**
    * Creates a new swerve subsystem
    * 
@@ -90,8 +95,8 @@ public class SwerveSubsystem extends SubsystemBase {
         getModulePositions(), new Pose2d(), Constants.SwerveConstants.kStateStdDevs,
         Constants.SwerveConstants.kVisionStdDevs);
 
-    m_xPID.setTolerance(0.05, 0.01);
-    m_yPID.setTolerance(0.05, 0.01);
+    m_xPID.setTolerance(Constants.VisionConstants.kDeadzone);
+    m_yPID.setTolerance(Constants.VisionConstants.kDeadzone);
     m_rotPID.setTolerance(Constants.SwerveConstants.kAlignedWithHubRangeRadians);
 
     m_rotPID.enableContinuousInput(-Math.PI, Math.PI);
@@ -199,7 +204,21 @@ public class SwerveSubsystem extends SubsystemBase {
     double yOutput = m_yPID.calculate(currentPose.getY(), newPose.getY());
     double rotOutput = -m_rotPID.calculate(currentPose.getRotation().getRadians(), newPose.getRotation().getRadians());
 
-    drive(0, 0, rotOutput, false);
+    xOutput = x_limiter.calculate(xOutput);
+    yOutput = y_limiter.calculate(yOutput);
+    rotOutput = rot_limiter.calculate(rotOutput);
+
+    if (m_xPID.atSetpoint()) {
+      xOutput = 0;
+    }
+    if (m_yPID.atSetpoint()) {
+      yOutput = 0;
+    }
+    if (m_rotPID.atSetpoint()) {
+      rotOutput = 0;
+    }
+
+    drive(xOutput, yOutput, rotOutput, false);
   }
 
   /**
@@ -271,13 +290,6 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public void resetGyro() {
     m_gyro.reset();
-    if (DriverStation.getAlliance().isPresent()){
-      if (DriverStation.getAlliance().get() == Alliance.Red){
-            m_gyro.setAngleAdjustment(180);
-      } else {
-            m_gyro.setAngleAdjustment(0);
-      }
-    }
   }
 
   /**
@@ -455,6 +467,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("States/FR", getModuleStates()[1].toString());
     SmartDashboard.putString("States/BL", getModuleStates()[2].toString());
     SmartDashboard.putString("States/BR", getModuleStates()[3].toString());
+
+    SmartDashboard.putNumber("Temps/FL", m_frontLeft.getDriveTemp());
 
     SmartDashboard.putString("CurrentPose", getPose().toString());
 

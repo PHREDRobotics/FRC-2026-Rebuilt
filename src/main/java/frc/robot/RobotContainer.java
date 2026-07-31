@@ -69,7 +69,7 @@ public class RobotContainer {
     joystick = new LogitechPro(0);
     gamepad = new Xbox(1);
     
-    configureOnePlayerBindings();
+    configureTwoPlayerBindings();
   }
 
   private void configureOnePlayerBindings() {
@@ -87,6 +87,7 @@ public class RobotContainer {
     Trigger feedButton = new Trigger(gamepad.x());
 
     Trigger intakeButton = new Trigger(gamepad.a());
+    Trigger outtakeButton = new Trigger(gamepad.leftBumper());
 
     // -- Button Assignments --
 
@@ -94,15 +95,19 @@ public class RobotContainer {
 
     intakeButton.toggleOnTrue(m_fuelSubsystem.intakeCommand());
 
+    outtakeButton.toggleOnTrue(m_fuelSubsystem.outtakeCommand());
+
     followTagButton.toggleOnTrue(new FollowTagCommand(m_swerveSubsystem, m_visionSubsystem));
 
-    shooterButton.whileTrue(new AutoShootCommand(
+    /*shooterButton.whileTrue(new AutoShootCommand(
         m_shooterSubsystem,
         m_fuelSubsystem, m_swerveSubsystem,
         m_visionSubsystem,
         gamepad::getLeftY,
         gamepad::getLeftX,
-        () -> 0.5));
+        () -> 0.5)); */
+
+    shooterButton.whileTrue(new AutoShootCommand(m_shooterSubsystem, m_fuelSubsystem, m_swerveSubsystem, m_visionSubsystem, () -> 0.0, () -> 0.0, () -> 0.0));
 
     resetOdometryButton.onTrue(new OdometryResetCommand(m_swerveSubsystem, m_visionSubsystem));
     resetGyroButton.onTrue(m_swerveSubsystem.swerveGyroResetCommand());
@@ -112,11 +117,11 @@ public class RobotContainer {
     m_intakeArmSubsystem.setDefaultCommand(m_intakeArmSubsystem.setArmCommand(() -> gamepad.getRightY()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
-        () -> gamepad.getLeftY(),
-        () -> gamepad.getLeftX(),
+        () -> -gamepad.getLeftY(),
+        () -> -gamepad.getLeftX(),
         () -> gamepad.getRightX(),
         () -> 0.75,
-        fieldOrientedButton));
+        fieldOrientedButton.negate()));
   }
 
   private void configureTwoPlayerBindings() {
@@ -211,8 +216,8 @@ public class RobotContainer {
     m_intakeArmSubsystem.setDefaultCommand(m_intakeArmSubsystem.setArmCommand(() -> gamepad.getLeftY()));
 
     m_swerveSubsystem.setDefaultCommand(m_swerveSubsystem.driveCommand(
-        joystick::getY,
-        joystick::getX,
+        () -> -joystick.getY(),
+        () -> -joystick.getX(),
         joystick::getZ,
         joystick::getAdjustedThrottle,
         fieldOrientedButton.negate()));
@@ -246,7 +251,7 @@ public class RobotContainer {
   }
 
   public Command resetGyroCommand() {
-    return m_swerveSubsystem.swerveGyroResetCommand();
+    return Commands.none();
   }
 
   // just added these arm commands:

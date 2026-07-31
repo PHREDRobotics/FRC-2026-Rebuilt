@@ -23,9 +23,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkMax m_shooterRightSparkMax = new SparkMax(ShooterConstants.kShooterRightMotorCANId, MotorType.kBrushless);
 
   private SparkClosedLoopController m_shooterLeftPID;
+  private SparkClosedLoopController m_shooterRightPID;
 
-private double shootslope = Constants.ShooterConstants.kAutoShootSlope;
-private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
+  private double shootslope = Constants.ShooterConstants.kAutoShootSlope;
+  private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
 
   private double shootSpeed;
   private double targetShootSpeed = Constants.ShooterConstants.kInitialShootingSpeed;
@@ -36,6 +37,7 @@ private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
     m_shooterRightSparkMax.configure(Configs.ShooterRightConfig.shooterMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     m_shooterLeftPID = m_shooterLeftSparkMax.getClosedLoopController();
+    m_shooterRightPID = m_shooterRightSparkMax.getClosedLoopController();
 
     SmartDashboard.putNumber("Shooter Speed Adjuster", targetShootSpeed);
   }
@@ -43,15 +45,15 @@ private double shootintercept = Constants.ShooterConstants.kAutoShootYIntercept;
   public void shoot(double shootSpeedRPM) {
     this.shootSpeed = shootSpeedRPM;
 
-    m_shooterLeftPID.setSetpoint(shootSpeedRPM, ControlType.kVelocity);
+    m_shooterRightPID.setSetpoint(shootSpeedRPM, ControlType.kVelocity);
   }
 
   public void stop() {
-    m_shooterLeftSparkMax.stopMotor();
+    m_shooterRightSparkMax.stopMotor();
   }
 
   public boolean isAtSpeed() {
-    return MathUtil.isNear(shootSpeed + 100, m_shooterLeftSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
+    return MathUtil.isNear(shootSpeed + 100, m_shooterRightSparkMax.getEncoder().getVelocity(), Constants.ShooterConstants.kShootThreshold);
     //return (m_shooterLeftSparkMax.getEncoder().getVelocity() > shootSpeed - Constants.ShooterConstants.kShootThreshold) && (m_shooterLeftSparkMax.getEncoder().getVelocity() < shootSpeed + Constants.ShooterConstants.kShootThreshold); 
   }
 

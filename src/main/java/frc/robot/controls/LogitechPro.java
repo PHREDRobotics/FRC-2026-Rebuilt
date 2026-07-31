@@ -8,6 +8,7 @@ import frc.robot.Constants;
  * Class to adjust controls for the Logitech Pro joystick
  */
 public class LogitechPro extends CommandJoystick {
+
   public LogitechPro(int port) {
     super(port);
   } 
@@ -51,9 +52,11 @@ public class LogitechPro extends CommandJoystick {
   public double getZ() {
     double input = super.getZ();
 
+    input = input * 0.64;
+
     input = MathUtil.applyDeadband(input, Constants.ControllerConstants.kDeadband); // Deadband
     input = input * Math.abs(input); // Square for better control
 
-    return input;
+    return input * 1.36;
   }
 }

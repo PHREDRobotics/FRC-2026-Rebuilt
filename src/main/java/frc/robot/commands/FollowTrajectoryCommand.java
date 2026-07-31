@@ -74,7 +74,7 @@ public class FollowTrajectoryCommand extends Command {
         }
 
         if (m_visionSubsystem.hasValidTarget()) {
-            m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
+            m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
         }
     }
 }

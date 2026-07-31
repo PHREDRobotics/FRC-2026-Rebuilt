@@ -19,7 +19,7 @@ public class OdometryResetCommand extends Command {
     @Override
     public void initialize() {
         if (m_visionSubsystem.hasValidTarget()) {
-            m_swerveSubsystem.resetOdometry(m_visionSubsystem.getLastAverageGlobalPose());
+            m_swerveSubsystem.resetOdometry(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d());
         }
     }
 

@@ -90,9 +90,7 @@ public class AutoShootCommand extends Command {
         false);
 
     if (m_visionSubsystem.hasValidTarget()) {
-      // m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(),
-      // Timer.getFPGATimestamp());
-      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getLastAverageGlobalPose(), Timer.getFPGATimestamp());
+      m_swerveSubsystem.addVisionMeasurement(m_visionSubsystem.getEstimatedGlobalPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
     }
 
     SmartDashboard.putBoolean("Can Shoot", canShoot());

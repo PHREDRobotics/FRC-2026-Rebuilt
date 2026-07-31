@@ -66,7 +66,7 @@ public class Constants {
 
     public static final double kFeederSpeed = 50;
 
-    public static final double kIntakeSpeed = 1600;
+    public static final double kIntakeSpeed = 0.8;
     public static final double kHopperSpeed = 0.5;
     public static final double kVectorSpeed = 0.5;
 
@@ -138,7 +138,7 @@ public class Constants {
   }
 
   /* -------------------- Shooter Constants ---------------------- */
-  public static final class ShooterConstants {
+  public static final class ShooterConstants { 
     public static final double kAutoShooterFactor = 0.1 * (Math.floor(Math.PI) / Math.round(Math.E)); // No comment
 
     public static final int kShooterLeftMotorCANId = 41;
@@ -224,7 +224,7 @@ public class Constants {
     public static final double kYDeadband = 0.03;
     public static final double kRotDeadband = 0.05;
 
-    public static final double kAlignedWithHubRangeRadians = Units.degreesToRadians(5);
+    public static final double kAlignedWithHubRangeRadians = Units.degreesToRadians(10);
   }
 
   /* -------------------- Vision Constants ----------------------- */
@@ -260,17 +260,13 @@ public class Constants {
 
     public static final double kXYPosP = 0.4; // VISION going to a pose
     public static final double kXYPosI = 0.0;
-    public static final double kXYPosD = 0.0;
-    public static final TrapezoidProfile.Constraints kXYControllerConstraints = new TrapezoidProfile.Constraints(
-        0.01,
-        0.1);
+    public static final double kXYPosD = 0.002;
 
-    public static final double kRotP = 1.5;
+    public static final double kRotP = 0.7;
     public static final double kRotI = 0.0;
-    public static final double kRotD = 0.07;
-    public static final TrapezoidProfile.Constraints kRotControllerConstraints = new TrapezoidProfile.Constraints(
-        0.25,
-        0.5);
+    public static final double kRotD = 0.0;
+
+    public static final double kDeadzone = 0.3;
 
     public static Translation2d getHubPos() {
       Optional<Alliance> alliance = DriverStation.getAlliance();

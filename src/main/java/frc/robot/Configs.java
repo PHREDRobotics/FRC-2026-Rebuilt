@@ -26,7 +26,7 @@ public final class Configs {
 
       drivingConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(40);
+          .smartCurrentLimit(120);
       drivingConfig.encoder
           .positionConversionFactor(drivingFactor)
           .velocityConversionFactor(drivingFactor / 60);
@@ -40,7 +40,7 @@ public final class Configs {
 
       turningConfig
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(10)
+          .smartCurrentLimit(120)
           .inverted(true);
       turningConfig.absoluteEncoder
           .inverted(true)
@@ -58,19 +58,19 @@ public final class Configs {
 
   public static final class FrontLeftConfig extends SwerveConfig {
     static {
-      drivingConfig.inverted(false);
+      drivingConfig.inverted(true);
     }
   }
 
   public static final class FrontRightConfig extends SwerveConfig {
     static {
-      drivingConfig.inverted(false);
+      drivingConfig.inverted(true);
     }
   }
 
   public static final class BackLeftConfig extends SwerveConfig {
     static {
-      drivingConfig.inverted(false);
+      drivingConfig.inverted(true);
     }
   }
 
@@ -85,15 +85,17 @@ public final class Configs {
     static {
       feederMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(30)
           .inverted(true);
     }
+  }
 
+  public static final class IntakeConfig {
     public static final SparkMaxConfig intakeMotorConfig = new SparkMaxConfig();
     static {
       intakeMotorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(40)
+          .smartCurrentLimit(30)
           .inverted(true);
     }
   }
@@ -104,7 +106,7 @@ public final class Configs {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
-          .inverted(true);
+          .inverted(false);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -119,8 +121,7 @@ public final class Configs {
       shooterMotorConfig
           .idleMode(IdleMode.kCoast)
           .smartCurrentLimit(100)
-          .follow(41, true)
-          .inverted(true);
+          .inverted(false);
 
       shooterMotorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -150,9 +151,9 @@ public final class Configs {
           .kCosRatio(Constants.IntakeArmConstants.kArmFFRatio);
 
       intakeArmMotorConfig.closedLoop.maxMotion
-        .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal)
-        .cruiseVelocity(Constants.IntakeArmConstants.kArmCruiseVelocity)
-        .maxAcceleration(Constants.IntakeArmConstants.kArmMaxAcceleration);
+          .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal)
+          .cruiseVelocity(Constants.IntakeArmConstants.kArmCruiseVelocity)
+          .maxAcceleration(Constants.IntakeArmConstants.kArmMaxAcceleration);
     }
   }
 
@@ -187,7 +188,7 @@ public final class Configs {
     static {
       vectorConfig
           .idleMode(IdleMode.kCoast)
-          .smartCurrentLimit(10)
+          .smartCurrentLimit(30)
           .inverted(false);
       vectorConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
